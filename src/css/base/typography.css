@@ -1,0 +1,10 @@
+@layer base {
+    h1 {
+        @apply
+            text-6xl
+            font-bold
+            tracking-widest
+            leading-tight
+            break-all text-balance;
+    }
+}

@@ -1,0 +1,9 @@
+@layer components {
+	._bg-card {
+		@apply
+			bg-slate-300/50
+			border border-black/5
+			w-full
+			m-10 p-10 rounded-2xl;
+	}
+}

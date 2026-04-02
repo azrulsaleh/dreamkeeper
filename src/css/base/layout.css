@@ -1,0 +1,7 @@
+@layer base {
+	section {
+		@apply
+			max-w-5xl
+			mx-auto;
+	}
+}
