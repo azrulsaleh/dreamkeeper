@@ -5,7 +5,7 @@ import { Pause_Button, Play_Button, Stop_Button } from './svg/Vector';
 function App() {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentTime, setCurrentTime] = useState(0);
-	const [duration, setDuration] = useState(1000);
+	const [duration, setDuration] = useState(1694);
 	const [currentTrack, setCurrentTrack] = useState(0);
 	const playlist = [
 		{ id: 1, title: 'Track 1', duration: 1694 },
@@ -13,6 +13,12 @@ function App() {
 		{ id: 3, title: 'Track 3', duration: 1920 }
 	];
 	
+	const formatTime = (seconds) => {
+		const min = Math.floor(seconds / 60);
+		const sec = seconds % 60;
+		return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+	}
+
 	const handlePlay = async () => {
 		// await Tone.start();
 		setIsPlaying(true);
@@ -29,55 +35,66 @@ function App() {
 	};
 
 	return (
-		<section className="h-screen flex justify-center items-center">
-			<div className="_bg-card">
-				<div className="flex gap-8">
-					<img
-						src="artwork.jpg"
-						alt="Album Cover"
-					/>
-					<div>
-						<h1 className="text-5xl">
-							{playlist[currentTrack].title}
-						</h1>
-						<h5>
-							{currentTime} / {playlist[currentTrack].duration}
-						</h5>
+		<section className='h-screen flex justify-center items-center'>
+			<div className='_bg-card'>
+				<div className='flex flex-row gap-8'>
+					{/* artwork */}
+					<div className=''>
+						<img
+							src='artwork.jpg'
+							alt='Album Cover'
+						/>
 					</div>
-					<div className="flex gap-4">
-						<button
-							onClick={handlePlay}
-						>
-							<Play_Button
-								w={40}
-								h={40}
+					<div className='flex-1 flex flex-col'>
+						<div className='flex'>
+							{/* title */}
+							<div className='w-full'>
+								<h1 className='text-4xl'>
+									{playlist[currentTrack].title}
+								</h1>
+								<h5>
+									{formatTime(currentTime)} / {formatTime(duration)}
+								</h5>
+							</div>
+							{/* transport */}
+							<div className='flex gap-1 justify-end'>
+								<button
+									onClick={handlePlay}
+								>
+									<Play_Button
+										w={40}
+										h={40}
+									/>
+								</button>
+								<button
+									onClick={handlePause}
+								>
+									<Pause_Button
+										w={70}
+										h={40}
+									/>
+								</button>
+								<button
+									onClick={handleStop}
+								>
+									<Stop_Button
+										w={40}
+										h={40}
+									/>
+								</button>
+							</div>
+						</div>
+						<div className='bg-slate-400 h-full'>
+						</div>
+						<div className='flex gap-4'>
+							{formatTime(currentTime)}
+							<input
+								type="range"
+								className="w-full"
 							/>
-						</button>
-						<button
-							onClick={handlePause}
-						>
-							<Pause_Button
-								w={70}
-								h={40}
-							/>
-						</button>
-						<button
-							onClick={handleStop}
-						>
-							<Stop_Button
-								w={40}
-								h={40}
-							/>
-						</button>
+						</div>
 					</div>
 				</div>
-				{/* <h1 className="text-center">
-					<span className="text-sky-800">DREAM</span>
-					<span className="font-extralight text-cyan-700">KEEPER</span>
-				</h1> */}
-				{/* Header Section */}
-				{/* Header Section */}
-
 			</div>
 		</section>
 	)
