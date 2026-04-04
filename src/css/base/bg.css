@@ -7,4 +7,15 @@
 			m-10 p-10
 			shadow-2xl;
 	}
+	._bg-subcard {
+		@apply
+			bg-slate-300/50
+			border border-black/5 rounded-2xl
+			p-10
+			w-36;
+	}
+	._bg-slider {
+		@apply
+			h-60 relative flex items-center justify-center;
+	}
 }

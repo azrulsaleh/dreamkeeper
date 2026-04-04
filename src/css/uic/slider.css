@@ -4,4 +4,25 @@
             accent-blue-300
             h-1;
 	}
+	._slider-v {
+		@apply
+			-rotate-90
+			absolute
+			w-50 h-1
+			origin-center
+            accent-blue-300
+			/* -translate-x-19 */
+			/* translate-y-30 */
+            ;
+	}
 }
+ /* position: 'absolute',
+                    width: '320px',
+                    height: '8px',
+                    transform: 'rotate(-90deg)',
+                    transformOrigin: 'center',
+                    appearance: 'none', 
+					background: `linear-gradient(to right, #93c5fd 0%, #93c5fd ${value}%, #e0e7ff ${value}%, #e0e7ff 100%)`,
+                    borderRadius: '999px',
+                    outline: 'none',
+                    cursor: 'pointer'*/

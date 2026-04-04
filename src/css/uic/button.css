@@ -1,0 +1,17 @@
+@layer components {
+	._radio-bg {
+        @apply
+            mx-auto
+            bg-slate-300 rounded-2xl;
+    }
+	._radio-button {
+        @apply
+            rounded-2xl
+            w-50
+            py-0.5;
+    }
+	._radio-button:active {
+		@apply
+            bg-slate-200;
+	}
+}

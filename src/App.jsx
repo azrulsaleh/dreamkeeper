@@ -36,7 +36,8 @@ function App() {
 
 	return (
 		<section className='h-screen flex justify-center items-center'>
-			<div className='_bg-card'>
+			<div className='_bg-card flex flex-col gap-5'>
+				{/* header */}
 				<div className='flex flex-row gap-8'>
 					{/* artwork */}
 					<div className=''>
@@ -92,6 +93,73 @@ function App() {
 								type="range"
 								className="_slider-h w-full"
 							/>
+						</div>
+					</div>
+				</div>
+				{/* body */}
+				<div className='flex h-100'>
+					{/* stems */}
+					<div className='flex-1 h-full space-y-4'>
+						<div className='flex h-10 items-center'>
+							<div className='_radio-bg'>
+								<button className='_radio-button'>
+									Music All Night
+								</button>
+								<button className='_radio-button'>
+									Music Once
+								</button>
+							</div>
+						</div>
+						<div className='flex space-x-4 mx-auto text-center items-center justify-center'>
+							<div className='_bg-subcard'>
+								<h5>Piano</h5>
+								<div className='_bg-slider'>
+									<input
+										type="range"
+										className="_slider-v"
+									/>
+								</div>
+							</div>
+							<div className='_bg-subcard'>
+								<h5>Cello</h5>
+								<div className='_bg-slider'>
+									<input
+										type="range"
+										className="_slider-v"
+									/>
+								</div>
+							</div>
+							<div className='_bg-subcard'>
+								<h5>Vocals</h5>
+								<div className='_bg-slider'>
+									<input
+										type="range"
+										className="_slider-v"
+									/>
+								</div>
+							</div>
+							<div className='_bg-subcard'>
+								<h5>Ambience</h5>
+								<div className='_bg-slider'>
+									<input
+										type="range"
+										className="_slider-v"
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+					{/* noise */}
+					<div className='flex flex-col h-full'>
+						<div className='_radio_bg h-40' />
+						<div className='_bg-subcard text-center'>
+							<h5>Noise</h5>
+							<div className='_bg-slider'>
+								<input
+									type="range"
+									className="_slider-v"
+								/>
+							</div>
 						</div>
 					</div>
 				</div>
