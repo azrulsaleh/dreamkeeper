@@ -1,0 +1,7 @@
+@layer components {
+	._slider-h {
+		@apply
+            accent-blue-300
+            h-1;
+	}
+}

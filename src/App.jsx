@@ -8,7 +8,7 @@ function App() {
 	const [duration, setDuration] = useState(1694);
 	const [currentTrack, setCurrentTrack] = useState(0);
 	const playlist = [
-		{ id: 1, title: 'Track 1', duration: 1694 },
+		{ id: 1, title: 'Night Bloom', duration: 1694 },
 		{ id: 2, title: 'Track 2', duration: 1800 },
 		{ id: 3, title: 'Track 3', duration: 1920 }
 	];
@@ -45,13 +45,13 @@ function App() {
 							alt='Album Cover'
 						/>
 					</div>
-					<div className='flex-1 flex flex-col'>
+					<div className='flex-1 flex flex-col gap-2'>
 						<div className='flex'>
 							{/* title */}
 							<div className='w-full'>
-								<h1 className='text-4xl'>
+								<h2 className='text-3xl'>
 									{playlist[currentTrack].title}
-								</h1>
+								</h2>
 								<h5>
 									{formatTime(currentTime)} / {formatTime(duration)}
 								</h5>
@@ -84,13 +84,13 @@ function App() {
 								</button>
 							</div>
 						</div>
-						<div className='bg-slate-400 h-full'>
+						<div className='border border-slate-400 h-full'>
 						</div>
-						<div className='flex gap-4'>
+						<div className='flex gap-4 items-center'>
 							{formatTime(currentTime)}
 							<input
 								type="range"
-								className="w-full"
+								className="_slider-h w-full"
 							/>
 						</div>
 					</div>

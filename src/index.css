@@ -4,3 +4,5 @@
 @import "./css/base/bg.css";
 @import "./css/base/layout.css";
 @import "./css/base/typography.css";
+
+@import "./css/uic/slider.css";
