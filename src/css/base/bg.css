@@ -1,21 +1,30 @@
 @layer components {
 	._bg-card {
 		@apply
-			bg-slate-300/50
+			bg-slate-100
 			border border-black/5 rounded-2xl
-			w-full
-			m-10 p-10
+			/* w-full */
+			/* m-10 p-10 */
 			shadow-2xl;
 	}
 	._bg-subcard {
 		@apply
 			bg-slate-300/50
 			border border-black/5 rounded-2xl
-			p-10
-			w-36;
+			;
+	}
+	._bg-volume {
+		@apply
+			w-[120px] py-[15px]
+			bg-white/50
+			border border-black/5 rounded-2xl
+			shadow-lg
+			;
 	}
 	._bg-slider {
 		@apply
-			h-60 relative flex items-center justify-center;
+			relative
+			h-60
+			flex items-center justify-center;
 	}
 }

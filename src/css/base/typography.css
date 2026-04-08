@@ -7,4 +7,25 @@
 			leading-tight
 			break-all text-balance;
 	}
+	h2 {
+		@apply
+			text-2xl
+			text-slate-500
+			;
+	}
+	h3 {
+		@apply
+			/* text- */
+			text-slate-500
+			;
+	}
+	h4 {
+		@apply
+			text-sm
+			text-slate-500;
+	}
+	label {
+		@apply
+			text-slate-500;
+	}
 }
