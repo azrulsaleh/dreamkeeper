@@ -15,7 +15,7 @@ const Pause_Button = ({
 			viewBox="0 0 78 48"
 			xmlns="http://www.w3.org/2000/svg"
 			onClick={onClick}
-            className="group cursor-pointer overflow-visible"
+            className="group cursor-pointer overflow-visible drop-shadow-lg"
             role="button"
 		>
 			<g filter="url(#filter0_d_4_123)">
