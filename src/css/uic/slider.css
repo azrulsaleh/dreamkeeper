@@ -2,7 +2,9 @@
 	._slider-h {
 		@apply
             accent-sky-700/50
-            h-1;
+            h-1
+            cursor-pointer
+			;
 	}
 	._slider-h:hover {
 		@apply
@@ -20,6 +22,7 @@
 			origin-center
             accent-sky-700/50
 			-translate-y-9
+            cursor-pointer
             ;
 	}
 }

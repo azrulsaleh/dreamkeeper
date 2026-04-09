@@ -4,7 +4,6 @@
             rounded-2xl
             border border-white/10 border-1
             text-xs
-            /* shadow-lg */
             ;
     }
 	._radio-button {
@@ -14,6 +13,7 @@
             py-0.5
             text-slate-600
             z-50
+            cursor-pointer
             ;
     }
     ._radio-on {

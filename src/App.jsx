@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Pause_Button, Play_Button, Stop_Button } from './svg/Vector';
 
 function App() {
-	const [isPlaying, setIsPlaying] = useState(false);
+	const [currentTransport, setCurrentTransport] = useState('stop');
 	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(1694);
 	const [currentTrack, setCurrentTrack] = useState(0);
@@ -24,17 +24,17 @@ function App() {
 
 	const handlePlay = async () => {
 		// await Tone.start();
-		setIsPlaying(true);
-		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
+		setCurrentTransport('play');
+		console.log('currentTransport: ' + currentTransport + ' currentTime: ' + currentTime);
 	};
 	const handlePause = () => {
-		setIsPlaying(false);
-		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
+		setCurrentTransport('pause');
+		console.log('currentTransport: ' + currentTransport + ' currentTime: ' + currentTime);
 	};
 	const handleStop = () => {
-		setIsPlaying(false);
+		setCurrentTransport('stop');
 		setCurrentTime(0);
-		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
+		console.log('currentTransport: ' + currentTransport + ' currentTime: ' + currentTime);
 	};
 
 	const handleMode = (type) => {
@@ -53,10 +53,8 @@ function App() {
 	return (
 		<section className='h-screen flex justify-center items-center'>
 			<div className='_bg-card w-[850px] h-[560px]'>
-			{/* <div className='_bg-card flex flex-col gap-5'> */}
 				{/* header */}
 				<div className='flex h-[190px] p-[20px]'>
-				{/* <div className='flex flex-row gap-8'> */}
 					{/* artwork */}
 					<img
 						className='rounded-md w-[150px] h-[150px]'
@@ -67,9 +65,7 @@ function App() {
 					<div className='w-[20px] h-full' />
 					{/* info */}
 					<div className='w-full h-full'>
-					{/* <div className='flex-1 flex flex-col gap-2'> */}
 						<div className='w-full h-[60px] flex flex-row justify-between'>
-						{/* <div className='border border-slate-400 h-full'> */}
 							{/* title */}
 							<div className='w-[450px] h-full'>
 								<div className='h-[30px] flex items-center'>
@@ -80,17 +76,19 @@ function App() {
 								</div>
 							</div>
 							{/* transport */}
-							<div className='w-[190px] h-full flex justify-center gap-2'>
-							{/* <div className='flex gap-1 justify-end'> */}
-								<button onClick={handlePlay}>
-									<Play_Button w={40} h={40} />
-								</button>
-								<button onClick={handlePause}>
-									<Pause_Button w={70} h={40} />
-								</button>
-								<button onClick={handleStop} >
-									<Stop_Button w={40} h={40} />
-								</button>
+							<div className='w-[190px] h-full flex justify-center items-center gap-2'>
+								<Play_Button
+									isActive={currentTransport === 'play' ? 0 : 1}
+									onClick={handlePlay}
+								/>
+								<Pause_Button
+									isActive={currentTransport === 'pause' ? 0 : 1}
+									onClick={handlePause}
+								/>
+								<Stop_Button
+									isActive={currentTransport === 'stop' ? 0 : 1}
+									onClick={handleStop}
+								/>
 							</div>
 						</div>
 						{/* waveform */}
@@ -109,12 +107,11 @@ function App() {
 				</div>
 				{/* body */}
 				<div className='w-full h-[370px] flex flex-row'>
+					{/* stems */}
 					<div className='w-[640px] h-full flex flex-col'>
 						{/* mode */}
 						<div className='w-full h-[30px]'>
-						{/* <div className='flex h-8 items-center'> */}
 							<div className='_radio-bg w-[300px] h-full flex mx-auto shadow-lg border border-white'>
-							{/* <div className='_radio-bg flex w-100 justify-center'> */}
 								<button
 									onClick={() => handleMode('loop')}
 									className={`
@@ -143,7 +140,6 @@ function App() {
 						</div>
 						{/* sliders */}
 						<div className='w-full h-[260px] flex space-x-[30px] px-[35px] py-[20px]'>
-						{/* <div className='flex space-x-4 mx-auto text-center items-center justify-center'> */}
 							<div className='_bg-volume'>
 								<h3 className='text-center'>Piano</h3>
 								<div className='_bg-slider'>
@@ -187,7 +183,6 @@ function App() {
 								<label>Filter</label>
 							</div>
 							<div className='h-[30px]'>
-							{/* <div className='_radio-bg flex w-100 ml-0'> */}
 								<div className='_radio-tabs bg-white w-[100px] h-[30px] z-20'/>
 								<div className='_radio-tabs bg-white/50  w-[200px] h-[30px] z-10'/>
 								<div className='_radio-tabs bg-white/5  w-[300px] h-[30px] z-0'/>
@@ -232,6 +227,7 @@ function App() {
 							</div>
 						</div>
 					</div>
+					{/* noise */}
 					<div className='w-[210px] h-full border-l border-black/5'>
 						<div className='w-full h-[30px]'></div>
 						<div className='w-full h-[260px] px-[45px] py-[20px] flex'>
@@ -252,7 +248,6 @@ function App() {
 									<label>Noise Type</label>
 								</div>
 								<div className='h-[30px]'>
-								{/* <div className='_radio-bg flex w-100 ml-0'> */}
 									<div className='_radio-tabs bg-red w-[50px] h-[30px] z-20'/>
 									<div className='_radio-tabs bg-white/50  w-[100px] h-[30px] z-10'/>
 									<div className='_radio-tabs bg-white/5  w-[150px] h-[30px] z-0'/>
@@ -275,7 +270,7 @@ function App() {
 												_radio-button
 												${currentNoise === 'pink'
 													? '_radio-on bg-pink-700/50'
-													: '_radio-off text-pink-500/70'
+													: '_radio-off text-pink-500/70 hover:text-pink-500/50'
 												}
 											`}
 										>
@@ -287,7 +282,7 @@ function App() {
 												_radio-button
 												${currentNoise === 'brown'
 													? '_radio-on bg-amber-700/50'
-													: '_radio-off text-amber-700/70'
+													: '_radio-off text-amber-700/70 hover:text-amber-500/50'
 												}
 											`}
 										>
@@ -299,42 +294,6 @@ function App() {
 						</div>
 					</div>
 				</div>
-				{/* <div className='flex h-120'> */}
-					{/* <div className='flex-1 h-full space-y-4'>
-						<div className='flex flex-col space-y-2'>
-						</div>
-					</div> */}
-					{/* noise */}
-					{/* <div className='flex flex-col h-full'> */}
-					{/* <div className='border w-[210px] h-[370px]'>
-						<div className='h-8 bg-amber-400' />
-						<div className='py-8 flex justify-center'>
-							<div className='_bg-subcard text-center bg-red-400'>
-								<h5>Noise</h5>
-								<div className='_bg-slider'>
-									<input
-										type="range"
-										className="_slider-v"
-									/>
-								</div>
-							</div>
-						</div>
-						<div className='flex flex-col space-y-2 bg-blue-400 '>
-							<label>Noise Type</label>
-							<div className='_radio-bg flex w-50 ml-0'>
-								<button className='_radio-button'>
-									White
-								</button>
-								<button className='_radio-button'>
-									Pink
-								</button>
-								<button className='_radio-button'>
-									Brown
-								</button>
-							</div>
-						</div>
-					</div> */}
-				{/* </div> */}
 			</div>
 		</section>
 	)
