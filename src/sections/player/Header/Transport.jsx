@@ -32,6 +32,12 @@ function Transport({ currentTime, setCurrentTime }) {
 		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
 	};
 	const handleStop = () => {
+		stems.forEach(stem => {
+			const player = playersRef.current[stem];
+			if (player)
+				player.stop();
+		});
+
 		setIsPlaying(false);
 		setCurrentTime(0);
 		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
