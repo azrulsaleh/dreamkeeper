@@ -15,8 +15,8 @@ const Stop_Button = ({
 			viewBox="0 0 48 48"
 			xmlns="http://www.w3.org/2000/svg"
 			onClick={onClick}
-            className="group cursor-pointer overflow-visible drop-shadow-lg"
-            role="button"
+			className="group cursor-pointer overflow-visible drop-shadow-lg"
+			role="button"
 		>
 			<g filter="url(#filter0_d_4_122)">
 				<rect height="38" width="38" fill={bgColor} rx="19" stroke="white" strokeWidth="2" x="7" y="3"/>

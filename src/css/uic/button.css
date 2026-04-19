@@ -1,40 +1,42 @@
 @layer components {
 	._radio-bg {
-        @apply
-            rounded-2xl
-            border border-white/10 border-1
-            text-xs
-            ;
-    }
+		@apply
+			/* bg-[#FBF7FD] */
+			rounded-2xl
+			border border-white/10 border-1
+			text-xs
+			;
+	}
 	._radio-button {
-        @apply
-            rounded-2xl
-            w-full h-full
-            py-0.5
-            text-slate-600
-            z-50
-            cursor-pointer
-            transition-colors duration-200
-            ;
-    }
-    ._radio-on {
-        @apply
-            bg-sky-700/50
-            text-white hover:text-white/90
-            border border-white border-1
-            ;
-    }
-    ._radio-off {
-        @apply
-            bg-none
-            hover:text-slate-600/50;
-    }
-    ._radio-tabs {
-        @apply
-            absolute rounded-2xl
-            border border-white
-            /* shadow-inner */
-            shadow-[2px_2px_5px_rgba(0,0,0,0.05)]
-            ;
-    }
+		@apply
+			/* bg-[#FBF7FD] */
+			rounded-2xl
+			w-full h-full
+			py-0.5
+			text-slate-600
+			z-50
+			cursor-pointer
+			transition-colors duration-200
+			;
+	}
+	._radio-on {
+		@apply
+			bg-[#93BCED]
+			text-white hover:text-white/90
+			border border-white border-1
+			;
+	}
+	._radio-off {
+		@apply
+			bg-none
+			hover:text-slate-600/50;
+	}
+	._radio-tabs {
+		@apply
+			absolute rounded-2xl
+			border border-white
+			/* shadow-inner */
+			shadow-[2px_2px_5px_rgba(0,0,0,0.05)]
+			;
+	}
 }

@@ -3,6 +3,7 @@ import Transport from './Header/Transport'
 import Waveform from './Header/Waveform'
 
 function Player_Header() {
+	const [tbd, setTbd] = useState(0);
 	const [currentTrack, setCurrentTrack] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(1694);
@@ -49,7 +50,8 @@ function Player_Header() {
 					<h4>{formatTime(currentTime)}</h4>
 					<input
 						type="range"
-						value={0}
+						value={tbd}
+						onChange={(e) => setTbd(e.target.value)}
 						className="_slider-h w-full"
 					/>
 				</div>
