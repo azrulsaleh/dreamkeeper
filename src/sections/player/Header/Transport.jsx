@@ -8,38 +8,30 @@ function Transport({ currentTime, setCurrentTime }) {
 	const stems = ['piano', 'cello', 'vocals', 'ambience'];
 
 	const playersRef = useRef({});
-	const intervalRef = useRef(null);
+	// const intervalRef = useRef(null);
 	
 	const handlePlay = async () => {
 		await Tone.start();
-		const playTime = Tone.now();
-		stems.forEach(stem => {
-			const player = playersRef.current[stem];
-			if (player && player.loaded)
-				player.start(playTime, currentTime);
-		});
+		if (Tone.getContext().state !== 'running')
+			await Tone.getContext().resume();
+
+		const transport = Tone.getTransport();
+		transport.seconds = currentTime; 
+        transport.start();
 		
 		setIsPlaying(true);
 		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
 	};
 	const handlePause = () => {
-		setIsPlaying(false);
-		setCurrentTime((prevTime) => {
-			if (prevTime < 0.001)
-				return 0.0001;
-			return prevTime;
-		});
+		Tone.getTransport().pause();
+        setIsPlaying(false);
+        setCurrentTime(Tone.getTransport().seconds);
 		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
 	};
 	const handleStop = () => {
-		stems.forEach(stem => {
-			const player = playersRef.current[stem];
-			if (player)
-				player.stop();
-		});
-
-		setIsPlaying(false);
-		setCurrentTime(0);
+		Tone.getTransport().stop();
+        setIsPlaying(false);
+        setCurrentTime(0);
 		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
 	};
 
@@ -49,7 +41,7 @@ function Transport({ currentTime, setCurrentTime }) {
 
 			for (const stem of stems) {
 				try {
-					playersRef.current[stem] = new Tone.Player({
+					const player = new Tone.Player({
 						url: `${stem}.opus`,
 						loop: false,
 						onload: () => {
@@ -59,6 +51,8 @@ function Transport({ currentTime, setCurrentTime }) {
 							console.error(`Error loading ${stem}.opus:`, error);
 						}
 					}).toDestination();
+					player.sync().start(0);
+					playersRef.current[stem] = player;
 				} catch (error) {
 					console.error(`Error initializing ${stem}:`, error);
 				}
@@ -70,12 +64,13 @@ function Transport({ currentTime, setCurrentTime }) {
 		initAudio();
 
 		return () => {
+			Tone.getTransport().stop();
 			Object.values(playersRef.current).forEach(player => {
 				if (player)
 					player.dispose();
 			});
-			if (intervalRef.current)
-				clearInterval(intervalRef.current);
+			// if (intervalRef.current)
+				// clearInterval(intervalRef.current);
 		};
 	}, []);
 
