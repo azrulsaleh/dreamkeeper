@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Transport from './Header/Transport'
 import Waveform from './Header/Waveform'
 
 function Player_Header() {
 	const [tbd, setTbd] = useState(0);
+	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentTrack, setCurrentTrack] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(1694);
+
+	const waveformRef = useRef(null);
+	const wavesurferRef = useRef(null);
 
 	const playlist = [
 		{ id: 1, title: 'Night Bloom', duration: 1694 },
@@ -38,13 +42,20 @@ function Player_Header() {
 							<h4>{formatTime(currentTime)} / {formatTime(duration)}</h4>
 						</div>
 					</div>
-					<Transport 
+					<Transport
+						isPlaying={isPlaying}
+						setIsPlaying={setIsPlaying}
 						currentTime={currentTime}
 						setCurrentTime={setCurrentTime}
+						waveformRef={waveformRef}
+						wavesurferRef={wavesurferRef}
 					/>
 				</div>
 				<div className='h-[60px] py-2'>
-					<Waveform />
+					<Waveform 
+						mainStemUrl='mix.opus'
+						isPlaying={isPlaying}
+					/>
 				</div>
 				<div className='h-[30px] flex gap-4 items-center'>
 					<h4>{formatTime(currentTime)}</h4>

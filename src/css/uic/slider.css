@@ -1,18 +1,10 @@
 @layer components {
 	._slider-h {
 		@apply
-			accent-sky-700/50
+			accent-[#93BCED]
 			h-1
 			cursor-pointer
 			;
-	}
-	._slider-h:hover {
-		@apply
-			accent-sky-700/50;
-	}
-	._slider-h:active {
-		@apply
-			accent-sky-700/40;
 	}
 	._slider-v {
 		@apply
@@ -20,7 +12,7 @@
 			absolute
 			w-[140px] h-[10px]
 			origin-center
-			accent-sky-700/50
+			accent-[#93BCED]
 			-translate-y-9
 			cursor-pointer
 			;

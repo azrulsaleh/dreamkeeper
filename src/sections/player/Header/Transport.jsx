@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import * as Tone from 'tone';
+import WaveSurfer from 'wavesurfer.js';
 import { Pause_Button, Play_Button, Stop_Button } from '../../../svg/Vector';
 
-function Transport({ currentTime, setCurrentTime }) {
-	const [isPlaying, setIsPlaying] = useState(false);
+function Transport({ isPlaying, setIsPlaying, currentTime, setCurrentTime, waveformRef, wavesurferRef }) {
 	const [isLoading, setIsLoading] = useState(true);
 	const stems = ['piano', 'cello', 'vocals', 'ambience'];
 
