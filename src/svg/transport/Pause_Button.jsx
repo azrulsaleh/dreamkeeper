@@ -18,29 +18,19 @@ const Pause_Button = ({
 			className="group cursor-pointer overflow-visible drop-shadow-lg"
 			role="button"
 		>
-			<g filter="url(#filter0_d_4_123)">
-				<rect height="38" width="68" fill={bgColor} rx="19" stroke="white" strokeWidth="2" x="7" y="3"/>
-				<rect
-					height="20" width="5"
-					fill={iconColor}
-					className={`transition-colors duration-200 ${hoverColor} ${iconColor}`}
-					rx="1" x="33" y="12"
-				/>
-				<rect
-					height="20" width="5"
-					fill={iconColor} 
-					className={`transition-colors duration-200 ${hoverColor} ${iconColor}`}
-					rx="1" x="44" y="12"
-				/>
-			</g>
-			<defs>
-				<filter height="48" id="filter0_d_4_123" width="78" x="0" y="0" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-					<feFlood result="BackgroundImageFix" floodOpacity="0"/>
-					<feGaussianBlur stdDeviation="2"/>
-					<feBlend result="effect1_dropShadow_4_123" in2="BackgroundImageFix"/>
-					<feBlend result="shape" in="SourceGraphic" in2="effect1_dropShadow_4_123"/>
-				</filter>
-			</defs>
+			<rect height="38" width="68" fill={bgColor} rx="19" stroke="white" strokeWidth="2" x="7" y="3"/>
+			<rect
+				height="20" width="5"
+				fill={iconColor}
+				className={`transition-colors duration-200 ${hoverColor} ${iconColor}`}
+				rx="1" x="33" y="12"
+			/>
+			<rect
+				height="20" width="5"
+				fill={iconColor} 
+				className={`transition-colors duration-200 ${hoverColor} ${iconColor}`}
+				rx="1" x="44" y="12"
+			/>
 		</svg>
 	);
 };
