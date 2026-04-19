@@ -100,6 +100,7 @@ function App() {
 							<h4>{formatTime(currentTime)}</h4>
 							<input
 								type="range"
+								value={0}
 								className="_slider-h w-full"
 							/>
 						</div>
