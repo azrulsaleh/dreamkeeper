@@ -15,11 +15,9 @@ function Filter() {
 
 	return (
 		<>
-			<div className='_radio-tabs h-[30px]'>
-				<div className='bg-white w-[100px] z-20'/>
-				<div className='bg-white/50 w-[200px] z-10'/>
-				<div className='bg-white/5 w-[300px] z-0'/>
-			</div>
+			<div className='_radio-tabs bg-white w-[100px] z-20 h-[30px]'/>
+			<div className='_radio-tabs bg-white/50 w-[200px] z-10 h-[30px]'/>
+			<div className='_radio-tabs bg-white/5 w-[300px] z-0 h-[30px]'/>
 			<div className='_radio-bg flex w-[300px] h-full items-center justify-center'>
 				{OPTIONS.map((filter) => (
 					<button

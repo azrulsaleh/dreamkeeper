@@ -15,11 +15,9 @@ function NoiseType() {
 
 	return (
 		<>
-			<div className='_radio-tabs h-[30px]'>
-				<div className='bg-white w-[50px] z-20'/>
-				<div className='bg-white/50 w-[100px] z-10'/>
-				<div className='bg-white/5 w-[150px] z-0'/>
-			</div>
+			<div className='_radio-tabs bg-white w-[50px] z-20 h-[30px]'/>
+			<div className='_radio-tabs bg-white/50 w-[100px] z-10 h-[30px]'/>
+			<div className='_radio-tabs bg-white/5 w-[150px] z-0 h-[30px]'/>
 			<div className='_radio-bg flex w-[150px] h-full items-center justify-center'>
 				{OPTIONS.map((noise) => (
 					<button
