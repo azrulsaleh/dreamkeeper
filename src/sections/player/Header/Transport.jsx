@@ -13,7 +13,6 @@ function Transport({ isPlaying, setIsPlaying, currentTime, setCurrentTime }) {
 		tp.start();
 		setIsPlaying(true);
 	};
-
 	const handlePause = () => {
 		tp.pause();
 		setIsPlaying(false);

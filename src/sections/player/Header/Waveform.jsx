@@ -31,10 +31,13 @@ function Waveform({ mainStemUrl, onDurationReady, isPlaying, setIsPlaying, curre
 		});
 		ws.on('interaction', (newTime) => {
             tp.seconds = newTime;
+			setCurrentTime(newTime);
         });
 		ws.on('timeupdate', (newTime) => {
-            if (isInteracting.current)
+            if (isInteracting.current) {
                 tp.seconds = newTime;
+				setCurrentTime(newTime);
+			}
         });
 		
 		const handlePointerDown = () => {
@@ -48,6 +51,9 @@ function Waveform({ mainStemUrl, onDurationReady, isPlaying, setIsPlaying, curre
 		const handleGlobalPointerUp = () => {
 			if (isInteracting.current) {
 				isInteracting.current = false;
+				
+				setCurrentTime(tp.seconds);
+
 				if (tp.state === 'paused') {
 					Tone.getDestination().volume.rampTo(0, 0.1);
 					setIsPlaying(true);
@@ -91,6 +97,11 @@ function Waveform({ mainStemUrl, onDurationReady, isPlaying, setIsPlaying, curre
 			animationId = requestAnimationFrame(syncWaveform);
 		return () => cancelAnimationFrame(animationId);
 	}, [isPlaying, tp.seconds]);
+
+	useEffect(() => {
+		if (waveSurferRef.current && !isInteracting.current)
+			waveSurferRef.current.setTime(currentTime);
+	}, [currentTime]);
 
 	return <div ref={containerRef} className="w-full h-[60px]" />;
 }
