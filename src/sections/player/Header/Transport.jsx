@@ -1,75 +1,42 @@
-import { useState, useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import * as Tone from 'tone';
-import WaveSurfer from 'wavesurfer.js';
 import { Pause_Button, Play_Button, Stop_Button } from '../../../svg/Vector';
 
-function Transport({ isPlaying, setIsPlaying, currentTime, setCurrentTime, waveformRef, wavesurferRef }) {
-	const [isLoading, setIsLoading] = useState(true);
-	const stems = ['piano', 'cello', 'vocals', 'ambience'];
+function Transport({ isPlaying, setIsPlaying, currentTime, setCurrentTime }) {	
+	const tp = Tone.getTransport();
 
-	const playersRef = useRef({});
-	
 	const handlePlay = async () => {
-		await Tone.start();
 		if (Tone.getContext().state !== 'running')
-			await Tone.getContext().resume();
+			await Tone.start();
 
-		const transport = Tone.getTransport();
-		transport.seconds = currentTime; 
-        transport.start();
-		
+		tp.seconds = currentTime;
+		tp.start();
 		setIsPlaying(true);
-		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
 	};
+
 	const handlePause = () => {
-		Tone.getTransport().pause();
-        setIsPlaying(false);
-        setCurrentTime(Tone.getTransport().seconds);
-		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
+		tp.pause();
+		setIsPlaying(false);
 	};
 	const handleStop = () => {
-		Tone.getTransport().stop();
-        setIsPlaying(false);
-        setCurrentTime(0);
-		console.log('isPlaying: ' + isPlaying + ' currentTime: ' + currentTime);
+		tp.stop();
+		setCurrentTime(0);
+		setIsPlaying(false);
 	};
-
+	
 	useEffect(() => {
-		const initAudio = async () => {
-			setIsLoading(true);
-
-			for (const stem of stems) {
-				try {
-					const player = new Tone.Player({
-						url: `${stem}.opus`,
-						loop: false,
-						onload: () => {
-							console.log(`${stem}.opus loaded successfully`);
-						},
-						onerror: (error) => {
-							console.error(`Error loading ${stem}.opus:`, error);
-						}
-					}).toDestination();
-					player.sync().start(0);
-					playersRef.current[stem] = player;
-				} catch (error) {
-					console.error(`Error initializing ${stem}:`, error);
-				}
-			}
-
-			setIsLoading(false);
+		let animationFrame;
+		
+		const syncUI = () => {
+			setCurrentTime(tp.seconds);
+			animationFrame = requestAnimationFrame(syncUI);
 		};
 
-		initAudio();
+		if (isPlaying)
+			animationFrame = requestAnimationFrame(syncUI);
 
-		return () => {
-			Tone.getTransport().stop();
-			Object.values(playersRef.current).forEach(player => {
-				if (player)
-					player.dispose();
-			});
-		};
-	}, []);
+		return () => cancelAnimationFrame(animationFrame);
+	}, [isPlaying, setCurrentTime]);
 
 	return (
 		<div className='w-[190px] h-full flex justify-center items-center gap-2'>
@@ -78,11 +45,11 @@ function Transport({ isPlaying, setIsPlaying, currentTime, setCurrentTime, wavef
 				onClick={handlePlay}
 			/>
 			<Pause_Button
-				isActive={(!isPlaying && currentTime) ? 0 : 1}
+				isActive={!isPlaying && tp.state === 'paused' ? 0 : 1}
 				onClick={handlePause}
 			/>
 			<Stop_Button
-				isActive={(!isPlaying && !currentTime) ? 0 : 1}
+				isActive={tp.state === 'stopped' ? 0 : 1}
 				onClick={handleStop}
 			/>
 		</div>

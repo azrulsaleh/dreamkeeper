@@ -2,12 +2,14 @@ import { useEffect, useRef } from 'react';
 import * as Tone from 'tone';
 import WaveSurfer from 'wavesurfer.js';
 
-function Waveform({ mainStemUrl, isPlaying, onDurationReady }) {
+function Waveform({ mainStemUrl, onDurationReady, isPlaying, setIsPlaying, currentTime, setCurrentTime }) {
 	const containerRef = useRef(null);
 	const waveSurferRef = useRef(null);
+	const isInteracting = useRef(false);
+
+	const tp = Tone.getTransport();
 
 	useEffect(() => {
-		let isMounted = true;
 		const ws = WaveSurfer.create({
 			container: containerRef.current,
 			height: 50,
@@ -15,6 +17,7 @@ function Waveform({ mainStemUrl, isPlaying, onDurationReady }) {
 			url: mainStemUrl,
 			progressColor: '#728093',
 			cursorColor: 'transparent',
+			dragToSeek: true,
 			interact: true,
 			backend: 'WebAudio',
 			audioContext: Tone.getContext().rawContext,
@@ -22,21 +25,45 @@ function Waveform({ mainStemUrl, isPlaying, onDurationReady }) {
 
 		waveSurferRef.current = ws;
 		waveSurferRef.current.setVolume(0);
-		waveSurferRef.current.on('interaction', (newTime) => {
-			Tone.getTransport().seconds = newTime;
+
+		ws.on('ready', () => {
+			onDurationReady(ws.getDuration());
 		});
-		waveSurferRef.current.on('ready', () => {
-			const totalSeconds = waveSurferRef.current.getDuration();
-			onDurationReady(totalSeconds);
-			console.log('mix.opus loaded successfully');
-		});
+		ws.on('interaction', (newTime) => {
+            tp.seconds = newTime;
+        });
+		ws.on('timeupdate', (newTime) => {
+            if (isInteracting.current)
+                tp.seconds = newTime;
+        });
+		
+		const handlePointerDown = () => {
+			isInteracting.current = true;
+			if (tp.state === 'started') {
+				tp.pause();
+				setIsPlaying(false);
+				Tone.getDestination().volume.rampTo(-Infinity, 0.05);
+			}
+		};
+		const handleGlobalPointerUp = () => {
+			if (isInteracting.current) {
+				isInteracting.current = false;
+				if (tp.state === 'paused') {
+					Tone.getDestination().volume.rampTo(0, 0.1);
+					setIsPlaying(true);
+					tp.start();
+				}
+			}
+		};
+
+		const container = containerRef.current;
+		container.addEventListener('pointerdown', handlePointerDown);
+		window.addEventListener('pointerup', handleGlobalPointerUp);
 
 		return () => {
-			isMounted = false;
-			if (waveSurferRef.current) {
-				waveSurferRef.current.destroy();
-				waveSurferRef.current = null;
-			}
+			container.removeEventListener('pointerdown', handlePointerDown);
+			window.removeEventListener('pointerup', handleGlobalPointerUp);
+			ws.destroy();
 		};
 	}, [mainStemUrl]);
 
@@ -44,21 +71,17 @@ function Waveform({ mainStemUrl, isPlaying, onDurationReady }) {
 		let animationId;
 
 		const syncWaveform = () => {
-			if (waveSurferRef.current && isPlaying) {
-				const currentTime = Tone.getTransport().seconds;
-				const duration = waveSurferRef.current.getDuration();
-				
-				if (duration > 0)
-					waveSurferRef.current.setTime(currentTime);
+			if (waveSurferRef.current && isPlaying && !isInteracting.current) {
+				const toneTime = tp.seconds;
+				const wsTime = waveSurferRef.current.getCurrentTime();
+
+				if (Math.abs(toneTime - wsTime) > 0.01)
+					waveSurferRef.current.setTime(toneTime);
 			}
 			animationId = requestAnimationFrame(syncWaveform);
 		};
 
-		if (isPlaying)
-			syncWaveform();
-		else
-			cancelAnimationFrame(animationId);
-
+		animationId = requestAnimationFrame(syncWaveform);
 		return () => cancelAnimationFrame(animationId);
 	}, [isPlaying]);
 

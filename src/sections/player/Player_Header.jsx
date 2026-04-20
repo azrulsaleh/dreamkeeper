@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
+import * as Tone from 'tone';
 import Transport from './Header/Transport'
 import Waveform from './Header/Waveform'
 import LapsedTime from './Header/LapsedTime'
 
-function Player_Header() {
+function Player_Header({ player }) {
 	const [tbd, setTbd] = useState(0);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentTrack, setCurrentTrack] = useState(0);
@@ -26,6 +27,10 @@ function Player_Header() {
 		const sec = Math.floor(seconds % 60);
 		return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
 	}
+
+	useEffect(() => {
+		console.log('isPlaying:' + isPlaying + ' tp.state:' + Tone.getTransport().state);
+	}, [isPlaying]);
 
 	return (
 		<div className='flex h-[190px] p-[20px] border-b border-black/5'>
@@ -50,15 +55,16 @@ function Player_Header() {
 						setIsPlaying={setIsPlaying}
 						currentTime={currentTime}
 						setCurrentTime={setCurrentTime}
-						waveformRef={waveformRef}
-						wavesurferRef={wavesurferRef}
 					/>
 				</div>
 				<div className='h-[60px] py-2'>
 					<Waveform 
 						mainStemUrl='mix.opus'
-						isPlaying={isPlaying}
 						onDurationReady={(d) => setDuration(d)}
+						isPlaying={isPlaying}
+						setIsPlaying={setIsPlaying}
+						currentTime={currentTime}
+						setCurrentTime={setCurrentTime}
 					/>
 				</div>
 				<div className='h-[30px] flex gap-4 items-center'>

@@ -3,7 +3,7 @@ import { Volume_Stems, Volume_Noise } from './Body/Stems'
 import Filter from './Body/Filter'
 import NoiseType from './Body/NoiseType'
 
-function Player_Body() {
+function Player_Body({ player }) {
 	return (
 		<div className='w-full h-[370px] flex flex-row'>
 			<div className='w-[640px] h-full flex flex-col'>
