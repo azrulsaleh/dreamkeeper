@@ -29,7 +29,7 @@ function Player_Header({ player }) {
 	}
 
 	useEffect(() => {
-		console.log('isPlaying:' + isPlaying + ' tp.state:' + Tone.getTransport().state);
+		console.log('isPlaying:' + isPlaying + ' tp.state:' + Tone.getTransport().state + ' currentTime:' + currentTime);
 	}, [isPlaying]);
 
 	return (

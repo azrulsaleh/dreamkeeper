@@ -52,8 +52,6 @@ function Player() {
 		<div className='_bg-card w-[850px] h-[560px]'>
 			<Player_Header player={player} />
 			<Player_Body player={player} />
-			{/* <Player_Header /> */}
-			{/* <Player_Body /> */}
 		</div>
 	)
 }

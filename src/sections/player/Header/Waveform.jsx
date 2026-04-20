@@ -57,8 +57,8 @@ function Waveform({ mainStemUrl, onDurationReady, isPlaying, setIsPlaying, curre
 		};
 
 		const container = containerRef.current;
-		container.addEventListener('pointerdown', handlePointerDown);
-		window.addEventListener('pointerup', handleGlobalPointerUp);
+		container.addEventListener('pointerdown', handlePointerDown, { passive: true });
+		window.addEventListener('pointerup', handleGlobalPointerUp, { passive: true });
 
 		return () => {
 			container.removeEventListener('pointerdown', handlePointerDown);
@@ -68,22 +68,29 @@ function Waveform({ mainStemUrl, onDurationReady, isPlaying, setIsPlaying, curre
 	}, [mainStemUrl]);
 
 	useEffect(() => {
-		let animationId;
+		if (waveSurferRef.current && !isInteracting.current)
+			waveSurferRef.current.setTime(tp.seconds);
 
+		if (!isPlaying || isInteracting.current)
+			return;
+
+		let animationId;
 		const syncWaveform = () => {
 			if (waveSurferRef.current && isPlaying && !isInteracting.current) {
 				const toneTime = tp.seconds;
 				const wsTime = waveSurferRef.current.getCurrentTime();
 
-				if (Math.abs(toneTime - wsTime) > 0.01)
+				if (Math.abs(toneTime - wsTime) > 0.1)
 					waveSurferRef.current.setTime(toneTime);
 			}
-			animationId = requestAnimationFrame(syncWaveform);
+			if (isPlaying)
+				animationId = requestAnimationFrame(syncWaveform);
 		};
 
-		animationId = requestAnimationFrame(syncWaveform);
+		if (isPlaying)
+			animationId = requestAnimationFrame(syncWaveform);
 		return () => cancelAnimationFrame(animationId);
-	}, [isPlaying]);
+	}, [isPlaying, tp.seconds]);
 
 	return <div ref={containerRef} className="w-full h-[60px]" />;
 }
