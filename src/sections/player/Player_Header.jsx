@@ -1,6 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import * as Tone from 'tone';
 import Transport from './Header/Transport'
 import Waveform from './Header/Waveform'
+import LapsedTime from './Header/LapsedTime'
 
 function Player_Header() {
 	const [tbd, setTbd] = useState(0);
@@ -39,7 +41,7 @@ function Player_Header() {
 							<h2>{playlist[currentTrack].title}</h2>
 						</div>
 						<div className='h-[30px] flex items-center'>
-							<h4>{formatTime(currentTime)} / {formatTime(duration)}</h4>
+							<h4><LapsedTime /> / {formatTime(duration)}</h4>
 						</div>
 					</div>
 					<Transport
@@ -58,7 +60,7 @@ function Player_Header() {
 					/>
 				</div>
 				<div className='h-[30px] flex gap-4 items-center'>
-					<h4>{formatTime(currentTime)}</h4>
+					<h4><LapsedTime /></h4>
 					<input
 						type="range"
 						value={tbd}
