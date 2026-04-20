@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import * as Tone from 'tone';
 import WaveSurfer from 'wavesurfer.js';
 
-function Waveform({ mainStemUrl, isPlaying }) {
+function Waveform({ mainStemUrl, isPlaying, onDurationReady }) {
 	const containerRef = useRef(null);
 	const waveSurferRef = useRef(null);
 
@@ -24,6 +24,11 @@ function Waveform({ mainStemUrl, isPlaying }) {
 		waveSurferRef.current.setVolume(0);
 		waveSurferRef.current.on('interaction', (newTime) => {
 			Tone.getTransport().seconds = newTime;
+		});
+		waveSurferRef.current.on('ready', () => {
+			const totalSeconds = waveSurferRef.current.getDuration();
+			onDurationReady(totalSeconds);
+			console.log('mix.opus loaded successfully');
 		});
 
 		return () => {

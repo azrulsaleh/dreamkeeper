@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import * as Tone from 'tone';
 import Transport from './Header/Transport'
 import Waveform from './Header/Waveform'
 import LapsedTime from './Header/LapsedTime'
@@ -9,7 +8,7 @@ function Player_Header() {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [currentTrack, setCurrentTrack] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
-	const [duration, setDuration] = useState(1694);
+	const [duration, setDuration] = useState(0);
 
 	const waveformRef = useRef(null);
 	const wavesurferRef = useRef(null);
@@ -21,6 +20,8 @@ function Player_Header() {
 	];
 
 	const formatTime = (seconds) => {
+		if (!seconds)
+			return "00:00";
 		const min = Math.floor(seconds / 60);
 		const sec = Math.floor(seconds % 60);
 		return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
@@ -57,6 +58,7 @@ function Player_Header() {
 					<Waveform 
 						mainStemUrl='mix.opus'
 						isPlaying={isPlaying}
+						onDurationReady={(d) => setDuration(d)}
 					/>
 				</div>
 				<div className='h-[30px] flex gap-4 items-center'>

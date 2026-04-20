@@ -8,7 +8,6 @@ function Transport({ isPlaying, setIsPlaying, currentTime, setCurrentTime, wavef
 	const stems = ['piano', 'cello', 'vocals', 'ambience'];
 
 	const playersRef = useRef({});
-	// const intervalRef = useRef(null);
 	
 	const handlePlay = async () => {
 		await Tone.start();
@@ -69,8 +68,6 @@ function Transport({ isPlaying, setIsPlaying, currentTime, setCurrentTime, wavef
 				if (player)
 					player.dispose();
 			});
-			// if (intervalRef.current)
-				// clearInterval(intervalRef.current);
 		};
 	}, []);
 
