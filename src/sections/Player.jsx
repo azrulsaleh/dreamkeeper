@@ -29,6 +29,7 @@ function Player() {
 	const elapsedTime1 = useRef(null);
 	const elapsedTime2 = useRef(null);
 	const wasPlayingBeforeDrag = useRef(false);
+	const fadeTime = 0.05;
 
 	useEffect(() => {
 		const loadAllSongs = async () => {
@@ -87,31 +88,45 @@ function Player() {
 
 	const handlePlay = async () => {
 		await Tone.start();
-		Tone.Destination.mute = false;
-		if (Tone.Transport.state !== "started")
+		
+		if (Tone.Transport.state !== "started") {
+			Tone.Destination.volume.value = -Infinity;
 			Tone.Transport.start();
+			Tone.Destination.volume.rampTo(0, fadeTime);
+		}
 	};
 	const handlePause = () => {
 		if (Tone.Transport.state === "started") {
-			Tone.Transport.pause();
+			Tone.Destination.volume.rampTo(-Infinity, fadeTime);
+			setTimeout(() => {
+				if (Tone.Transport.state === "started")
+					Tone.Transport.pause();
+			}, 50);
 			console.log("Transport paused at ", Tone.Transport.seconds.toFixed(2));
-		} else
+		} else {
 			Tone.Transport.start();
+			Tone.Destination.volume.rampTo(0, fadeTime);
+		}
 	};
 	const handleStop = () => {
-		Tone.Transport.stop();
-		Tone.Transport.seconds = 0;		
-		wavesurferRef.current?.setTime(0);
-		setCurrentTime(0);
-		console.log("Transport stopped and reset to 0:00");
+		Tone.Destination.volume.rampTo(-Infinity, fadeTime);
+		setTimeout(() => {
+			Tone.Transport.stop();
+			Tone.Transport.seconds = 0;
+			wavesurferRef.current?.setTime(0);
+			setCurrentTime(0);
+			console.log("Transport stopped and reset to 0:00");
+		}, 50);
 	};
+		
 	const handleSeek = (time, isDragging) => {
 		if (isNaN(time) || time < 0)
 			return;
 
 		if (isDragging && Tone.Transport.state === "started") {
 			wasPlayingBeforeDrag.current = true;
-			Tone.Transport.pause();
+			Tone.Destination.volume.rampTo(-Infinity, fadeTime);
+			setTimeout(() => Tone.Transport.pause(), 30);
 		}
 
 		Tone.Transport.seconds = time;
@@ -120,6 +135,7 @@ function Player() {
 		if (!isDragging) {
 			if (wasPlayingBeforeDrag.current) {
 				Tone.Transport.start();
+				Tone.Destination.volume.rampTo(0, fadeTime);
 				wasPlayingBeforeDrag.current = false;
 			}
 		}
