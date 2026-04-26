@@ -3,7 +3,7 @@ import { Volume_Stems, Volume_Noise } from './Body/Stems'
 import Filter from './Body/Filter'
 import NoiseType from './Body/NoiseType'
 
-function Player_Body({ player }) {
+function Player_Body( {volumes, handleVolumeChange} ) {
 	return (
 		<div className='w-full h-[370px] flex flex-row'>
 			<div className='w-[640px] h-full flex flex-col'>
@@ -12,7 +12,10 @@ function Player_Body({ player }) {
 					<Loop />
 				</div>
 				<div className='w-full h-[260px] flex space-x-[30px] px-[35px] py-[20px]'>
-					<Volume_Stems />
+					<Volume_Stems
+						volumes={volumes}
+						handleVolumeChange={handleVolumeChange}
+					/>
 				</div>
 				<div className='w-full h-[80px] px-[20px] pb-[20px]'>
 					<div className='w-full h-[30px] flex items-center'>

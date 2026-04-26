@@ -1,4 +1,4 @@
-export function Volume_Stems() {
+export function Volume_Stems({volumes, handleVolumeChange}) {
 	const OPTIONS = [
 		{ label: 'Piano' },
 		{ label: 'Cello' },
@@ -8,12 +8,17 @@ export function Volume_Stems() {
 
 	return (
 		<>
-			{OPTIONS.map((stem) => (
+			{OPTIONS.map((stem, index) => (
 				<div key={stem.label} className='_bg-volume'>
 					<h3 className='text-center'>{stem.label}</h3>
 					<div className='_bg-slider'>
 						<input
 							type="range"
+							min="-60"
+							max="6"
+							step="1"
+							value={volumes[index]}
+							onChange={(e) => handleVolumeChange(index, parseFloat(e.target.value))}
 							className="_slider-v"
 						/>
 					</div>

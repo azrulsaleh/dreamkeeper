@@ -26,6 +26,8 @@ function Player() {
 	const [transportState, setTransportState] = useState("stopped");
 	const [currentSongID, setCurrentSongID] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
+	const [volumes, setVolumes] = useState([0, 0, 0, 0]);
+	const fadersRef = useRef([]);
 	const elapsedTime1 = useRef(null);
 	const elapsedTime2 = useRef(null);
 	const wasPlayingBeforeDrag = useRef(false);
@@ -38,7 +40,7 @@ function Player() {
 					new Tone.ToneAudioBuffer().load(path)
 				);
 				buffersRef.current[i] = await Promise.all(stemPromises);
-				
+
 				setIsSongLoaded(prev => {
 					const newState = [...prev];
 					newState[i] = true;
@@ -54,23 +56,31 @@ function Player() {
 		if (!isSongLoaded[currentSongID])
 			return;
 
-		playersRef.current?.dispose();
+		playersRef.current?.forEach(p => p.dispose());
+		fadersRef.current?.forEach(f => f.dispose());
 
-		playersRef.current = new Tone.Players({
-			track1: buffersRef.current[currentSongID][0],
-			track2: buffersRef.current[currentSongID][1],
-			track3: buffersRef.current[currentSongID][2],
-			track4: buffersRef.current[currentSongID][3],
-		}).toDestination();
+		const newPlayers = [];
+		const newFaders = [];
 
-		["track1", "track2", "track3", "track4"].forEach((name) => {
-			playersRef.current.player(name).sync().start(0);
+		songs[currentSongID].stemPaths.forEach((path, index) => {
+			const gainNode = new Tone.Gain(Tone.dbToGain(volumes[index])).toDestination();
+			const player = new Tone.Player(buffersRef.current[currentSongID][index])
+				.connect(gainNode)
+				.sync()
+				.start(0);
+			newPlayers.push(player);
+			newFaders.push(gainNode);
 		});
 
-		console.log("Audio Engine ready for song:", currentSongID);
+		playersRef.current = newPlayers;
+		fadersRef.current = newFaders;
+		console.log("Mixer Engine ready");
 
-		return () => playersRef.current?.dispose();
-	}, [currentSongID, isSongLoaded]); // Runs when song changes or finishes loading
+		return () => {
+			newPlayers.forEach(p => p.dispose());
+			newFaders.forEach(f => f.dispose());
+		};
+	}, [currentSongID, isSongLoaded]);
 
 	useEffect(() => {
 		const syncState = () => setTransportState(Tone.Transport.state);
@@ -186,6 +196,15 @@ function Player() {
 		return () => cancelAnimationFrame(animationFrame);
 	}, []);
 
+	const handleVolumeChange = (index, newVolume) => {
+		const updatedVolumes = [...volumes];
+		updatedVolumes[index] = newVolume;
+		setVolumes(updatedVolumes);
+
+		if (fadersRef.current[index])
+			fadersRef.current[index].gain.rampTo(Tone.dbToGain(newVolume), fadeTime);
+	};
+
 	return (
 		<div className='_bg-card w-[850px] h-[560px]'>
 			<Player_Header
@@ -202,7 +221,10 @@ function Player() {
 				elapsedTime2={elapsedTime2}
 				formatTime={formatTime}
 			/>
-			<Player_Body player={playersRef.current} />
+			<Player_Body
+				volumes={volumes} 
+				handleVolumeChange={handleVolumeChange}
+			/>
 		</div>
 	);
 }
