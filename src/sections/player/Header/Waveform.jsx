@@ -1,109 +1,88 @@
-import { useEffect, useRef } from 'react';
-import * as Tone from 'tone';
+import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
-function Waveform({ mainStemUrl, onDurationReady, isPlaying, setIsPlaying, currentTime, setCurrentTime }) {
-	const containerRef = useRef(null);
-	const waveSurferRef = useRef(null);
-	const isInteracting = useRef(false);
+const Waveform = forwardRef(({wavesurferRef, masterPath, handleSeek, setDuration}, ref) => {
+    const containerRef = useRef();
+    const ws = useRef();
+    const isDragging = useRef(false);
 
-	const tp = Tone.getTransport();
+    useImperativeHandle(wavesurferRef || ref, () => ws.current);
 
-	useEffect(() => {
-		const ws = WaveSurfer.create({
-			container: containerRef.current,
-			height: 50,
-			waveColor: '#93BCED',
-			url: mainStemUrl,
-			progressColor: '#728093',
-			cursorColor: 'transparent',
-			dragToSeek: true,
-			interact: true,
-			backend: 'WebAudio',
-			audioContext: Tone.getContext().rawContext,
-		});
+    const getTimeFromEvent = (e) => {
+        if (!ws.current) return 0;
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const width = rect.width;
+        const percentage = Math.max(0, Math.min(1, x / width));
+        return percentage * ws.current.getDuration();
+    };
 
-		waveSurferRef.current = ws;
-		waveSurferRef.current.setVolume(0);
+    const handlePointerDown = (e) => {
+        isDragging.current = true;
+        containerRef.current.setPointerCapture(e.pointerId);
+        const time = getTimeFromEvent(e);
+        handleSeek(time, true);
+    };
 
-		ws.on('ready', () => {
-			onDurationReady(ws.getDuration());
-		});
-		ws.on('interaction', (newTime) => {
-            tp.seconds = newTime;
-			setCurrentTime(newTime);
-        });
-		ws.on('timeupdate', (newTime) => {
-            if (isInteracting.current) {
-                tp.seconds = newTime;
-				setCurrentTime(newTime);
-			}
-        });
-		
-		const handlePointerDown = () => {
-			isInteracting.current = true;
-			if (tp.state === 'started') {
-				tp.pause();
-				setIsPlaying(false);
-				Tone.getDestination().volume.rampTo(-Infinity, 0.05);
-			}
-		};
-		const handleGlobalPointerUp = () => {
-			if (isInteracting.current) {
-				isInteracting.current = false;
-				
-				setCurrentTime(tp.seconds);
+    const handlePointerMove = (e) => {
+        if (!isDragging.current) return;
+        const time = getTimeFromEvent(e);
+        handleSeek(time, true);
+    };
 
-				if (tp.state === 'paused') {
-					Tone.getDestination().volume.rampTo(0, 0.1);
-					setIsPlaying(true);
-					tp.start();
-				}
-			}
-		};
+    const handlePointerUp = (e) => {
+        if (!isDragging.current) return;
+        isDragging.current = false;
+        containerRef.current.releasePointerCapture(e.pointerId);
+        const time = getTimeFromEvent(e);
+        handleSeek(time, false);
+    };
 
-		const container = containerRef.current;
-		container.addEventListener('pointerdown', handlePointerDown, { passive: true });
-		window.addEventListener('pointerup', handleGlobalPointerUp, { passive: true });
-
-		return () => {
-			container.removeEventListener('pointerdown', handlePointerDown);
-			window.removeEventListener('pointerup', handleGlobalPointerUp);
-			ws.destroy();
-		};
-	}, [mainStemUrl]);
-
-	useEffect(() => {
-		if (waveSurferRef.current && !isInteracting.current)
-			waveSurferRef.current.setTime(tp.seconds);
-
-		if (!isPlaying || isInteracting.current)
+    useEffect(() => {
+        if (!masterPath)
 			return;
 
-		let animationId;
-		const syncWaveform = () => {
-			if (waveSurferRef.current && isPlaying && !isInteracting.current) {
-				const toneTime = tp.seconds;
-				const wsTime = waveSurferRef.current.getCurrentTime();
+        const wavesurfer = WaveSurfer.create({
+            container: containerRef.current,
+            waveColor: '#93BCED',
+            progressColor: '#728093',
+            cursorColor: 'transparent',
+            height: 50,
+            responsive: true,
+            dragToSeek: false,
+            interact: false,
+        });
 
-				if (Math.abs(toneTime - wsTime) > 0.1)
-					waveSurferRef.current.setTime(toneTime);
+        ws.current = wavesurfer;
+		const loadPromise = wavesurfer.load(masterPath);
+
+        wavesurfer.on('ready', () => setDuration(wavesurfer.getDuration()));
+
+        return () => {
+			wavesurfer.unAll();
+			loadPromise.catch((err) => {
+				if (err.name === 'AbortError') {
+					return;
+				}
+				console.warn("WaveSurfer load aborted or failed:", err.message);
+			});
+			try {
+				wavesurfer.destroy();
+			} catch (e) {
+				console.warn("WaveSurfer destroyed during active load, safely ignored.");
 			}
-			if (isPlaying)
-				animationId = requestAnimationFrame(syncWaveform);
 		};
+    }, [masterPath, setDuration]);
 
-		if (isPlaying)
-			animationId = requestAnimationFrame(syncWaveform);
-		return () => cancelAnimationFrame(animationId);
-	}, [isPlaying, tp.seconds]);
-
-	useEffect(() => {
-		if (waveSurferRef.current && !isInteracting.current)
-			waveSurferRef.current.setTime(currentTime);
-	}, [currentTime]);
-
-	return <div ref={containerRef} className="w-full h-[60px]" />;
-}
+    return (
+        <div 
+            ref={containerRef} 
+            className='w-full h-[60px] cursor-pointer touch-none'
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+        />
+    )
+});
 
 export default Waveform;

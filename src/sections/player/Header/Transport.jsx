@@ -2,40 +2,13 @@ import { useEffect } from 'react';
 import * as Tone from 'tone';
 import { Pause_Button, Play_Button, Stop_Button } from '../../../svg/Vector';
 
-function Transport({ isPlaying, setIsPlaying, currentTime, setCurrentTime }) {	
-	const tp = Tone.getTransport();
-
-	const handlePlay = async () => {
-		if (Tone.getContext().state !== 'running')
-			await Tone.start();
-
-		tp.seconds = currentTime;
-		tp.start();
-		setIsPlaying(true);
-	};
-	const handlePause = () => {
-		tp.pause();
-		setIsPlaying(false);
-	};
-	const handleStop = () => {
-		tp.stop();
-		setCurrentTime(0);
-		setIsPlaying(false);
-	};
-	
-	useEffect(() => {
-		let animationFrame;
-		
-		const syncUI = () => {
-			setCurrentTime(tp.seconds);
-			animationFrame = requestAnimationFrame(syncUI);
-		};
-
-		if (isPlaying)
-			animationFrame = requestAnimationFrame(syncUI);
-
-		return () => cancelAnimationFrame(animationFrame);
-	}, [isPlaying, setCurrentTime]);
+function Transport({
+	transportState,
+	handlePlay, handlePause, handleStop
+}) {
+	const isPlaying = transportState === "started";
+	const isPaused = transportState === "paused";
+	const isStopped = transportState === "stopped";
 
 	return (
 		<div className='w-[190px] h-full flex justify-center items-center gap-2'>
@@ -44,11 +17,11 @@ function Transport({ isPlaying, setIsPlaying, currentTime, setCurrentTime }) {
 				onClick={handlePlay}
 			/>
 			<Pause_Button
-				isActive={!isPlaying && tp.state === 'paused' ? 0 : 1}
+				isActive={isPaused ? 0 : 1}
 				onClick={handlePause}
 			/>
 			<Stop_Button
-				isActive={tp.state === 'stopped' ? 0 : 1}
+				isActive={isStopped ? 0 : 1}
 				onClick={handleStop}
 			/>
 		</div>

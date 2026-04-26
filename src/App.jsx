@@ -2,9 +2,12 @@ import Player from './sections/Player'
 
 function App() {
 	return (
-		<section className='h-screen flex justify-center items-center'>
-			<Player />
-		</section>
+		<>
+			<title>Dreamkeeper</title>
+			<section className='h-screen flex justify-center items-center'>
+				<Player />
+			</section>
+		</>
 	)
 }
 
