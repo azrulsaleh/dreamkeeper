@@ -64,6 +64,9 @@ function Player() {
 		if (!isSongLoaded[currentSongID])
 			return;
 
+		Tone.Transport.loopStart = 0;
+		Tone.Transport.loopEnd = duration;
+
 		playersRef.current?.forEach(p => p.dispose());
 		fadersRef.current?.forEach(f => f.dispose());
 		filterRef.current?.dispose();
@@ -99,34 +102,60 @@ function Player() {
 		noiseRef.current = noise;
 		noise.start();
 
-		console.log("Mixer Engine ready");
+		let endEvent = null;
+		if (duration > 0) {
+			Tone.Transport.loopEnd = duration;
+			endEvent = Tone.Transport.schedule(() => {
+				if (!Tone.Transport.loop) {
+					Tone.Transport.stop();
+					Tone.Transport.seconds = 0;
+					setCurrentTime(0);
+					wavesurferRef.current?.setTime(0);
+				}
+			}, duration);
+		}
 
+		console.log("Mixer Engine ready");
 		return () => {
 			newPlayers.forEach(p => p.dispose());
 			newFaders.forEach(f => f.dispose());
 			noise.dispose();
 			noiseFader.dispose();
 			masterFilter.dispose();
+			if (endEvent !== null)
+				Tone.Transport.clear(endEvent);
 		};
-	}, [currentSongID, isSongLoaded]);
+	}, [currentSongID, isSongLoaded, duration, volumes]);
 
 	useEffect(() => {
 		const syncState = () => setTransportState(Tone.Transport.state);
 
+		const handleTransportEnd = () => {
+			if (!Tone.Transport.loop)
+				setTransportState("stopped");
+		};
+
 		Tone.Transport.on("start", syncState);
 		Tone.Transport.on("pause", syncState);
-		Tone.Transport.on("stop", syncState);
+		Tone.Transport.on("stop", handleTransportEnd);
 
 		return () => {
 			Tone.Transport.off("start", syncState);
 			Tone.Transport.off("pause", syncState);
-			Tone.Transport.off("stop", syncState);
+			Tone.Transport.off("stop", handleTransportEnd);
 		};
 	}, []);
 
 	const handlePlay = async () => {
 		await Tone.start();
-		
+
+		if (Tone.Transport.seconds >= duration - 0.05) {
+			Tone.Transport.stop();
+			Tone.Transport.seconds = 0;
+			setCurrentTime(0);
+			wavesurferRef.current?.setTime(0);
+		}
+
 		if (Tone.Transport.state !== "started") {
 			Tone.Destination.volume.value = -Infinity;
 			Tone.Transport.start();
