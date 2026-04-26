@@ -3,7 +3,7 @@ import { Volume_Stems, Volume_Noise } from './Body/Stems'
 import Filter from './Body/Filter'
 import NoiseType from './Body/NoiseType'
 
-function Player_Body( {volumes, handleVolumeChange} ) {
+function Player_Body( {volumes, handleVolumeChange, activeFilter, handleFilterChange} ) {
 	return (
 		<div className='w-full h-[370px] flex flex-row'>
 			<div className='w-[640px] h-full flex flex-col'>
@@ -22,7 +22,10 @@ function Player_Body( {volumes, handleVolumeChange} ) {
 						<label>Filter</label>
 					</div>
 					<div className='h-[30px]'>
-						<Filter />
+						<Filter
+							activeFilter={activeFilter}
+							handleFilterChange={handleFilterChange}
+						/>
 					</div>
 				</div>
 			</div>

@@ -28,6 +28,8 @@ function Player() {
 	const [currentTime, setCurrentTime] = useState(0);
 	const [volumes, setVolumes] = useState([0, 0, 0, 0]);
 	const fadersRef = useRef([]);
+	const [activeFilter, setActiveFilter] = useState("off");
+	const filterRef = useRef(null);
 	const elapsedTime1 = useRef(null);
 	const elapsedTime2 = useRef(null);
 	const wasPlayingBeforeDrag = useRef(false);
@@ -58,12 +60,21 @@ function Player() {
 
 		playersRef.current?.forEach(p => p.dispose());
 		fadersRef.current?.forEach(f => f.dispose());
+		filterRef.current?.dispose();
+
+		const masterFilter = new Tone.Filter({
+			type: "lowpass",
+			frequency: 20000,
+			rolloff: -24
+		}).toDestination();
+		filterRef.current = masterFilter;
 
 		const newPlayers = [];
 		const newFaders = [];
 
 		songs[currentSongID].stemPaths.forEach((path, index) => {
-			const gainNode = new Tone.Gain(Tone.dbToGain(volumes[index])).toDestination();
+			const gainNode = new Tone.Gain(Tone.dbToGain(volumes[index]));
+			gainNode.connect(masterFilter);
 			const player = new Tone.Player(buffersRef.current[currentSongID][index])
 				.connect(gainNode)
 				.sync()
@@ -79,6 +90,7 @@ function Player() {
 		return () => {
 			newPlayers.forEach(p => p.dispose());
 			newFaders.forEach(f => f.dispose());
+			masterFilter.dispose();
 		};
 	}, [currentSongID, isSongLoaded]);
 
@@ -205,6 +217,27 @@ function Player() {
 			fadersRef.current[index].gain.rampTo(Tone.dbToGain(newVolume), fadeTime);
 	};
 
+	const handleFilterChange = (mode) => {
+		if (!filterRef.current)
+			return;
+
+		const isTogglingOff = activeFilter === mode;
+		const newMode = isTogglingOff ? "off" : mode;
+
+		setActiveFilter(newMode);
+
+		let frequency;
+		switch (newMode) {
+			case 'deep':  frequency = 400;   break;
+			case 'warm':  frequency = 1000;  break;
+			case 'clear': frequency = 3000;  break;
+			default:     frequency = 20000; break;
+		}
+
+		filterRef.current.frequency.rampTo(frequency, fadeTime);
+		console.log("filter mode: ", newMode);
+	};
+
 	return (
 		<div className='_bg-card w-[850px] h-[560px]'>
 			<Player_Header
@@ -224,6 +257,8 @@ function Player() {
 			<Player_Body
 				volumes={volumes} 
 				handleVolumeChange={handleVolumeChange}
+				activeFilter={activeFilter}
+				handleFilterChange={handleFilterChange}
 			/>
 		</div>
 	);
