@@ -26,14 +26,18 @@ function Player() {
 	const [transportState, setTransportState] = useState("stopped");
 	const [currentSongID, setCurrentSongID] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
-	const [volumes, setVolumes] = useState([0, 0, 0, 0]);
-	const fadersRef = useRef([]);
-	const [activeFilter, setActiveFilter] = useState("off");
-	const filterRef = useRef(null);
 	const elapsedTime1 = useRef(null);
 	const elapsedTime2 = useRef(null);
 	const wasPlayingBeforeDrag = useRef(false);
 	const fadeTime = 0.05;
+	const [volumes, setVolumes] = useState([0, 0, 0, 0]);
+	const fadersRef = useRef([]);
+	const [activeFilter, setActiveFilter] = useState("off");
+	const filterRef = useRef(null);
+	const noiseRef = useRef(null);
+	const noiseFaderRef = useRef(null);
+	const [activeNoise, setActiveNoise] = useState("off");
+	const [noiseVolume, setNoiseVolume] = useState(-20);
 
 	useEffect(() => {
 		const loadAllSongs = async () => {
@@ -61,6 +65,8 @@ function Player() {
 		playersRef.current?.forEach(p => p.dispose());
 		fadersRef.current?.forEach(f => f.dispose());
 		filterRef.current?.dispose();
+		noiseRef.current?.dispose();
+		noiseFaderRef.current?.dispose();
 
 		const masterFilter = new Tone.Filter({
 			type: "lowpass",
@@ -71,6 +77,8 @@ function Player() {
 
 		const newPlayers = [];
 		const newFaders = [];
+		const noiseFader = new Tone.Gain(0).connect(masterFilter);
+		noiseFaderRef.current = noiseFader;
 
 		songs[currentSongID].stemPaths.forEach((path, index) => {
 			const gainNode = new Tone.Gain(Tone.dbToGain(volumes[index]));
@@ -82,14 +90,20 @@ function Player() {
 			newPlayers.push(player);
 			newFaders.push(gainNode);
 		});
-
 		playersRef.current = newPlayers;
 		fadersRef.current = newFaders;
+
+		const noise = new Tone.Noise("brown").connect(noiseFader);
+		noiseRef.current = noise;
+		noise.start();
+
 		console.log("Mixer Engine ready");
 
 		return () => {
 			newPlayers.forEach(p => p.dispose());
 			newFaders.forEach(f => f.dispose());
+			noise.dispose();
+			noiseFader.dispose();
 			masterFilter.dispose();
 		};
 	}, [currentSongID, isSongLoaded]);
@@ -120,6 +134,7 @@ function Player() {
 	const handlePause = () => {
 		if (Tone.Transport.state === "started") {
 			Tone.Destination.volume.rampTo(-Infinity, fadeTime);
+
 			setTimeout(() => {
 				if (Tone.Transport.state === "started")
 					Tone.Transport.pause();
@@ -132,6 +147,8 @@ function Player() {
 	};
 	const handleStop = () => {
 		Tone.Destination.volume.rampTo(-Infinity, fadeTime);
+		// if (noiseFaderRef.current)
+		// 	noiseFaderRef.current.gain.rampTo(0, fadeTime);
 		setTimeout(() => {
 			Tone.Transport.stop();
 			Tone.Transport.seconds = 0;
@@ -140,7 +157,6 @@ function Player() {
 			console.log("Transport stopped and reset to 0:00");
 		}, 50);
 	};
-		
 	const handleSeek = (time, isDragging) => {
 		if (isNaN(time) || time < 0)
 			return;
@@ -238,6 +254,32 @@ function Player() {
 		console.log("filter mode: ", newMode);
 	};
 
+	const handleNoiseChange = (type) => {
+		if (!noiseRef.current || !noiseFaderRef.current)
+			return;
+
+		const isTogglingOff = activeNoise === type;
+		const newType = isTogglingOff ? "off" : type;
+
+		setActiveNoise(newType);
+
+		if (newType === "off")
+			noiseFaderRef.current.gain.rampTo(0, fadeTime);
+		else {
+			noiseRef.current.type = newType;
+			noiseFaderRef.current.gain.rampTo(Tone.dbToGain(noiseVolume), fadeTime);
+		}
+	};
+	const handleNoiseVolumeChange = (newVolume) => {
+		setNoiseVolume(newVolume);
+		
+		if (noiseFaderRef.current) {
+			if (activeNoise !== "off") {
+				noiseFaderRef.current.gain.rampTo(Tone.dbToGain(newVolume), fadeTime);
+			}
+		}
+	};
+
 	return (
 		<div className='_bg-card w-[850px] h-[560px]'>
 			<Player_Header
@@ -259,6 +301,10 @@ function Player() {
 				handleVolumeChange={handleVolumeChange}
 				activeFilter={activeFilter}
 				handleFilterChange={handleFilterChange}
+				activeNoise={activeNoise}
+				handleNoiseChange={handleNoiseChange}
+				noiseVolume={noiseVolume}
+				handleNoiseVolumeChange={handleNoiseVolumeChange}
 			/>
 		</div>
 	);

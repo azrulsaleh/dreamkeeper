@@ -1,4 +1,6 @@
-export function Volume_Stems({volumes, handleVolumeChange}) {
+export function Volume_Stems({
+	volumes, handleVolumeChange
+}) {
 	const OPTIONS = [
 		{ label: 'Piano' },
 		{ label: 'Cello' },
@@ -28,13 +30,20 @@ export function Volume_Stems({volumes, handleVolumeChange}) {
 	)
 }
 
-export function Volume_Noise() {
+export function Volume_Noise({
+	noiseVolume, handleNoiseVolumeChange
+}) {
 	return (
 		<div className='_bg-volume'>
 			<h3 className='text-center'>Noise</h3>
 			<div className='_bg-slider'>
 				<input
 					type="range"
+					min="-60"
+                    max="0"
+                    step="1"
+                    value={noiseVolume}
+                    onChange={(e) => handleNoiseVolumeChange(parseFloat(e.target.value))}
 					className="_slider-v"
 				/>
 			</div>
