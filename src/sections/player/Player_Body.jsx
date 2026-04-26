@@ -4,6 +4,7 @@ import Filter from './Body/Filter'
 import NoiseType from './Body/NoiseType'
 
 function Player_Body({
+	isLooping, handleLoopToggle,
 	volumes, handleVolumeChange,
 	activeFilter, handleFilterChange,
 	activeNoise, handleNoiseChange,
@@ -14,7 +15,10 @@ function Player_Body({
 			<div className='w-[640px] h-full flex flex-col'>
 				<div className='w-full h-[30px] relative flex'>
 					<hr className='absolute top-1/2 translate-y-1/2 z-0 w-full text-black/5' />
-					<Loop />
+					<Loop
+						isLooping={isLooping}
+						handleLoopToggle={handleLoopToggle}
+					/>
 				</div>
 				<div className='w-full h-[260px] flex space-x-[30px] px-[35px] py-[20px]'>
 					<Volume_Stems

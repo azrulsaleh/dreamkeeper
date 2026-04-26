@@ -28,6 +28,8 @@ function Player() {
 	const [currentTime, setCurrentTime] = useState(0);
 	const elapsedTime1 = useRef(null);
 	const elapsedTime2 = useRef(null);
+	const [duration, setDuration] = useState(0);
+	const [isLooping, setIsLooping] = useState(false);
 	const wasPlayingBeforeDrag = useRef(false);
 	const fadeTime = 0.05;
 	const [volumes, setVolumes] = useState([0, 0, 0, 0]);
@@ -134,7 +136,6 @@ function Player() {
 	const handlePause = () => {
 		if (Tone.Transport.state === "started") {
 			Tone.Destination.volume.rampTo(-Infinity, fadeTime);
-
 			setTimeout(() => {
 				if (Tone.Transport.state === "started")
 					Tone.Transport.pause();
@@ -147,8 +148,6 @@ function Player() {
 	};
 	const handleStop = () => {
 		Tone.Destination.volume.rampTo(-Infinity, fadeTime);
-		// if (noiseFaderRef.current)
-		// 	noiseFaderRef.current.gain.rampTo(0, fadeTime);
 		setTimeout(() => {
 			Tone.Transport.stop();
 			Tone.Transport.seconds = 0;
@@ -189,6 +188,14 @@ function Player() {
 			elapsedTime1.current.innerText = formatTime(time);
 		if (elapsedTime2.current)
 			elapsedTime2.current.innerText = formatTime(time);
+	};
+	const handleLoopToggle = (shouldLoop) => {
+		setIsLooping(shouldLoop);
+		Tone.Transport.loop = shouldLoop;
+		if (shouldLoop) {
+			Tone.Transport.loopStart = 0;
+			Tone.Transport.loopEnd = duration; 
+		}
 	};
 
 	const formatTime = (seconds) => {
@@ -295,9 +302,13 @@ function Player() {
 				elapsedTime1={elapsedTime1}
 				elapsedTime2={elapsedTime2}
 				formatTime={formatTime}
+				duration={duration}
+				setDuration={setDuration}
 			/>
 			<Player_Body
-				volumes={volumes} 
+				isLooping={isLooping}
+				handleLoopToggle={handleLoopToggle}
+				volumes={volumes}
 				handleVolumeChange={handleVolumeChange}
 				activeFilter={activeFilter}
 				handleFilterChange={handleFilterChange}

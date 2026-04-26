@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-function Loop() {
-	const [loop, setLoop] = useState(true);
+function Loop({isLooping, handleLoopToggle}) {
 	const OPTIONS = [
 		{ label: 'Music All Night', value: true },
 		{ label: 'Music Once', value: false },
@@ -12,15 +11,15 @@ function Loop() {
 			{OPTIONS.map((mode) => (
 				<button
 					key={String(mode.value)}
-					onClick={() => setLoop(mode.value)}
-					className={`_radio-button ${loop === mode.value ? '_radio-on' : '_radio-off'}`}
-					aria-pressed={loop === mode.value}
+					onClick={() => handleLoopToggle(mode.value)}
+					className={`_radio-button ${isLooping === mode.value ? '_radio-on' : '_radio-off'}`}
+					aria-pressed={isLooping === mode.value}
 				>
 					{mode.label}
 				</button>
 			))}
 		</div>
-	)
+    );
 }
 
 export default Loop;

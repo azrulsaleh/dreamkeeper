@@ -6,10 +6,9 @@ import Waveform from './Header/Waveform'
 const Player_Header = ({
 	wavesurferRef,
 	handlePlay, handlePause, handleStop, handleSeek,
-	transportState, currentTime, formatTime, title, masterPath, elapsedTime1, elapsedTime2
+	duration, setDuration, currentTime, formatTime, elapsedTime1, elapsedTime2,
+	transportState, title, masterPath
 }) => {
-	const [duration, setDuration] = useState(0);
-
 	const onSliderChange = (e) => {
         const time = parseFloat(e.target.value);
         handleSeek(time, true);
