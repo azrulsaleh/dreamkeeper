@@ -1,0 +1,17 @@
+@layer components {
+	._loading {
+		@apply
+			rounded-2xl
+            flex items-center justify-center
+            bg-slate-200/50 backdrop-blur-xs
+            transition-opacity duration-500
+			;
+	}
+	._spinner {
+		@apply
+			w-10 h-10
+			border border-4 border-slate-400/50 rounded-full border-t-slate-500
+			animate-spin ease-linear
+			;
+	}
+}

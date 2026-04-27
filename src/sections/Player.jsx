@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import * as Tone from "tone";
 import Player_Header from './player/Player_Header'
 import Player_Body from './player/Player_Body'
+import Loading from './player/Overlay/Loading'
 
 function Player() {
 	const songs = [
@@ -317,35 +318,42 @@ function Player() {
 	};
 
 	return (
-		<div className='_bg-card w-[850px] h-[560px]'>
-			<Player_Header
-				wavesurferRef={wavesurferRef}
-				transportState={transportState}
-				handlePlay={handlePlay}
-				handlePause={handlePause}
-				handleStop={handleStop}
-				handleSeek={handleSeek}
-				title={songs[currentSongID].title}
-				masterPath={songs[currentSongID].masterPath}
-				currentTime={currentTime}
-				elapsedTime1={elapsedTime1}
-				elapsedTime2={elapsedTime2}
-				formatTime={formatTime}
-				duration={duration}
-				setDuration={setDuration}
-			/>
-			<Player_Body
-				isLooping={isLooping}
-				handleLoopToggle={handleLoopToggle}
-				volumes={volumes}
-				handleVolumeChange={handleVolumeChange}
-				activeFilter={activeFilter}
-				handleFilterChange={handleFilterChange}
-				activeNoise={activeNoise}
-				handleNoiseChange={handleNoiseChange}
-				noiseVolume={noiseVolume}
-				handleNoiseVolumeChange={handleNoiseVolumeChange}
-			/>
+		<div className='_parent _bg-card w-[850px] h-[560px]'>
+			<div className="_child z-0">
+				<Player_Header
+					wavesurferRef={wavesurferRef}
+					transportState={transportState}
+					handlePlay={handlePlay}
+					handlePause={handlePause}
+					handleStop={handleStop}
+					handleSeek={handleSeek}
+					title={songs[currentSongID].title}
+					masterPath={songs[currentSongID].masterPath}
+					currentTime={currentTime}
+					elapsedTime1={elapsedTime1}
+					elapsedTime2={elapsedTime2}
+					formatTime={formatTime}
+					duration={duration}
+					setDuration={setDuration}
+				/>
+				<Player_Body
+					isLooping={isLooping}
+					handleLoopToggle={handleLoopToggle}
+					volumes={volumes}
+					handleVolumeChange={handleVolumeChange}
+					activeFilter={activeFilter}
+					handleFilterChange={handleFilterChange}
+					activeNoise={activeNoise}
+					handleNoiseChange={handleNoiseChange}
+					noiseVolume={noiseVolume}
+					handleNoiseVolumeChange={handleNoiseVolumeChange}
+				/>
+			</div>
+			{(!isSongLoaded[currentSongID] || duration === 0) && (
+				<div className="_child _loading">
+					<Loading />
+				</div>
+			)}
 		</div>
 	);
 }
