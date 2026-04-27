@@ -128,12 +128,12 @@ function Player() {
 		};
 	}, [currentSongID, isSongLoaded, duration]);
 
+	//set transport states
 	useEffect(() => {
 		const syncState = () => setTransportState(Tone.Transport.state);
 
 		const handleTransportEnd = () => {
-			if (!Tone.Transport.loop)
-				setTransportState("stopped");
+			setTransportState("stopped");
 		};
 
 		Tone.Transport.on("start", syncState);
@@ -239,6 +239,7 @@ function Player() {
 		return `${min}:${String(sec).padStart(2, "0")}`;
 	};
 
+	//update currentTime, elapsedTime + wavesurfer progress
 	useEffect(() => {
 		let animationFrame;
 
