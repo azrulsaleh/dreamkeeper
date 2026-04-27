@@ -125,7 +125,7 @@ function Player() {
 			if (endEvent !== null)
 				Tone.Transport.clear(endEvent);
 		};
-	}, [currentSongID, isSongLoaded, duration, volumes]);
+	}, [currentSongID, isSongLoaded, duration]);
 
 	useEffect(() => {
 		const syncState = () => setTransportState(Tone.Transport.state);
