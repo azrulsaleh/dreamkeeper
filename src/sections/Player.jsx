@@ -42,6 +42,7 @@ function Player() {
 	const [activeNoise, setActiveNoise] = useState("off");
 	const [noiseVolume, setNoiseVolume] = useState(-20);
 
+	//pre-load all song stems into buffers sequentially
 	useEffect(() => {
 		const loadAllSongs = async () => {
 			for (let i = 0; i < songs.length; i++) {
@@ -61,6 +62,7 @@ function Player() {
 		loadAllSongs();
 	}, []);
 
+	//initialize audio routing, effects + stems synchronization for the current song
 	useEffect(() => {
 		if (!isSongLoaded[currentSongID])
 			return;
@@ -108,6 +110,8 @@ function Player() {
 			Tone.Transport.loopEnd = duration;
 			endEvent = Tone.Transport.schedule(() => {
 				if (!Tone.Transport.loop) {
+					if (noiseFaderRef.current)
+						noiseFaderRef.current.gain.rampTo(0, fadeTime);
 					Tone.Transport.stop();
 					Tone.Transport.seconds = 0;
 					setCurrentTime(0);
@@ -126,9 +130,9 @@ function Player() {
 			if (endEvent !== null)
 				Tone.Transport.clear(endEvent);
 		};
-	}, [currentSongID, isSongLoaded, duration]);
+	}, [currentSongID, isSongLoaded[currentSongID], duration]);
 
-	//set transport states
+	//set react state with Tone.Transport events
 	useEffect(() => {
 		const syncState = () => setTransportState(Tone.Transport.state);
 
@@ -161,6 +165,8 @@ function Player() {
 			Tone.Destination.volume.value = -Infinity;
 			Tone.Transport.start();
 			Tone.Destination.volume.rampTo(0, fadeTime);
+			if (activeNoise !== "off" && noiseFaderRef.current)
+				noiseFaderRef.current.gain.rampTo(Tone.dbToGain(noiseVolume), fadeTime);
 		}
 	};
 	const handlePause = () => {
@@ -305,7 +311,8 @@ function Player() {
 			noiseFaderRef.current.gain.rampTo(0, fadeTime);
 		else {
 			noiseRef.current.type = newType;
-			noiseFaderRef.current.gain.rampTo(Tone.dbToGain(noiseVolume), fadeTime);
+			if (transportState === "started")
+				noiseFaderRef.current.gain.rampTo(Tone.dbToGain(noiseVolume), fadeTime);
 		}
 	};
 	const handleNoiseVolumeChange = (newVolume) => {
