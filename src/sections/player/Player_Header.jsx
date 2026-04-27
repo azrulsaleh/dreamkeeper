@@ -9,14 +9,28 @@ const Player_Header = ({
 	duration, setDuration, currentTime, formatTime, elapsedTime1, elapsedTime2,
 	transportState, title, masterPath
 }) => {
-	const onSliderChange = (e) => {
+    const isDragging = useRef(false);
+
+	const onClickDown = (e) => {
+		isDragging.current = true;
         const time = parseFloat(e.target.value);
         handleSeek(time, true);
+		console.log("a");
     };
-
-    const onSliderRelease = (e) => {
+	const onClickDrag = (e) => {
+		if (!isDragging.current)
+            return;
         const time = parseFloat(e.target.value);
+        handleSeek(time, true);
+		console.log("b");
+    };
+    const onClickUp = (e) => {
+		if (!isDragging.current)
+            return;
+        isDragging.current = false;
+		const time = parseFloat(e.target.value);
         handleSeek(time, false);
+		console.log("c");
     };
 
 	return (
@@ -62,9 +76,11 @@ const Player_Header = ({
 						max={duration || 0}
 						step={0.1}
 						value={currentTime}
-						onChange={onSliderChange}
-						onMouseUp={onSliderRelease}
-						onKeyUp={onSliderRelease}
+						onMouseDown={onClickDown}
+						onKeyDown={onClickDown}
+						onChange={onClickDrag}
+						onMouseUp={onClickUp}
+						onKeyUp={onClickUp}
 						className="_slider-h w-full"
 					/>
 				</div>

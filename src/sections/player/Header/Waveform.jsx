@@ -16,22 +16,21 @@ const Waveform = forwardRef(({wavesurferRef, masterPath, handleSeek, setDuration
         const percentage = Math.max(0, Math.min(1, x / width));
         return percentage * ws.current.getDuration();
     };
-
-    const handlePointerDown = (e) => {
+    const onClickDown = (e) => {
         isDragging.current = true;
         containerRef.current.setPointerCapture(e.pointerId);
         const time = getTimeFromEvent(e);
         handleSeek(time, true);
     };
-
-    const handlePointerMove = (e) => {
-        if (!isDragging.current) return;
+    const onClickDrag = (e) => {
+        if (!isDragging.current)
+            return;
         const time = getTimeFromEvent(e);
         handleSeek(time, true);
     };
-
-    const handlePointerUp = (e) => {
-        if (!isDragging.current) return;
+    const onClickUp = (e) => {
+        if (!isDragging.current)
+            return;
         isDragging.current = false;
         containerRef.current.releasePointerCapture(e.pointerId);
         const time = getTimeFromEvent(e);
@@ -78,9 +77,9 @@ const Waveform = forwardRef(({wavesurferRef, masterPath, handleSeek, setDuration
         <div 
             ref={containerRef} 
             className='w-full h-[60px] cursor-pointer touch-none'
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
+            onPointerDown={onClickDown}
+            onPointerMove={onClickDrag}
+            onPointerUp={onClickUp}
         />
     )
 });
