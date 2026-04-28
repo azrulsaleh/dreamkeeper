@@ -1,5 +1,5 @@
 import Loop from './Body/Loop'
-import { Volume_Stems, Volume_Noise } from './Body/Stems'
+import { Volume_Stems, Volume_Noise } from './Body/Volume'
 import Filter from './Body/Filter'
 import NoiseType from './Body/NoiseType'
 

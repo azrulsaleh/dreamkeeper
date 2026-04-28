@@ -15,14 +15,12 @@ const Player_Header = ({
 		isDragging.current = true;
         const time = parseFloat(e.target.value);
         handleSeek(time, true);
-		console.log("a");
     };
 	const onClickDrag = (e) => {
 		if (!isDragging.current)
             return;
         const time = parseFloat(e.target.value);
         handleSeek(time, true);
-		console.log("b");
     };
     const onClickUp = (e) => {
 		if (!isDragging.current)
@@ -30,7 +28,6 @@ const Player_Header = ({
         isDragging.current = false;
 		const time = parseFloat(e.target.value);
         handleSeek(time, false);
-		console.log("c");
     };
 
 	return (

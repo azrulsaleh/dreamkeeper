@@ -2,6 +2,7 @@
 	._parent {
 		@apply
 			grid [grid-template-areas:overlay]
+			p-0
 			;
 	}
 	._child {

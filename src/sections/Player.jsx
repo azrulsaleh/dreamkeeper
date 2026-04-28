@@ -358,7 +358,7 @@ function Player() {
 				/>
 			</div>
 			{(!isSongLoaded[currentSongID] || duration === 0) && (
-				<div className="_child _loading">
+				<div className="_child _loading z-10">
 					<Loading />
 				</div>
 			)}
