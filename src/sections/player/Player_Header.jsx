@@ -47,7 +47,7 @@ const Player_Header = ({
 							<h2>{title}</h2>
 						</div>
 						<div className='h-[30px] flex items-center'>
-							<h4><span ref={elapsedTime1}>0:00</span> / {formatTime(duration)}</h4>
+							<label><span ref={elapsedTime1}>0:00</span> / {formatTime(duration)}</label>
 						</div>
 					</div>
 					<Transport
@@ -66,7 +66,7 @@ const Player_Header = ({
 					/>
 				</div>
 				<div className='h-[30px] flex gap-4 items-center'>
-					<h4 ref={elapsedTime2}>0:00</h4>
+					<label ref={elapsedTime2}>0:00</label>
 					<input
 						type="range"
 						min={0}

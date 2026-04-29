@@ -20,7 +20,7 @@ export function Volume_Stems({
                 return (
                     <div key={stem.label} className='_parent _bg-volume'>
                         <div className='_child z-10'>
-                            <h3 className='text-center pt-3'>{stem.label}</h3>
+                            <h4 className='text-center pt-3'>{stem.label}</h4>
                             <div className='_bg-slider'>
                                 <input
                                     type="range"
@@ -53,7 +53,7 @@ export function Volume_Noise({
 	return (
 		<div className='_parent _bg-volume'>
 			<div className='_child z-10'>
-				<h3 className='text-center pt-3'>Noise</h3>
+				<h4 className='text-center pt-3'>Noise</h4>
 				<div className='_bg-slider'>
 					<input
 						type="range"

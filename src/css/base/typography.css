@@ -5,7 +5,8 @@
 			font-bold
 			tracking-widest
 			leading-tight
-			break-all text-balance;
+			break-all text-balance
+			;
 	}
 	h2 {
 		@apply
@@ -15,17 +16,20 @@
 	}
 	h3 {
 		@apply
-			/* text- */
+			text-lg
 			text-slate-500
 			;
 	}
 	h4 {
 		@apply
-			text-sm
-			text-slate-500;
+			text-base
+			text-slate-400
+			;
 	}
 	label {
 		@apply
-			text-slate-500;
+			text-sm
+			text-slate-400
+			;
 	}
 }

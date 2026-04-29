@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 function Filter({activeFilter, handleFilterChange}) {
 	const filters = [
-		{ id: 'deep',  label: 'Deep' },
-        { id: 'warm',  label: 'Warm' },
-        { id: 'clear', label: 'Clear' }
+        { id: 'gentle', label: 'Gentle' },
+		{ id: 'warm',  label: 'Warm' },
+		{ id: 'deep',  label: 'Deep' }
     ];
 
 	return (

@@ -288,9 +288,9 @@ function Player() {
 
 		let frequency;
 		switch (newMode) {
-			case 'deep':  frequency = 400;   break;
+			case 'gentle': frequency = 3000;  break;
 			case 'warm':  frequency = 1000;  break;
-			case 'clear': frequency = 3000;  break;
+			case 'deep':  frequency = 400;   break;
 			default:     frequency = 20000; break;
 		}
 
