@@ -1,7 +1,7 @@
 @layer components {
 	._radio-bg {
 		@apply
-			bg-[#FBF7FD]
+			bg-[var(--color-bg)]
 			rounded-2xl
 			border border-white/10 border-1
 			text-sm
@@ -19,7 +19,7 @@
 	}
 	._radio-on {
 		@apply
-			bg-[#93BCED]
+			bg-[var(--color-accent)]
 			text-white hover:text-white/90
 			border border-white border-1
 			;
@@ -34,7 +34,7 @@
 		@apply
 			absolute rounded-2xl
 			border border-white
-			shadow-[2px_2px_5px_rgba(0,0,0,0.05)]
+			shadow-[2px_2px_5px_var(--color-shadow)]
 			;
 	}
 }

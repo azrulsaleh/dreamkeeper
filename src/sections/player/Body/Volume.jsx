@@ -34,7 +34,7 @@ export function Volume_Stems({
                                 />
                             </div>
                         </div>
-                        <div className="_child rounded-lg shadow-md w-fit h-fit z-0">
+                        <div className="_child z-0">
                             <Bg_Stems />
                         </div>
                     </div>
@@ -67,7 +67,7 @@ export function Volume_Noise({
 					/>
 				</div>
 			</div>
-			<div className="_child rounded-lg shadow-md w-fit h-fit z-0">
+			<div className="_child z-0">
 				<Bg_Noise/>
 			</div>
 		</div>

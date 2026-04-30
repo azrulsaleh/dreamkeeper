@@ -326,7 +326,7 @@ function Player() {
 	};
 
 	return (
-		<div className='_parent _bg-card w-[850px] h-[560px]'>
+		<div className='_parent _bg-player w-[850px] h-[560px]'>
 			<div className="_child z-0">
 				<Player_Header
 					wavesurferRef={wavesurferRef}

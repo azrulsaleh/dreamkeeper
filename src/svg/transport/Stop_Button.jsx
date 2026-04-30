@@ -1,4 +1,4 @@
-const Stop_Button = ({
+export const Stop_Button = ({
 	w = 40, h = 40,
 	isActive = 0,
 	onClick
@@ -28,5 +28,3 @@ const Stop_Button = ({
 		</svg>
 	);
 };
-
-export default Stop_Button;

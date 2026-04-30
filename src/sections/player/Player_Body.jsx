@@ -20,7 +20,8 @@ function Player_Body({
 						handleLoopToggle={handleLoopToggle}
 					/>
 				</div>
-				<div className='w-full h-[260px] flex space-x-[30px] px-[35px] py-[20px]'>
+				{/* <div className='w-full h-[260px] flex space-x-[30px] px-[35px] py-[20px]'> */}
+				<div className='w-full h-[260px] flex gap-2 px-[35px] py-[20px] justify-center'>
 					<Volume_Stems
 						volumes={volumes}
 						handleVolumeChange={handleVolumeChange}

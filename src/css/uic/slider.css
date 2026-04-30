@@ -1,7 +1,7 @@
 @layer components {
 	._slider-h {
 		@apply
-			accent-[#93BCED]
+			accent-[var(--color-accent)]
 			h-1
 			cursor-pointer
 			;
@@ -33,7 +33,8 @@
 			-mt-[11px];
 			;
 
-		background: radial-gradient(circle, #f4f6f8 40%, #93BCED 45%, #f4f6f8 50%);
+		/* background: radial-gradient(circle, #F2F7FD 0%, var(--color-bg) 40%, var(--color-accent) 45%, var(--color-bg) 50%); */
+		background: radial-gradient(circle, var(--color-bg-alt) 0%, var(--color-bg) 44%, var(--color-accent) 45%, var(--color-bg) 50%);
 	}
 	._slider-v::-moz-range-thumb {
 		border: none; 
@@ -47,12 +48,19 @@
 			cursor-pointer
 			;
 
-		background: radial-gradient(circle, #f4f6f8 40%, #93BCED 45%, #f4f6f8 50%);
+		background: radial-gradient(circle, #F2F7FD 40%, #93BCED 45%, #f4f6f8 50%);
 	}
-	._slider-v::-webkit-slider-runnable-track { /* chrome, safari, edge and opera */
-		@apply 
-			w-full h-[10px] 
-			bg-slate-200
+	._slider-v::-webkit-slider-runnable-track { /* chrome */
+		background: linear-gradient(
+			to right,
+			var(--color-accent-alt) 0%, 
+			var(--color-accent) var(--value, 0%), 
+			var(--color-neutral) var(--value, 0%), 
+			var(--color-neutral) 100%
+		);
+
+		@apply
+			w-full h-[10px]
 			border border-black/5 rounded-full
 			;
 	}
@@ -63,25 +71,11 @@
 			border border-black/5 rounded-full
 			;
 	}
-	._slider-v::-webkit-slider-runnable-track {
-		background: linear-gradient(
-			to right,
-			#D2E7FA 0%, 
-			#93BCED var(--value, 0%), 
-			#e2e8f0 var(--value, 0%), 
-			#e2e8f0 100%
-		);
-
-		@apply
-			w-full h-[10px]
-			border border-black/5 rounded-full
-			;
-	}
 	._slider-v::-moz-range-progress { /* firefox */
 		background: linear-gradient(
 			to right,
-			#D2E7FA,
-			#A5C8F5
+			var(--color-accent-alt),
+			var(--color-accent)
 		);
 		@apply
 			h-[10px]

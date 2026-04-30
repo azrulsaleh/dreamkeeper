@@ -1,4 +1,4 @@
-const Pause_Button = ({
+export const Pause_Button = ({
 	w = 70, h = 40,
 	isActive = 0,
 	onClick
@@ -34,5 +34,3 @@ const Pause_Button = ({
 		</svg>
 	);
 };
-
-export default Pause_Button;

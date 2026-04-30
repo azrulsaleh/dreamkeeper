@@ -3,6 +3,7 @@
 		@apply
 			grid [grid-template-areas:overlay]
 			p-0
+			/* border-0 */
 			;
 	}
 	._child {

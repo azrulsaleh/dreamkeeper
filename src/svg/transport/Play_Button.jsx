@@ -1,4 +1,4 @@
-const Play_Button = ({
+export const Play_Button = ({
 	w = 40, h = 40,
 	isActive = 0,
 	onClick
@@ -28,5 +28,3 @@ const Play_Button = ({
 		</svg>
 	);
 };
-
-export default Play_Button;

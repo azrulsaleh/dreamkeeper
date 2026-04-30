@@ -1,10 +1,11 @@
 @layer components {
 	._loading {
 		@apply
-			rounded-2xl
+			rounded-3xl
             flex items-center justify-center
             bg-slate-200/25
-			backdrop-blur-sm
+			backdrop-blur-xs
+			border-3 border-white/50
             transition-opacity duration-500
 			;
 	}
