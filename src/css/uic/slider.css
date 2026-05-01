@@ -1,7 +1,7 @@
 @layer components {
 	._slider-h {
 		@apply
-			accent-[var(--color-accent)]
+			accent-[var(--color-accent-a)]
 			h-1
 			cursor-pointer
 			;
@@ -23,18 +23,32 @@
 	}
 	._slider-v::-webkit-slider-thumb {
 		-webkit-appearance: none;
-
+		background: radial-gradient(
+			circle,
+			var(--color-light-b) 10%,
+			var(--color-light-a) 30%,
+			var(--color-accent-b) 45%,
+			var(--color-light-a) 50%);
 		@apply
 			w-[30px] h-[30px]
 			rounded-full
-			border border-black/10
-			shadow-md
+			border border-[var(--color-shadow-a)]
+			shadow-[-5px_-1px_20px_var(--color-shadow-a)]
 			cursor-pointer
-			-mt-[11px];
+			-mt-[11px]
+			duration-100 transition-shadow
 			;
-
-		/* background: radial-gradient(circle, #F2F7FD 0%, var(--color-bg) 40%, var(--color-accent) 45%, var(--color-bg) 50%); */
-		background: radial-gradient(circle, var(--color-bg-alt) 0%, var(--color-bg) 44%, var(--color-accent) 45%, var(--color-bg) 50%);
+	}
+	._slider-v::-webkit-slider-thumb:hover {
+		background: radial-gradient(
+			circle,
+			var(--color-light-a) 10%,
+			var(--color-white) 30%,
+			var(--color-accent-b) 45%,
+			var(--color-white) 50%);
+		@apply
+			shadow-[-5px_-1px_0_var(--color-shadow-b)]
+			;
 	}
 	._slider-v::-moz-range-thumb {
 		border: none; 
@@ -48,15 +62,15 @@
 			cursor-pointer
 			;
 
-		background: radial-gradient(circle, #F2F7FD 40%, #93BCED 45%, #f4f6f8 50%);
+		background: radial-gradient(circle, var(--color-light-b) 0%, var(--color-light-a) 44%, var(--color-accent-a) 45%, var(--color-light-a) 50%);
 	}
 	._slider-v::-webkit-slider-runnable-track { /* chrome */
 		background: linear-gradient(
 			to right,
-			var(--color-accent-alt) 0%, 
-			var(--color-accent) var(--value, 0%), 
-			var(--color-neutral) var(--value, 0%), 
-			var(--color-neutral) 100%
+			var(--color-accent-b) 0%, 
+			var(--color-accent-a) var(--value, 0%), 
+			var(--color-light-b) var(--value, 0%), 
+			var(--color-light-b) 100%
 		);
 
 		@apply
@@ -74,8 +88,8 @@
 	._slider-v::-moz-range-progress { /* firefox */
 		background: linear-gradient(
 			to right,
-			var(--color-accent-alt),
-			var(--color-accent)
+			var(--color-accent-b),
+			var(--color-accent-a)
 		);
 		@apply
 			h-[10px]

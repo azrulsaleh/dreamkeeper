@@ -1,16 +1,28 @@
 @layer base {
 	:root {
     font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    --color-bg: #FAFAFF;
-    --color-bg-alt: #EBEFF4;
-    --color-neutral: #E2E8F0;
-    --color-accent: #93BCED;
-    --color-accent-alt: #D2E7FA;
-    --color-shadow: #0064C840;
+    --color-light-a: #FAFAFF;
+    --color-light-b: #EBEFF4;
+    --color-light-a-hover: #EAEAEF;
+    --color-light-b-hover: #DBDFE4;
+    --color-dark-a: #778AA0;
+    --color-dark-b: #637487;
+    --color-dark-a-hover: #677A90;
+    --color-dark-b-hover: #536477;
+    --color-accent-a: #93BCED;
+    --color-accent-b: #b3d3ef;
+    --color-accent-a-hover: #83ACDD;
+    --color-accent-b-hover: #C2D7EA;
+    --color-shadow-a: #0064C840;
+    --color-shadow-b: #0064C810;
+    --color-pink: #E18BC3;
+    --color-brown: #998574;
+    --color-pink-hover: #D17BB3;
+    --color-brown-hover: #897564;
 
 		@apply
 			min-h-screen
-      bg-[var(--color-bg)]
+      bg-[var(--color-light-a)]
       ;
 	}
 }

@@ -11,25 +11,26 @@
 	h2 {
 		@apply
 			text-2xl
-			text-slate-500
+			font-medium
+			text-[var(--color-dark-b)]
 			;
 	}
 	h3 {
 		@apply
 			text-lg
-			text-slate-500
+			text-[var(--color-dark-a)]
 			;
 	}
 	h4 {
 		@apply
 			text-base
-			text-slate-400
+			text-[var(--color-dark-a)]
 			;
 	}
 	label {
 		@apply
 			text-sm
-			text-slate-400
+			text-[var(--color-dark-a)]
 			;
 	}
 }

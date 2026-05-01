@@ -18,7 +18,7 @@ export function Volume_Stems({
                 const percentage = ((volumes[index] - min) / (max - min)) * 100;
 
                 return (
-                    <div key={stem.label} className='_parent _bg-volume'>
+                    <div key={stem.label} className='_parent _bg-volume my-auto'>
                         <div className='_child z-10'>
                             <h4 className='text-center pt-3'>{stem.label}</h4>
                             <div className='_bg-slider'>
@@ -51,7 +51,7 @@ export function Volume_Noise({
 	const max = 6;
 	const percentage = ((noiseVolume - min) / (max - min)) * 100;
 	return (
-		<div className='_parent _bg-volume'>
+		<div className='_parent _bg-volume my-auto'>
 			<div className='_child z-10'>
 				<h4 className='text-center pt-3'>Noise</h4>
 				<div className='_bg-slider'>

@@ -1,0 +1,29 @@
+@layer components {
+	._radio-buttons {
+		@apply
+			flex
+			text-sm
+			rounded-xl
+			border border-white
+			shadow-[-5px_5px_10px_var(--color-shadow-a)]
+			;
+	}
+	._radio-button {
+		@apply
+			rounded-xl
+			border-r-1 border-white hover:border-gray-100
+			transition-colors duration-200
+			cursor-pointer
+			;
+	}
+	._radio-on {
+		@apply
+			text-white hover:text-gray-100
+			;
+	}
+	._radio-off {
+		@apply
+			hover:bg-[var(--color-light-a-hover)]
+			;
+	}
+}

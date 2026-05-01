@@ -1,9 +1,9 @@
 @layer components {
 	._bg-player {
 		@apply
-			border-4 border-white rounded-3xl
-			shadow-[-15px_15px_50px_0px_var(--color-shadow)]
-			bg-[var(--color-bg)]
+			border-3 border-white rounded-3xl
+			shadow-[-15px_15px_50px_0px_var(--color-shadow-a)]
+			bg-[var(--color-light-a)]
 			;
 	}
 	._bg-subcard {
@@ -14,10 +14,10 @@
 	}
 	._bg-volume {
 		@apply
-			w-[130px] py-[15px]
-			bg-[var(--color-bg)]
+			w-[130px] h-[220px]
+			bg-[var(--color-light-a)]
 			rounded-xl
-			shadow-[-5px_5px_15px_0px_var(--color-shadow)]
+			shadow-[-5px_5px_15px_0px_var(--color-shadow-a)]
 			;
 	}
 	._bg-slider {

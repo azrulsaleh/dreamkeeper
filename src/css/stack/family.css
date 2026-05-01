@@ -11,4 +11,26 @@
 			[grid-area:overlay]
 			;
 	}
+	.grid-container {
+		display: grid;
+		grid-template-areas: "stack";
+		width: full;
+		height: 25px;
+		@apply
+			items-center
+			;
+	}
+	.child-1 {
+		grid-area: stack;
+		@apply
+			border-4 border-red-500
+			;
+	}
+	.child-2 {
+		grid-area: stack;
+		background-color: #0000ff64;
+	}
+	.child {
+		grid-area: stack;
+	}
 }

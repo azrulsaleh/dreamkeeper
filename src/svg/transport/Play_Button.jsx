@@ -3,9 +3,10 @@ export const Play_Button = ({
 	isActive = 0,
 	onClick
 }) => {
-	const bgColor = isActive === 1 ? '#FBF7FD' : '#93BCED';
-	const iconColor = isActive === 1 ? '#728093' : '#FBF7FD';
-	const hoverColor = isActive === 1 ? 'group-hover:fill-slate-400' : 'group-hover:fill-slate-200';
+	const bgColor = isActive === 1 ? 'var(--color-light-a)' : 'var(--color-accent-a)';
+	const bgColorHover = isActive === 1 ? 'group-hover:fill-[var(--color-light-a-hover)]' : 'group-hover:fill-[var(--color-accent-a-hover)]';
+	const iconColor = isActive === 1 ? 'var(--color-dark-a)' : 'var(--color-light-a)';
+	const iconColorHover = isActive === 1 ? 'group-hover:fill-[var(--color-dark-a-hover)]' : 'group-hover:fill-[var(--color-light-a-hover)]';
 
 	return (
 		<svg
@@ -18,12 +19,17 @@ export const Play_Button = ({
 			className="group cursor-pointer overflow-visible drop-shadow-lg"
 			role="button"
 		>
-			<rect height="40" width="40" fill={bgColor} rx="20" x="6" y="2"/>
-			<rect height="38" width="38" rx="19" stroke="white" strokeWidth="2" x="7" y="3"/>
+			<rect
+				height="40" width="40" rx="20"
+				fill={bgColor}
+				stroke="white" strokeWidth="2"
+				x="6" y="2"
+				className={`transition-colors duration-200 ${bgColorHover} group-hover:stroke-gray-100`}
+			/>
 			<path
 				d="M21 28.4612V16.6995C21 15.937 21.8191 15.4551 22.4856 15.8254L34.2474 22.3596C34.9685 22.7603 34.9217 23.8126 34.1679 24.1476L22.4061 29.3751C21.7449 29.669 21 29.1849 21 28.4612Z"
 				fill={iconColor}
-				className={`transition-colors duration-200 ${hoverColor} ${iconColor}`}
+				className={`transition-colors duration-200 ${iconColorHover}`}
 			/>
 		</svg>
 	);

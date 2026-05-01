@@ -31,8 +31,8 @@ const Player_Header = ({
     };
 
 	return (
-		<div className='flex h-[190px] p-[20px] border-b border-black/5'>
-			<div className='rounded-xl w-[150px] h-[150px] bg-slate-900 overflow-clip'>
+		<div className='flex h-[190px] p-[20px] border-b border-[var(--color-accent-b)]'>
+			<div className='rounded-lg w-[150px] h-[150px] bg-slate-900 overflow-clip'>
 				<img
 					src='artwork.jpg'
 					alt='Album Cover'

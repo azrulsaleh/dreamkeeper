@@ -12,26 +12,27 @@ function Player_Body({
 }) {
 	return (
 		<div className='w-full h-[370px] flex flex-row'>
-			<div className='w-[640px] h-full flex flex-col'>
-				<div className='w-full h-[30px] relative flex'>
-					<hr className='absolute top-1/2 translate-y-1/2 z-0 w-full text-black/5' />
-					<Loop
-						isLooping={isLooping}
-						handleLoopToggle={handleLoopToggle}
-					/>
+			<div className='w-[600px] h-full flex flex-col'>
+				<div className='grid-container'>
+					<div className='child z-10 m-auto'>
+						<Loop
+							isLooping={isLooping}
+							handleLoopToggle={handleLoopToggle}
+							/>
+					</div>
+					<hr className="child w-full text-[var(--color-accent-b)] z-0"/>
 				</div>
-				{/* <div className='w-full h-[260px] flex space-x-[30px] px-[35px] py-[20px]'> */}
-				<div className='w-full h-[260px] flex gap-2 px-[35px] py-[20px] justify-center'>
+				<div className='w-full h-[260px] flex gap-2 justify-center'>
 					<Volume_Stems
 						volumes={volumes}
 						handleVolumeChange={handleVolumeChange}
 					/>
 				</div>
 				<div className='w-full h-[80px] px-[20px] pb-[20px]'>
-					<div className='w-full h-[30px] flex items-center'>
-						<label>Filter</label>
+					<div className='w-full h-[30px] pl-[10px]'>
+						<label>Filters</label>
 					</div>
-					<div className='h-[30px]'>
+					<div className='w-[300px] h-[25px]'>
 						<Filter
 							activeFilter={activeFilter}
 							handleFilterChange={handleFilterChange}
@@ -39,25 +40,23 @@ function Player_Body({
 					</div>
 				</div>
 			</div>
-			<div className='w-[210px] h-full border-l border-black/5'>
-				<div className='w-full h-[30px]'></div>
-				<div className='w-full h-[260px] px-[45px] py-[20px] flex'>
+			<div className='w-[250px] h-full border-l border-[var(--color-accent-b)]'>
+				<div className='w-full h-[25px]'></div>
+				<div className='w-full h-[260px] flex justify-center'>
 					<Volume_Noise
 						noiseVolume={noiseVolume}
 						handleNoiseVolumeChange={handleNoiseVolumeChange}
 					/>
 				</div>
-				<div className='w-full h-[80px]'>
-					<div className='w-full h-[80px] px-[30px] pb-[20px]'>
-						<div className='w-full h-[30px] flex items-center'>
-							<label>Noise Type</label>
-						</div>
-						<div className='h-[30px]'>
-							<NoiseType
-								activeNoise={activeNoise}
-								handleNoiseChange={handleNoiseChange}
-							/>
-						</div>
+				<div className='w-full h-[80px] px-[20px] pb-[20px]'>
+					<div className='w-full h-[30px] pl-[10px]'>
+						<label>Noise Type</label>
+					</div>
+					<div className='h-[25px]'>
+						<NoiseType
+							activeNoise={activeNoise}
+							handleNoiseChange={handleNoiseChange}
+						/>
 					</div>
 				</div>
 			</div>
