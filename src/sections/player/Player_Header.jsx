@@ -31,7 +31,7 @@ const Player_Header = ({
     };
 
 	return (
-		<div className='flex h-[190px] p-[20px] border-b border-[var(--color-accent-b)]'>
+		<div className='flex h-[190px] p-[20px] border-b border-gray-100'>
 			<div className='rounded-lg w-[150px] h-[150px] bg-slate-900 overflow-clip'>
 				<img
 					src='artwork.jpg'

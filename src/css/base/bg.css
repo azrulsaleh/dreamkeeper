@@ -2,14 +2,8 @@
 	._bg-player {
 		@apply
 			border-3 border-white rounded-3xl
-			shadow-[-15px_15px_50px_0px_var(--color-shadow-a)]
+			shadow-[-10px_10px_40px_0px_var(--color-shadow-a)]
 			bg-[var(--color-light-a)]
-			;
-	}
-	._bg-subcard {
-		@apply
-			bg-slate-300/50
-			border border-black/5 rounded-2xl
 			;
 	}
 	._bg-volume {
@@ -17,7 +11,7 @@
 			w-[130px] h-[220px]
 			bg-[var(--color-light-a)]
 			rounded-xl
-			shadow-[-5px_5px_15px_0px_var(--color-shadow-a)]
+			shadow-[-5px_5px_10px_0px_var(--color-shadow-a)]
 			;
 	}
 	._bg-slider {

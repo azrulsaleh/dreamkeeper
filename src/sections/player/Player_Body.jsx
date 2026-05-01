@@ -20,7 +20,7 @@ function Player_Body({
 							handleLoopToggle={handleLoopToggle}
 							/>
 					</div>
-					<hr className="child w-full text-[var(--color-accent-b)] z-0"/>
+					<hr className="child w-full text-gray-100 z-0"/>
 				</div>
 				<div className='w-full h-[260px] flex gap-2 justify-center'>
 					<Volume_Stems
@@ -40,7 +40,7 @@ function Player_Body({
 					</div>
 				</div>
 			</div>
-			<div className='w-[250px] h-full border-l border-[var(--color-accent-b)]'>
+			<div className='w-[250px] h-full border-l border-gray-100'>
 				<div className='w-full h-[25px]'></div>
 				<div className='w-full h-[260px] flex justify-center'>
 					<Volume_Noise

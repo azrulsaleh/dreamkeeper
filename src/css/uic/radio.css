@@ -5,7 +5,7 @@
 			text-sm
 			rounded-xl
 			border border-white
-			shadow-[-5px_5px_10px_var(--color-shadow-a)]
+			shadow-[-2px_2px_10px_var(--color-shadow-a)]
 			;
 	}
 	._radio-button {

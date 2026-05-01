@@ -16,7 +16,7 @@ export const Play_Button = ({
 			viewBox="0 0 48 48"
 			xmlns="http://www.w3.org/2000/svg"
 			onClick={onClick}
-			className="group cursor-pointer overflow-visible drop-shadow-lg"
+			className="group cursor-pointer overflow-visible drop-shadow-md"
 			role="button"
 		>
 			<rect
