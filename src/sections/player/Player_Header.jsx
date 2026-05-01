@@ -56,13 +56,16 @@ const Player_Header = ({
 						handleStop={handleStop}
 					/>
 				</div>
-				<div className='h-[60px] py-2'>
-					<Waveform
-						wavesurferRef={wavesurferRef}
-						masterPath={masterPath}
-						handleSeek={handleSeek}
-						setDuration={setDuration}
-					/>
+				<div className='grid-container w-full h-[60px] items-center'>
+					<div className='child h-[40px]'>
+						<Waveform
+							wavesurferRef={wavesurferRef}
+							masterPath={masterPath}
+							handleSeek={handleSeek}
+							setDuration={setDuration}
+						/>
+					</div>
+					<hr className='child text-[var(--color-accent-b)]'/>
 				</div>
 				<div className='h-[30px] flex gap-4 items-center'>
 					<label ref={elapsedTime2}>0:00</label>
