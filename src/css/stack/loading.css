@@ -2,11 +2,11 @@
 	._loading {
 		@apply
 			rounded-3xl
-            flex items-center justify-center
-            bg-slate-200/25
+			flex items-center justify-center
+			bg-slate-200/25
 			backdrop-blur-xs
-			border-3 border-white/50
-            transition-opacity duration-500
+			border-3 border-[var(--color-white)]/50
+			transition-opacity duration-500
 			;
 	}
 	._spinner {

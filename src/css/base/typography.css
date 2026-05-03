@@ -6,6 +6,7 @@
 			tracking-widest
 			leading-tight
 			break-all text-balance
+			text-[var(--color-dark-b)]
 			;
 	}
 	h2 {

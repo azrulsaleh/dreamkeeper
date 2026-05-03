@@ -12,7 +12,7 @@
 	._slider-h::-webkit-slider-runnable-track {
 		@apply
 			w-full h-[1px]
-			bg-gray-300
+			bg-[var(--color-gray-a)]
 			rounded-full
 			;
 	}
@@ -25,7 +25,7 @@
 		@apply
 			w-[12px] h-[12px]
 			rounded-full
-			border border-white
+			border border-[var(--color-white)]
 			shadow-[-1px_1px_5px_var(--color-shadow-a)]
 			cursor-pointer
 			duration-200 transition-shadow
@@ -43,8 +43,8 @@
 	}
 	._slider-h::-moz-range-track {
 		@apply 
-			w-full h-[1px] 
-			bg-gray-300
+			w-full h-[1px]
+			bg-[var(--color-gray-a)]
 			rounded-full
 			;
 	}
@@ -57,7 +57,7 @@
 		@apply
 			w-[12px] h-[12px]
 			rounded-full
-			border border-white
+			border border-[var(--color-white)]
 			shadow-[-1px_1px_5px_var(--color-shadow-a)]
 			cursor-pointer
 			duration-200 transition-shadow
@@ -82,7 +82,6 @@
 			absolute
 			w-[150px] h-[10px]
 			origin-center
-			accent-[#93BCED]
 			-translate-y-10
 			cursor-pointer
 			;
@@ -91,14 +90,14 @@
 		background: linear-gradient(
 			to right,
 			var(--color-accent-b) 0%, 
-			var(--color-accent-a) var(--value, 0%), 
-			var(--color-light-b) var(--value, 0%), 
+			var(--color-accent-a) var(--value, 0%),
+			var(--color-light-b) var(--value, 0%),
 			var(--color-light-b) 100%
 		);
 
 		@apply
 			w-full h-[10px]
-			border border-black/5 rounded-full
+			border border-[var(--color-white)] rounded-full
 			;
 	}
 	._slider-v::-webkit-slider-thumb {
@@ -107,34 +106,34 @@
 			circle,
 			var(--color-light-b) 10%,
 			var(--color-light-a) 30%,
-			var(--color-accent-b) 45%,
+			var(--color-accent-a) 45%,
 			var(--color-light-a) 50%);
 		@apply
 			w-[30px] h-[30px]
 			rounded-full
-			border border-[var(--color-shadow-a)]
+			border border-[var(--color-gray-a)]
 			shadow-[-5px_-1px_20px_var(--color-shadow-a)]
 			cursor-pointer
-			duration-200 transition-shadow
+			duration-200 transition-colors
 			-mt-[11px]
 			;
 	}
 	._slider-v::-webkit-slider-thumb:hover {
 		background: radial-gradient(
 			circle,
-			var(--color-light-a) 10%,
-			var(--color-white) 30%,
-			var(--color-accent-b) 45%,
-			var(--color-white) 50%);
+			var(--color-light-b) 10%,
+			var(--color-light-a) 33%,
+			var(--color-accent-a) 49%,
+			var(--color-light-a) 54%);
 		@apply
-			shadow-[0_0_0_var(--color-shadow-b)]
+			border-2 border-[var(--color-accent-a)]
 			;
 	}
 	._slider-v::-moz-range-track {
 		@apply 
 			w-full h-[10px] 
-			bg-slate-200
-			border border-black/5 rounded-full
+			bg-[var(--color-light-b)]
+			border border-[var(--color-white)] rounded-full
 			;
 	}
 	._slider-v::-moz-range-progress {
@@ -154,26 +153,20 @@
 			circle,
 			var(--color-light-b) 10%,
 			var(--color-light-a) 30%,
-			var(--color-accent-b) 45%,
+			var(--color-accent-a) 45%,
 			var(--color-light-a) 50%);
 		@apply
 			w-[30px] h-[30px]
 			rounded-full
-			border border-[var(--color-shadow-a)]
+			border border-[var(--color-gray-a)]
 			shadow-[-5px_-1px_20px_var(--color-shadow-a)]
 			cursor-pointer
-			duration-200 transition-shadow
+			duration-200 transition-colors
 			;
 	}
 	._slider-v::-moz-range-thumb:hover {
-		background: radial-gradient(
-			circle,
-			var(--color-light-a) 10%,
-			var(--color-white) 30%,
-			var(--color-accent-b) 45%,
-			var(--color-white) 50%);
 		@apply
-			shadow-[0_0_0_var(--color-shadow-b)]
+			border-2 border-[var(--color-accent-a)]
 			;
 	}
 }

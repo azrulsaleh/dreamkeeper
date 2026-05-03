@@ -13,11 +13,11 @@ function Loop({isLooping, handleLoopToggle}) {
 					key={String(mode.value)}
 					onClick={() => handleLoopToggle(mode.value)}
 					className={
-						`_radio-button w-[175px]
+						`_radio-button w-[175px] hover:border-[var(--color-accent-a)]
 						${
 							isLooping === mode.value
-							? '_radio-on bg-[var(--color-accent-a)] hover:bg-[var(--color-accent-a-hover)]'
-							: '_radio-off text-[var(--color-dark-a)] hover:text-[var(--color-dark-a-hover)]'
+							? '_radio-on bg-[var(--color-accent-a)] hover:bg-[var(--color-accent-a-hover)] border-2 border-[var(--color-white)]'
+							: '_radio-off text-[var(--color-dark-a)] hover:text-[var(--color-dark-a-hover)] border-0 hover:border-2'
 						}`
 					}
 				>
@@ -25,7 +25,7 @@ function Loop({isLooping, handleLoopToggle}) {
 				</button>
 			))}
 		</div>
-    );
+	);
 }
 
 export default Loop;

@@ -11,6 +11,7 @@
 			[grid-area:overlay]
 			;
 	}
+
 	.grid-container {
 		display: grid;
 		grid-template-areas: "stack";
@@ -20,17 +21,80 @@
 			items-center
 			;
 	}
-	.child-1 {
-		grid-area: stack;
-		@apply
-			border-4 border-red-500
-			;
-	}
-	.child-2 {
-		grid-area: stack;
-		background-color: #0000ff64;
-	}
 	.child {
 		grid-area: stack;
+	}
+
+	.bento_header {
+		display: grid;
+		grid-template-columns: 150px 20px 50px 400px 140px 50px;
+		grid-template-rows: 60px 60px 30px;
+		grid-template-areas: 
+			"box-img box-gap box-title box-title box-transport box-transport"
+			"box-img box-gap box-waveform box-waveform box-waveform box-waveform"
+			"box-img box-gap box-lapsed box-progress box-progress box-space";
+		;
+	}
+	.bento_body {
+		display: grid;
+		grid-template-columns: 600px 250px;
+		grid-template-rows: 30px 260px 80px;
+		grid-template-areas:
+			"box-loop box-noiseSpace"
+			"box-stemsVolume box-noiseVolume"
+			"box-filters box-noiseType";
+	}
+	.bento_stems {
+		display: grid;
+		grid-template-columns: 130px 130px;
+		grid-template-rows: 220px 220px;
+		gap: 5px;
+		@apply
+			content-center
+			min-[660px]:flex
+			;
+	}
+	@media (max-width: 909px) {
+		.bento_header {
+			grid-template-columns: 150px 20px 50px 150px 140px 50px;
+			grid-template-rows: 60px 60px 30px;
+			grid-template-areas: 
+				"box-img box-gap box-title box-title box-transport box-transport"
+				"box-img box-gap box-waveform box-waveform box-waveform box-waveform"
+				"box-img box-gap box-lapsed box-progress box-progress box-space";
+		}
+		.bento_body {
+			grid-template-columns: 600px;
+			grid-template-rows: 30px 260px 80px 260px 80px;
+			grid-template-areas:
+				"box-loop"
+				"box-stemsVolume"
+				"box-filters"
+				"box-noiseVolume"
+				"box-noiseType";
+		}
+	}
+	@media (max-width: 659px) {
+		.bento_header {
+			grid-template-columns: 50px 320px;
+			grid-template-rows: 150px 20px 60px 60px 60px 30px;
+			grid-template-areas: 
+				"box-img box-img"
+				"box-gap box-gap"
+				"box-title box-title"
+				"box-transport box-transport"
+				"box-waveform box-waveform"
+				"box-lapsed box-progress";
+		}
+		.bento_body {
+			grid-template-columns: 410px;
+			grid-template-rows: 30px 490px 80px 260px 80px;
+			grid-template-areas:
+				"box-loop"
+				"box-stemsVolume"
+				"box-filters"
+				"box-noiseVolume"
+				"box-noiseType";
+		}
 	}
 }

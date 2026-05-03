@@ -39,7 +39,7 @@ const Waveform = forwardRef(({wavesurferRef, masterPath, handleSeek, setDuration
 
 	const styles = getComputedStyle(document.documentElement);
 	const accentHex = styles.getPropertyValue('--color-accent-a').trim();
-	const progressHex = styles.getPropertyValue('--color-dark-a').trim();
+	const progressHex = styles.getPropertyValue('--color-gray-a').trim();
 	useEffect(() => {
 		if (!masterPath)
 			return;
@@ -47,7 +47,7 @@ const Waveform = forwardRef(({wavesurferRef, masterPath, handleSeek, setDuration
 		const wavesurfer = WaveSurfer.create({
 			container: containerRef.current,
 			waveColor: accentHex || '#93BCED',
-			progressColor: progressHex || '#778AA0',
+			progressColor: progressHex || '#9CA3AF',
 			cursorColor: 'transparent',
 			height: 40,
 			barWidth: 2,

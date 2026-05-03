@@ -3,14 +3,15 @@ import { Bg_Filter } from '../../../svg/Vector'
 
 function Filter({activeFilter, handleFilterChange}) {
 	const filters = [
-        { id: 'gentle', label: 'Gentle', shadow: 'shadow-[10px_0px_10px_var(--color-shadow-b)]' },
-		{ id: 'warm',  label: 'Warm', shadow: 'shadow-[10px_0px_10px_var(--color-shadow-b)]' },
-		{ id: 'deep',  label: 'Deep', shadow: '' }
-    ];
+		{ id: 'gentle', label: 'Gentle', shadow: 'shadow-[10px_0px_10px_var(--color-shadow-b)]' },
+		{ id: 'warm', label: 'Warm', shadow: 'shadow-[10px_0px_10px_var(--color-shadow-b)]' },
+		{ id: 'deep', label: 'Deep', shadow: '' }
+	];
 
 	return (
-		<div className='_parent w-[300px] h-[25px]'>
-			<div className='_child z-10 _radio-buttons'>
+		// <div className='_parent w-[300px] h-[25px]'>
+		<div className='grid-container w-[300px] h-[25px]'>
+			<div className='child z-10 _radio-buttons'>
 				{filters.map((f) => (
 					<button
 						key={f.id}
@@ -28,7 +29,7 @@ function Filter({activeFilter, handleFilterChange}) {
 					</button>
 				))}
 			</div>
-			<div className='_child z-0'>
+			<div className='child z-0'>
 				<Bg_Filter/>
 			</div>
 		</div>

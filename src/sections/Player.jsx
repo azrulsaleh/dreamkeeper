@@ -288,10 +288,10 @@ function Player() {
 
 		let frequency;
 		switch (newMode) {
-			case 'gentle': frequency = 3000;  break;
-			case 'warm':  frequency = 1000;  break;
-			case 'deep':  frequency = 400;   break;
-			default:     frequency = 20000; break;
+			case 'gentle': frequency = 3000; break;
+			case 'warm': frequency = 1000; break;
+			case 'deep': frequency = 400; break;
+			default: frequency = 20000; break;
 		}
 
 		filterRef.current.frequency.rampTo(frequency, fadeTime);
@@ -326,8 +326,12 @@ function Player() {
 	};
 
 	return (
-		<div className='_parent _bg-player w-[850px] h-[560px]'>
-			<div className="_child z-0">
+		<div className='_bg-player'>
+		{/* <div className='_parent _bg-player w-[850px] h-[560px]'> */}
+		{/* <div className='_bg-player w-fit h-fit'> */}
+		{/* <div className='_bg-player w-full h-full'> */}
+		{/* <div className='_bg-player w-auto h-auto'> */}
+			{/* <div className="_child z-0"> */}
 				<Player_Header
 					wavesurferRef={wavesurferRef}
 					transportState={transportState}
@@ -356,12 +360,12 @@ function Player() {
 					noiseVolume={noiseVolume}
 					handleNoiseVolumeChange={handleNoiseVolumeChange}
 				/>
-			</div>
-			{(!isSongLoaded[currentSongID] || duration === 0) && (
+			{/* </div> */}
+			{/* {(!isSongLoaded[currentSongID] || duration === 0) && (
 				<div className="_child _loading z-10">
 					<Loading />
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 }

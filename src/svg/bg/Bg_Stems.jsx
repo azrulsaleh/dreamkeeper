@@ -2,9 +2,9 @@ import React from "react";
 
 export const Bg_Stems = (props) => (
 	<svg height="220" width="130" fill="none" viewBox="0 0 130 220" xmlns="http://www.w3.org/2000/svg">
-		<rect height="218" width="128" rx="11" stroke="#FFFFFF" strokeWidth="2" x="1" y="1"/>
+		<rect height="218" width="128" rx="11" stroke="var(--color-white)" strokeWidth="2" x="1" y="1"/>
 		<g id="ticks_inner" data-figma-trr="l13u11-0f_l2u6-0f">
-			<path d="M47 45H52.0833V46.0182H47V45Z" fill="#D2D8E0"/>
+			<path d="M47 45H52.0833V46.0182H47V45Z" fill="var(--color-gray-b)"/>
 		</g>
 		<use transform="translate(0 11.2)" xlinkHref="#ticks_inner"/>
 		<use transform="translate(0 22.4)" xlinkHref="#ticks_inner"/>

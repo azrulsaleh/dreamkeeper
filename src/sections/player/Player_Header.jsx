@@ -9,81 +9,79 @@ const Player_Header = ({
 	duration, setDuration, currentTime, formatTime, elapsedTime1, elapsedTime2,
 	transportState, title, masterPath
 }) => {
-    const isDragging = useRef(false);
+	const isDragging = useRef(false);
 
 	const onClickDown = (e) => {
 		isDragging.current = true;
-        const time = parseFloat(e.target.value);
-        handleSeek(time, true);
-    };
+		const time = parseFloat(e.target.value);
+		handleSeek(time, true);
+	};
 	const onClickDrag = (e) => {
 		if (!isDragging.current)
-            return;
-        const time = parseFloat(e.target.value);
-        handleSeek(time, true);
-    };
-    const onClickUp = (e) => {
-		if (!isDragging.current)
-            return;
-        isDragging.current = false;
+			return;
 		const time = parseFloat(e.target.value);
-        handleSeek(time, false);
-    };
+		handleSeek(time, true);
+	};
+	const onClickUp = (e) => {
+		if (!isDragging.current)
+			return;
+		isDragging.current = false;
+		const time = parseFloat(e.target.value);
+		handleSeek(time, false);
+	};
 
 	return (
-		<div className='flex h-[190px] p-[20px] border-b border-gray-100'>
-			<div className='rounded-lg w-[150px] h-[150px] bg-slate-900 overflow-clip'>
+		<div className='bento_header p-[20px] border-b border-[var(--color-light-b)]'>
+			<div className='[grid-area:box-img] flex justify-center'>
 				<img
 					src='artwork.jpg'
 					alt='Album Cover'
+					className='rounded-lg bg-[var(--color-light-b)]'
 				/>
 			</div>
-			<div className='w-[20px] h-full' />
-			<div className='w-[640px] h-full'>
-				<div className='w-full h-[60px] flex flex-row justify-between'>
-					<div className='w-[450px] h-full'>
-						<div className='h-[30px] flex items-center'>
-							<h2>{title}</h2>
-						</div>
-						<div className='h-[30px] flex items-center'>
-							<label><span ref={elapsedTime1}>0:00</span> / {formatTime(duration)}</label>
-						</div>
-					</div>
-					<Transport
-						transportState={transportState}
-						handlePlay={handlePlay}
-						handlePause={handlePause}
-						handleStop={handleStop}
-					/>
-				</div>
-				<div className='grid-container w-full h-[60px] items-center'>
-					<div className='child h-[40px]'>
-						<Waveform
-							wavesurferRef={wavesurferRef}
-							masterPath={masterPath}
-							handleSeek={handleSeek}
-							setDuration={setDuration}
-						/>
-					</div>
-					<hr className='child text-[var(--color-accent-b)]'/>
-				</div>
-				<div className='h-[30px] flex gap-4 items-center'>
-					<label ref={elapsedTime2}>0:00</label>
-					<input
-						type="range"
-						min={0}
-						max={duration || 0}
-						step={0.1}
-						value={currentTime}
-						onMouseDown={onClickDown}
-						onKeyDown={onClickDown}
-						onChange={onClickDrag}
-						onMouseUp={onClickUp}
-						onKeyUp={onClickUp}
-						className="_slider-h w-full"
-					/>
-				</div>
+			<div className='[grid-area:box-gap]' />
+			<div className='[grid-area:box-title] max-[659px]:text-center'>
+				<h2>{title}</h2>
+				<label><span ref={elapsedTime1}>0:00</span> / {formatTime(duration)}</label>
 			</div>
+			<div className='[grid-area:box-transport] flex justify-center'>
+				<Transport
+					transportState={transportState}
+					handlePlay={handlePlay}
+					handlePause={handlePause}
+					handleStop={handleStop}
+				/>
+			</div>
+			<div className='[grid-area:box-waveform] pt-[20px] grid-container'>
+				<div className='child h-[40px]'>
+					<Waveform
+						wavesurferRef={wavesurferRef}
+						masterPath={masterPath}
+						handleSeek={handleSeek}
+						setDuration={setDuration}
+					/>
+				</div>
+				<hr className='child text-[var(--color-accent-b)]'/>
+			</div>
+			<div className='[grid-area:box-lapsed] flex items-center'>
+				<label ref={elapsedTime2}>0:00</label>
+			</div>
+			<div className='[grid-area:box-progress]'>
+				<input
+					type="range"
+					min={0}
+					max={duration || 0}
+					step={0.1}
+					value={currentTime}
+					onMouseDown={onClickDown}
+					onKeyDown={onClickDown}
+					onChange={onClickDrag}
+					onMouseUp={onClickUp}
+					onKeyUp={onClickUp}
+					className="_slider-h w-full"
+				/>
+			</div>
+			<div className='[grid-area:box-space]' />
 		</div>
 	)
 };

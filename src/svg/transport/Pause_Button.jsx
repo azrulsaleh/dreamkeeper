@@ -16,15 +16,15 @@ export const Pause_Button = ({
 			viewBox="0 0 78 48"
 			xmlns="http://www.w3.org/2000/svg"
 			onClick={onClick}
-			className="group cursor-pointer overflow-visible drop-shadow-md"
+			className="group cursor-pointer overflow-visible drop-shadow-[-4px_4px_4px_var(--color-shadow-a)]"
 			role="button"
 		>
 			<rect
 				height="38" width="68"
 				fill={bgColor}
-				stroke="white" strokeWidth="2"
+				stroke="var(--color-white)" strokeWidth="2"
 				rx="19" x="7" y="3"
-				className={`transition-colors duration-200 ${bgColorHover} group-hover:stroke-gray-100`}
+				className={`transition-colors duration-200 ${bgColorHover} group-hover:stroke-[var(--color-accent-a)]`}
 				/>
 			<rect
 				height="20" width="5"
