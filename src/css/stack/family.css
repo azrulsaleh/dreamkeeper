@@ -12,16 +12,17 @@
 	}
 
 	.grid-container {
-		display: grid;
-		grid-template-areas: "stack";
-		width: full;
-		height: 25px;
 		@apply
+			grid
+			[grid-template-areas:"stack"] [grid-template-columns:1fr]
 			items-center
+			h-[25px]
 			;
 	}
 	.child {
-		grid-area: stack;
+		@apply
+			[grid-area:stack]
+			;
 	}
 
 	.bento_header {
@@ -75,7 +76,7 @@
 	}
 	@media (max-width: 659px) {
 		.bento_header {
-			grid-template-columns: 50px 320px;
+			grid-template-columns: 50px minmax(50px, 320px);
 			grid-template-rows: 150px 20px 60px 60px 60px 30px;
 			grid-template-areas: 
 				"box-img box-img"
@@ -86,7 +87,7 @@
 				"box-lapsed box-progress";
 		}
 		.bento_body {
-			grid-template-columns: 410px;
+			grid-template-columns: minmax(260px, 410px);
 			grid-template-rows: 30px 490px 80px 260px 80px;
 			grid-template-areas:
 				"box-loop"

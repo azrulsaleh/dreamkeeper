@@ -3,16 +3,20 @@
 		@apply
 			flex
 			text-sm
-			rounded-xl
+			rounded-2xl
 			border border-[var(--color-white)]
 			shadow-[-2px_2px_10px_var(--color-shadow-a)]
-			-translate-x-[1px]
+			h-[25px]
 			;
 	}
 	._radio-button {
 		@apply
 			rounded-xl
-			transition-colors duration-200
+			hover:border-2
+			duration-200 transition-discrete
+			h-[25px]
+			-translate-y-[1px]
+			cursor-pointer
 			;
 	}
 	._radio-on {

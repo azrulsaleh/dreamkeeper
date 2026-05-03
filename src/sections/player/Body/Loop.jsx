@@ -7,13 +7,13 @@ function Loop({isLooping, handleLoopToggle}) {
 	];
 
 	return (
-		<div className='_radio-buttons w-[350px] h-[25px] bg-[var(--color-light-a)]'>
+		<div className='_radio-buttons w-full max-w-[350px] h-[25px] bg-[var(--color-light-a)]'>
 			{OPTIONS.map((mode) => (
 				<button
 					key={String(mode.value)}
 					onClick={() => handleLoopToggle(mode.value)}
 					className={
-						`_radio-button w-[175px] hover:border-[var(--color-accent-a)]
+						`_radio-button flex-1 max-w-[175px] hover:border-[var(--color-accent-a)]
 						${
 							isLooping === mode.value
 							? '_radio-on bg-[var(--color-accent-a)] hover:bg-[var(--color-accent-a-hover)] border-2 border-[var(--color-white)]'

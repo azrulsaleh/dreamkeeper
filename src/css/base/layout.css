@@ -4,4 +4,9 @@
 			max-w-5xl
 			mx-auto;
 	}
+	svg {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
 }

@@ -1,7 +1,7 @@
 import React from "react";
 	
 export const Bg_Filter = () => (
-	<svg height="25" width="300" fill="none" viewBox="0 0 300 25" xmlns="http://www.w3.org/2000/svg">
+	<svg preserveAspectRatio="xMidYMid meet" fill="none" viewBox="0 0 300 25" xmlns="http://www.w3.org/2000/svg">
 		<rect
 			height="24" width="299"
 			fill="var(--color-light-a)" 
