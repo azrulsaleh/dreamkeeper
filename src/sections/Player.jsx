@@ -326,12 +326,8 @@ function Player() {
 	};
 
 	return (
-		<div className='_bg-player'>
-		{/* <div className='_parent _bg-player w-[850px] h-[560px]'> */}
-		{/* <div className='_bg-player w-fit h-fit'> */}
-		{/* <div className='_bg-player w-full h-full'> */}
-		{/* <div className='_bg-player w-auto h-auto'> */}
-			{/* <div className="_child z-0"> */}
+		<div className='_parent _bg-player'>
+			<div className="_child z-0">
 				<Player_Header
 					wavesurferRef={wavesurferRef}
 					transportState={transportState}
@@ -360,12 +356,12 @@ function Player() {
 					noiseVolume={noiseVolume}
 					handleNoiseVolumeChange={handleNoiseVolumeChange}
 				/>
-			{/* </div> */}
-			{/* {(!isSongLoaded[currentSongID] || duration === 0) && (
+			</div>
+			{(!isSongLoaded[currentSongID] || duration === 0) && (
 				<div className="_child _loading z-10">
 					<Loading />
 				</div>
-			)} */}
+			)}
 		</div>
 	);
 }
