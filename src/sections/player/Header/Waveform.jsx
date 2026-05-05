@@ -1,7 +1,7 @@
 import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
-const Waveform = forwardRef(({wavesurferRef, masterPath, handleSeek, setDuration}, ref) => {
+const Waveform = forwardRef(({wavesurferRef, handleSeek, duration, waveformPeaks}, ref) => {
 	const containerRef = useRef();
 	const ws = useRef();
 	const isDragging = useRef(false);
@@ -9,12 +9,13 @@ const Waveform = forwardRef(({wavesurferRef, masterPath, handleSeek, setDuration
 	useImperativeHandle(wavesurferRef || ref, () => ws.current);
 
 	const getTimeFromEvent = (e) => {
-		if (!ws.current) return 0;
+		if (!ws.current)
+			return 0;
 		const rect = containerRef.current.getBoundingClientRect();
 		const x = e.clientX - rect.left;
 		const width = rect.width;
 		const percentage = Math.max(0, Math.min(1, x / width));
-		return percentage * ws.current.getDuration();
+		return percentage * duration;
 	};
 	const onClickDown = (e) => {
 		isDragging.current = true;
@@ -41,9 +42,6 @@ const Waveform = forwardRef(({wavesurferRef, masterPath, handleSeek, setDuration
 	const accentHex = styles.getPropertyValue('--color-accent-a').trim();
 	const progressHex = styles.getPropertyValue('--color-gray-a').trim();
 	useEffect(() => {
-		if (!masterPath)
-			return;
-
 		const wavesurfer = WaveSurfer.create({
 			container: containerRef.current,
 			waveColor: accentHex || '#93BCED',
@@ -53,31 +51,25 @@ const Waveform = forwardRef(({wavesurferRef, masterPath, handleSeek, setDuration
 			barWidth: 2,
 			barGap: 2,
 			barRadius: 2,
+			peaks: waveformPeaks,
+			duration: duration,
 			responsive: true,
 			dragToSeek: false,
 			interact: false,
 		});
 
 		ws.current = wavesurfer;
-		const loadPromise = wavesurfer.load(masterPath);
-
-		wavesurfer.on('ready', () => setDuration(wavesurfer.getDuration()));
-
+		console.log("Waveform drawn");
 		return () => {
 			wavesurfer.unAll();
-			loadPromise.catch((err) => {
-				if (err.name === 'AbortError') {
-					return;
-				}
-				console.warn("WaveSurfer load aborted or failed:", err.message);
-			});
 			try {
 				wavesurfer.destroy();
+				console.log("Waveform destroyed");
 			} catch (e) {
 				console.warn("WaveSurfer destroyed during active load, safely ignored.");
 			}
 		};
-	}, [masterPath, setDuration]);
+	}, []);
 
 	return (
 		<div 

@@ -11,7 +11,6 @@ export function Volume_Stems({
 	];
 
 	return (
-		// <div className='flex flex-col min-[660px]:flex-row gap-[5px]'>
 		<div className='bento_stems'>
 			{OPTIONS.map((stem, index) => {
 				const min = -60;

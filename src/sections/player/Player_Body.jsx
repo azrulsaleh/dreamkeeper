@@ -15,7 +15,7 @@ function Player_Body({
 			<div className='
 				[grid-area:box-loop] border-[var(--color-light-b)] min-[910px]:border-r
 			'>
-				<div className='grid-container'>
+				<div className='grid-container px-[20px]'>
 					<div className='child z-10 m-auto flex justify-center w-full'>
 						<Loop
 							isLooping={isLooping}
@@ -28,6 +28,7 @@ function Player_Body({
 			<div className='
 				[grid-area:box-stemsVolume] flex gap-[5px] justify-center
 				border-[var(--color-light-b)] min-[910px]:border-r
+				px-[20px]
 			'>
 				<Volume_Stems
 					volumes={volumes}
@@ -38,7 +39,7 @@ function Player_Body({
 				[grid-area:box-filters] min-[910px]:pl-[30px]
 				border-[var(--color-light-b)] max-[909px]:border-b min-[910px]:border-r
 			'>
-				<div className='w-full flex justify-center min-[910px]:justify-start'>
+				<div className='w-full flex justify-center min-[910px]:justify-start px-[20px]'>
 					<Filter
 						activeFilter={activeFilter}
 						handleFilterChange={handleFilterChange}

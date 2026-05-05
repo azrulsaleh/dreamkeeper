@@ -4,10 +4,10 @@ import Transport from './Header/Transport'
 import Waveform from './Header/Waveform'
 
 const Player_Header = ({
-	wavesurferRef,
+	wavesurferRef, waveformPeaks,
 	handlePlay, handlePause, handleStop, handleSeek,
-	duration, setDuration, currentTime, formatTime, elapsedTime1, elapsedTime2,
-	transportState, title, masterPath
+	duration, currentTime, formatTime, elapsedTime1, elapsedTime2,
+	transportState, title
 }) => {
 	const isDragging = useRef(false);
 
@@ -56,9 +56,9 @@ const Player_Header = ({
 				<div className='child h-[40px]'>
 					<Waveform
 						wavesurferRef={wavesurferRef}
-						masterPath={masterPath}
 						handleSeek={handleSeek}
-						setDuration={setDuration}
+						duration={duration}
+						waveformPeaks={waveformPeaks}
 					/>
 				</div>
 				<hr className='child text-[var(--color-accent-b)]'/>

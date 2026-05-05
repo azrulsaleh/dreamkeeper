@@ -28,17 +28,13 @@
 			border border-[var(--color-white)]
 			shadow-[-1px_1px_5px_var(--color-shadow-a)]
 			cursor-pointer
-			duration-200 transition-shadow
+			duration-200 transition-discrete
 			-mt-[6px]
 			;
 	}
 	._slider-h::-webkit-slider-thumb:hover {
-		background: radial-gradient(
-			circle,
-			var(--color-accent-a-hover) 0%,
-			var(--color-accent-b-hover) 70%);
 		@apply
-			shadow-[0_0_0_var(--color-shadow-b)]
+			border-[var(--color-accent-a)]
 			;
 	}
 	._slider-h::-moz-range-track {
