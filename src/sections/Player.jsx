@@ -135,8 +135,8 @@ function Player() {
 	const filterRef = useRef(null);
 	const noiseRef = useRef(null);
 	const noiseFaderRef = useRef(null);
-	const [activeNoise, setActiveNoise] = useState("off");
-	const [noiseVolume, setNoiseVolume] = useState(-20);
+	const [activeNoise, setActiveNoise] = useState("pink");
+	const [noiseVolume, setNoiseVolume] = useState(-60);
 
 	const playOrder = useMemo(() => {
 		const set = new Set();
