@@ -39,18 +39,18 @@ const Waveform = forwardRef(({wavesurferRef, handleSeek, duration, waveformPeaks
 	};
 
 	const styles = getComputedStyle(document.documentElement);
-	const accentHex = styles.getPropertyValue('--color-accent-a').trim();
-	const progressHex = styles.getPropertyValue('--color-gray-a').trim();
+	const accentHex = styles.getPropertyValue('--color-primary-10').trim();
+	const progressHex = styles.getPropertyValue('--color-primary-7').trim();
 	useEffect(() => {
 		const wavesurfer = WaveSurfer.create({
 			container: containerRef.current,
-			waveColor: accentHex || '#93BCED',
-			progressColor: progressHex || '#9CA3AF',
+			waveColor: accentHex,
+			progressColor: progressHex,
 			cursorColor: 'transparent',
 			height: 40,
-			barWidth: 2,
-			barGap: 2,
-			barRadius: 2,
+			barWidth: 4,
+			barGap: 4,
+			barRadius: 4,
 			peaks: waveformPeaks,
 			duration: duration,
 			responsive: true,
@@ -74,7 +74,7 @@ const Waveform = forwardRef(({wavesurferRef, handleSeek, duration, waveformPeaks
 	return (
 		<div 
 			ref={containerRef} 
-			className='w-full h-[60px] cursor-pointer touch-none'
+			className='w-full h-15 cursor-pointer touch-none'
 			onPointerDown={onClickDown}
 			onPointerMove={onClickDrag}
 			onPointerUp={onClickUp}

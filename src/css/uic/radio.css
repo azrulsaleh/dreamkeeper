@@ -1,32 +1,32 @@
 @layer components {
 	._radio-buttons {
 		@apply
+			h-6.25
 			flex
+			border border-primary-7 rounded-2xl
+			shadow-[-2px_2px_4px]/20
 			text-sm
-			rounded-2xl
-			border border-[var(--color-white)]
-			shadow-[-2px_2px_10px_var(--color-shadow-a)]
-			h-[25px]
 			;
 	}
 	._radio-button {
 		@apply
 			rounded-xl
-			hover:border-2
+			hover:border-2 hover:border-primary-18
 			duration-200 transition-discrete
-			h-[25px]
-			-translate-y-[1px]
+			h-6.25
+			-translate-y-px
 			cursor-pointer
 			;
 	}
 	._radio-on {
 		@apply
-			text-[var(--color-white)]
+			bg-primary-8
+			text-neutral-9
 			;
 	}
 	._radio-off {
 		@apply
-			hover:bg-[var(--color-light-a-hover)]
+			text-neutral-7
 			;
 	}
 }

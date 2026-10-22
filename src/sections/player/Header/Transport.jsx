@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import * as Tone from 'tone';
 import { Pause_Button, Play_Button, Stop_Button } from '../../../svg/Vector';
 
 function Transport({
@@ -11,7 +9,10 @@ function Transport({
 	const isStopped = transportState === "stopped";
 
 	return (
-		<div className='w-[190px] h-full flex justify-center items-center gap-2'>
+		<div className='
+			flex place-content-center place-items-center gap-2
+			h-auto w-72
+		'>
 			<Play_Button
 				isActive={isPlaying ? 0 : 1}
 				onClick={handlePlay}

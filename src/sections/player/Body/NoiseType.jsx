@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { Bg_NoiseType } from '../../../svg/Vector'
-
 function NoiseType({activeNoise, handleNoiseChange}) {
 	const types = [
 		{
@@ -36,27 +33,28 @@ function NoiseType({activeNoise, handleNoiseChange}) {
 	];
 
 	return (
-		<div className='_parent w-[210px] h-[25px]'>
-			<div className='_child z-10 _radio-buttons'>
-				{types.map((n) => (
-					<button
-						key={n.id}
-						onClick={() => handleNoiseChange(n.id)}
-						className={`
-							_radio-button w-[70px] ${n.shadow} ${n.border}
-							${
-								activeNoise === n.id
-								? `_radio-on ${n.bg_on} ${n.bg_on_hover}`
-								: `_radio-off ${n.text} ${n.text_hover}`
-							}
-						`}
-					>
-						{n.label}
-					</button>
-				))}
-			</div>
-			<div className='_child z-0'>
-				<Bg_NoiseType/>
+		<div className='flex flex-col'>
+			<h3 className='pl-2.5 h-6.25 text-neutral-7'>Noise Type</h3>
+			<div className='grid-container flex-1 max-w-75 h-6.25'>
+				<div className='child z-10 _radio-buttons'>
+					{types.map((n) => (
+						<button
+							key={n.id}
+							onClick={() => handleNoiseChange(n.id)}
+							className={`
+								_radio-button flex-1 max-w-25
+								hover:border-2 hover:border-primary-18
+								${
+									activeNoise === n.id
+									? '_radio-on'
+									: '_radio-off'
+								}
+							`}
+						>
+							<h4>{n.label}</h4>
+						</button>
+					))}
+				</div>
 			</div>
 		</div>
 	)

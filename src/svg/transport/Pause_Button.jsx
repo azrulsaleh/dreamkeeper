@@ -1,43 +1,44 @@
 export const Pause_Button = ({
-	w = 70, h = 40,
+	w = 40, h = 40,
 	isActive = 0,
 	onClick
 }) => {
-	const bgColor = isActive === 1 ? 'var(--color-light-a)' : 'var(--color-accent-a)';
-	const bgColorHover = isActive === 1 ? 'group-hover:fill-[var(--color-light-a-hover)]' : 'group-hover:fill-[var(--color-accent-a-hover)]';
-	const iconColor = isActive === 1 ? 'var(--color-dark-a)' : 'var(--color-light-a)';
-	const iconColorHover = isActive === 1 ? 'group-hover:fill-[var(--color-dark-a-hover)]' : 'group-hover:fill-[var(--color-light-a-hover)]';
-
 	return (
 		<svg
 			height={h}
 			width={w}
 			fill="none"
-			viewBox="0 0 78 48"
+			viewBox="0 0 48 48"
 			xmlns="http://www.w3.org/2000/svg"
 			onClick={onClick}
-			className="group cursor-pointer overflow-visible drop-shadow-[-4px_4px_4px_var(--color-shadow-a)]"
+			className="group cursor-pointer overflow-visible drop-shadow-[-2px_2px_4px]/20"
 			role="button"
 		>
 			<rect
-				height="38" width="68"
-				fill={bgColor}
-				stroke="var(--color-white)" strokeWidth="2"
-				rx="19" x="7" y="3"
-				className={`transition-colors duration-200 ${bgColorHover} group-hover:stroke-[var(--color-accent-a)]`}
-				/>
-			<rect
-				height="20" width="5"
-				fill={iconColor}
-				rx="1" x="33" y="12"
-				className={`transition-colors duration-200 ${iconColorHover}`}
+				height="40" width="40" rx="20"
+				x="6" y="2"
+				className={`
+					${isActive ? "fill-primary-3" : "fill-primary-7"}
+					stroke-primary-9 group-hover:stroke-primary-18 stroke-1 group-hover:stroke-2
+					transition-colors duration-200
+				`}
 			/>
-			<rect
-				height="20" width="5"
-				fill={iconColor} 
-				rx="1" x="44" y="12"
-				className={`transition-colors duration-200 ${iconColorHover}`}
-			/>
+ 			<rect
+ 				height="13" width="3"
+ 				rx="1" x="22" y="16"
+ 				className={`
+					${isActive ? "fill-primary-16" : "fill-primary-18"} group-hover:fill-primary-16
+					transition-colors duration-200
+				`}
+ 			/>
+ 			<rect
+ 				height="13" width="3"
+ 				rx="1" x="28" y="16"
+ 				className={`
+					${isActive ? "fill-primary-16" : "fill-primary-18"} group-hover:fill-primary-16
+					transition-colors duration-200
+				`}
+ 			/>
 		</svg>
 	);
 };

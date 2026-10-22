@@ -13,56 +13,50 @@ function Player_Body({
 	return (
 		<div className='bento_body'>
 			<div className='
-				[grid-area:box-loop] border-[var(--color-light-b)] min-[910px]:border-r
+				[grid-area:box-loop]
 			'>
-				<div className='grid-container px-[20px]'>
-					<div className='child z-10 m-auto flex justify-center w-full'>
+				<div className='grid-container px-5'>
+					<div className='child z-10 m-auto flex justify-center w-full -translate-y-2'>
 						<Loop
 							isLooping={isLooping}
 							handleLoopToggle={handleLoopToggle}
 						/>
 					</div>
-					<hr className="child w-full text-[var(--color-light-b)] z-0"/>
 				</div>
 			</div>
 			<div className='
-				[grid-area:box-stemsVolume] flex gap-[5px] justify-center
-				border-[var(--color-light-b)] min-[910px]:border-r
-				px-[20px]
+				[grid-area:box-stemsVolume]
+				flex flex-col gap-5 place-content-center px-8
+				relative
 			'>
 				<Volume_Stems
 					volumes={volumes}
 					handleVolumeChange={handleVolumeChange}
 				/>
-			</div>
-			<div className='
-				[grid-area:box-filters] min-[910px]:pl-[30px]
-				border-[var(--color-light-b)] max-[909px]:border-b min-[910px]:border-r
-			'>
-				<div className='w-full flex justify-center min-[910px]:justify-start px-[20px]'>
-					<Filter
-						activeFilter={activeFilter}
-						handleFilterChange={handleFilterChange}
-					/>
-				</div>
-			</div>
-			<div className='[grid-area:box-noiseSpace]' />
-			<div className='[grid-area:box-noiseVolume] flex justify-center'>
-				<Volume_Noise
-					noiseVolume={noiseVolume}
-					handleNoiseVolumeChange={handleNoiseVolumeChange}
+				<Filter
+					activeFilter={activeFilter}
+					handleFilterChange={handleFilterChange}
 				/>
+				<div className="
+					w-px h-full
+					bg-[linear-gradient(to_bottom,var(--color-primary-3)_0%,var(--color-primary-5)_10%,var(--color-primary-5)_90%,var(--color-primary-3)_100%)]
+					absolute right-0 -translate-y-2.5
+				"/>
 			</div>
 			<div className='
-				[grid-area:box-noiseType] flex flex-col items-center
+				[grid-area:box-noiseVolume]
+				flex flex-col gap-5 place-content-center px-8
 			'>
-				<div>
-					<label className='pl-[10px] h-[25px]'>Noise Type</label>
-					<NoiseType
-						activeNoise={activeNoise}
-						handleNoiseChange={handleNoiseChange}
+				<div className='mx-auto'>
+					<Volume_Noise
+						noiseVolume={noiseVolume}
+						handleNoiseVolumeChange={handleNoiseVolumeChange}
 					/>
 				</div>
+				<NoiseType
+					activeNoise={activeNoise}
+					handleNoiseChange={handleNoiseChange}
+				/>
 			</div>
 		</div>
 	)

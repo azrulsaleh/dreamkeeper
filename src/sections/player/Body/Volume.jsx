@@ -1,4 +1,4 @@
-import { Bg_Stems, Bg_Noise } from '../../../svg/Vector'
+import { Bg_Stems } from '../../../svg/Vector'
 
 export function Volume_Stems({
 	volumes, handleVolumeChange
@@ -19,8 +19,8 @@ export function Volume_Stems({
 
 				return (
 					<div key={stem.label} className='_parent _bg-volume my-auto'>
-						<div className='_child z-10'>
-							<h4 className='text-center pt-3'>{stem.label}</h4>
+						<div className='_child z-10 flex flex-col gap-2'>
+							<h3 className='text-center pt-3 text-primary-12'>{stem.label}</h3>
 							<div className='_bg-slider'>
 								<input
 									type="range"
@@ -51,24 +51,26 @@ export function Volume_Noise({
 	const max = 6;
 	const percentage = ((noiseVolume - min) / (max - min)) * 100;
 	return (
-		<div className='_parent _bg-volume my-auto'>
-			<div className='_child z-10'>
-				<h4 className='text-center pt-3'>Noise</h4>
-				<div className='_bg-slider'>
-					<input
-						type="range"
-						min={min}
-						max={max}
-						step="1"
-						value={noiseVolume}
-						onChange={(e) => handleNoiseVolumeChange(parseFloat(e.target.value))}
-						className="_slider-v"
-						style={{ '--value': `${percentage}%` }}
-					/>
+		<div className='bento_stems'>
+			<div className='_parent _bg-volume my-auto'>
+				<div className='_child z-10 flex flex-col gap-2'>
+					<h3 className='text-center pt-3 text-primary-12'>Noise</h3>
+					<div className='_bg-slider'>
+						<input
+							type="range"
+							min={min}
+							max={max}
+							step="1"
+							value={noiseVolume}
+							onChange={(e) => handleNoiseVolumeChange(parseFloat(e.target.value))}
+							className="_slider-v-secondary"
+							style={{ '--value': `${percentage}%` }}
+						/>
+					</div>
 				</div>
-			</div>
-			<div className="_child z-0">
-				<Bg_Noise/>
+				<div className="_child z-0">
+					<Bg_Stems/>
+				</div>
 			</div>
 		</div>
 	)

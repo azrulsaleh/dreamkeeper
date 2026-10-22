@@ -31,20 +31,33 @@ const Player_Header = ({
 	};
 
 	return (
-		<div className='bento_header p-[20px] border-b border-[var(--color-light-b)]'>
-			<div className='[grid-area:box-img] flex justify-center'>
-				<img
-					src='artwork.jpg'
-					alt='Album Cover'
-					className='rounded-lg bg-[var(--color-light-b)]'
-				/>
-			</div>
-			<div className='[grid-area:box-gap]' />
-			<div className='[grid-area:box-title] max-[659px]:text-center'>
-				<h2>{title}</h2>
-				<label><span ref={elapsedTime1}>0:00</span> / {formatTime(duration)}</label>
-			</div>
-			<div className='[grid-area:box-transport] flex justify-center'>
+		<div className='
+			flex flex-col gap-1
+			p-5
+			relative
+		'>
+			<div className='flex gap-5'>
+				<div className='
+					flex flex-col place-content-center place-items-center gap-1
+					px-3 leading-tight
+					text-neutral-7
+				'>
+					<h2>Dreamkeeper</h2>
+					<h4>Player</h4>
+				</div>
+				<div className="
+					w-px h-auto
+					bg-[linear-gradient(to_bottom,var(--color-primary-3)_0%,var(--color-primary-5)_20%,var(--color-primary-5)_80%,var(--color-primary-3)_100%)]
+				"/>
+				<div className='
+					flex flex-col gap-1
+					w-full
+				'>
+					<h1 className="text-neutral-7">{title}</h1>
+					<h4 className='text-primary-10'>
+						<span ref={elapsedTime1}>0:00</span> / {formatTime(duration)}
+					</h4>
+				</div>
 				<Transport
 					transportState={transportState}
 					handlePlay={handlePlay}
@@ -52,36 +65,42 @@ const Player_Header = ({
 					handleStop={handleStop}
 				/>
 			</div>
-			<div className='[grid-area:box-waveform] pt-[20px] grid-container'>
-				<div className='child h-[40px]'>
-					<Waveform
-						wavesurferRef={wavesurferRef}
-						handleSeek={handleSeek}
-						duration={duration}
-						waveformPeaks={waveformPeaks}
-					/>
-				</div>
-				<hr className='child text-[var(--color-accent-b)]'/>
-			</div>
-			<div className='[grid-area:box-lapsed] flex items-center'>
-				<label ref={elapsedTime2}>0:00</label>
-			</div>
-			<div className='[grid-area:box-progress]'>
-				<input
-					type="range"
-					min={0}
-					max={duration || 0}
-					step={0.1}
-					value={currentTime}
-					onMouseDown={onClickDown}
-					onKeyDown={onClickDown}
-					onChange={onClickDrag}
-					onMouseUp={onClickUp}
-					onKeyUp={onClickUp}
-					className="_slider-h w-full"
+			<div className='mt-5'>
+				<Waveform
+					wavesurferRef={wavesurferRef}
+					handleSeek={handleSeek}
+					duration={duration}
+					waveformPeaks={waveformPeaks}
 				/>
 			</div>
-			<div className='[grid-area:box-space]' />
+			<div className='
+				flex place-content-center place-items-center gap-1
+				w-full
+			'>
+				<div className='w-10 text-neutral-6'>
+					<h4 ref={elapsedTime2}>0:00</h4>
+				</div>
+				<div className='w-full flex place-items-center'>
+					<input
+						type="range"
+						min={0}
+						max={duration || 0}
+						step={0.1}
+						value={currentTime}
+						onMouseDown={onClickDown}
+						onKeyDown={onClickDown}
+						onChange={onClickDrag}
+						onMouseUp={onClickUp}
+						onKeyUp={onClickUp}
+						className="_slider-h w-full"
+					/>
+				</div>
+			</div>
+			<div className="
+				w-full h-px
+				bg-[linear-gradient(to_right,var(--color-primary-3)_0%,var(--color-primary-5)_20%,var(--color-primary-5)_80%,var(--color-primary-3)_100%)]
+				absolute bottom-0 left-0
+			"/>
 		</div>
 	)
 };

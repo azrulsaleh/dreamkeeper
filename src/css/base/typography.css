@@ -1,37 +1,17 @@
 @layer base {
 	h1 {
-		@apply
-			text-6xl
-			font-bold
-			tracking-widest
-			leading-tight
-			break-all text-balance
-			text-[var(--color-dark-b)]
-			;
+		@apply text-lg tracking-wide leading-tight;
 	}
 	h2 {
-		@apply
-			text-2xl
-			font-medium
-			text-[var(--color-dark-b)]
-			;
+		@apply text-base tracking-wide leading-tight;
 	}
 	h3 {
-		@apply
-			text-lg
-			text-[var(--color-dark-a)]
-			;
+		@apply text-sm tracking-wide leading-tight;
 	}
 	h4 {
-		@apply
-			text-base
-			text-[var(--color-dark-a)]
-			;
+		@apply text-xs tracking-normal leading-tight;
 	}
 	label {
-		@apply
-			text-sm
-			text-[var(--color-dark-a)]
-			;
+		@apply text-sm;
 	}
 }

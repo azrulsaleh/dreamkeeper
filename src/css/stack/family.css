@@ -1,14 +1,9 @@
 @layer components {
 	._parent {
-		@apply
-			grid [grid-template-areas:overlay]
-			p-0
-			;
+		@apply grid [grid-template-areas:overlay] p-0;
 	}
 	._child {
-		@apply
-			[grid-area:overlay]
-			;
+		@apply [grid-area:overlay];
 	}
 
 	.grid-container {
@@ -20,9 +15,7 @@
 			;
 	}
 	.child {
-		@apply
-			[grid-area:stack]
-			;
+		@apply [grid-area:stack];
 	}
 
 	.bento_header {
@@ -31,8 +24,8 @@
 		grid-template-rows: 60px 60px 30px;
 		grid-template-areas: 
 			"box-img box-gap box-title box-title box-transport box-transport"
-			"box-img box-gap box-waveform box-waveform box-waveform box-waveform"
-			"box-img box-gap box-lapsed box-progress box-progress box-space";
+			"box-waveform box-waveform box-waveform box-waveform box-waveform box-waveform"
+			"box-lapsed box-progress box-progress box-progress box-progress box-progress";
 		;
 	}
 	.bento_body {
@@ -42,7 +35,7 @@
 		grid-template-areas:
 			"box-loop box-noiseSpace"
 			"box-stemsVolume box-noiseVolume"
-			"box-filters box-noiseType";
+			"box-stemsVolume box-noiseVolume";
 	}
 	.bento_stems {
 		display: grid;
@@ -69,9 +62,9 @@
 			grid-template-areas:
 				"box-loop"
 				"box-stemsVolume"
-				"box-filters"
+				"box-stemsVolume"
 				"box-noiseVolume"
-				"box-noiseType";
+				"box-noiseVolume";
 		}
 	}
 	@media (max-width: 659px) {
@@ -92,9 +85,9 @@
 			grid-template-areas:
 				"box-loop"
 				"box-stemsVolume"
-				"box-filters"
+				"box-stemsVolume"
 				"box-noiseVolume"
-				"box-noiseType";
+				"box-noiseVolume";
 		}
 	}
 }
