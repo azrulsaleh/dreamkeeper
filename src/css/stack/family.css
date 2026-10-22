@@ -30,12 +30,12 @@
 	}
 	.bento_body {
 		display: grid;
-		grid-template-columns: 600px 250px;
+		grid-template-columns: 600px 1px 250px;
 		grid-template-rows: 30px 260px 80px;
 		grid-template-areas:
-			"box-loop box-noiseSpace"
-			"box-stemsVolume box-noiseVolume"
-			"box-stemsVolume box-noiseVolume";
+			"box-loop box-split box-noiseSpace"
+			"box-stemsVolume box-split box-noiseVolume"
+			"box-filters box-split box-noiseType";
 	}
 	.bento_stems {
 		display: grid;
@@ -62,9 +62,9 @@
 			grid-template-areas:
 				"box-loop"
 				"box-stemsVolume"
-				"box-stemsVolume"
+				"box-filters"
 				"box-noiseVolume"
-				"box-noiseVolume";
+				"box-noiseType";
 		}
 	}
 	@media (max-width: 659px) {
@@ -80,14 +80,14 @@
 				"box-lapsed box-progress";
 		}
 		.bento_body {
-			grid-template-columns: minmax(260px, 410px);
+			grid-template-columns: minmax(260px, 1fr);
 			grid-template-rows: 30px 490px 80px 260px 80px;
 			grid-template-areas:
 				"box-loop"
 				"box-stemsVolume"
-				"box-stemsVolume"
+				"box-filters"
 				"box-noiseVolume"
-				"box-noiseVolume";
+				"box-noiseType";
 		}
 	}
 }

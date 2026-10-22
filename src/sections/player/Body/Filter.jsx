@@ -15,7 +15,7 @@ function Filter({activeFilter, handleFilterChange}) {
 							key={f.id}
 							onClick={() => handleFilterChange(f.id)}
 							className={`
-								_radio-button flex-1 max-w-25
+								_radio-button flex-1 w-22
 								hover:border-2 hover:border-primary-18
 								${
 									activeFilter === f.id 

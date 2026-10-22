@@ -51,26 +51,24 @@ export function Volume_Noise({
 	const max = 6;
 	const percentage = ((noiseVolume - min) / (max - min)) * 100;
 	return (
-		<div className='bento_stems'>
-			<div className='_parent _bg-volume my-auto'>
-				<div className='_child z-10 flex flex-col gap-2'>
-					<h3 className='text-center pt-3 text-primary-12'>Noise</h3>
-					<div className='_bg-slider'>
-						<input
-							type="range"
-							min={min}
-							max={max}
-							step="1"
-							value={noiseVolume}
-							onChange={(e) => handleNoiseVolumeChange(parseFloat(e.target.value))}
-							className="_slider-v-secondary"
-							style={{ '--value': `${percentage}%` }}
-						/>
-					</div>
+		<div className='_parent _bg-volume my-auto'>
+			<div className='_child z-10 flex flex-col gap-2'>
+				<h3 className='text-center pt-3 text-primary-12'>Noise</h3>
+				<div className='_bg-slider'>
+					<input
+						type="range"
+						min={min}
+						max={max}
+						step="1"
+						value={noiseVolume}
+						onChange={(e) => handleNoiseVolumeChange(parseFloat(e.target.value))}
+						className="_slider-v-secondary"
+						style={{ '--value': `${percentage}%` }}
+					/>
 				</div>
-				<div className="_child z-0">
-					<Bg_Stems/>
-				</div>
+			</div>
+			<div className="_child z-0">
+				<Bg_Stems/>
 			</div>
 		</div>
 	)

@@ -1,16 +1,16 @@
 @layer components {
 	._loading {
 		@apply
-			rounded-3xl
+			rounded-lg
 			flex items-center justify-center
 			backdrop-blur-md
-			border border-[var(--color-white)]
+			border border-primary-5
 			;
 	}
 	._spinner {
 		@apply
 			w-10 h-10
-			border border-4 border-[var(--color-gray-a)] rounded-full border-t-[var(--color-accent-a)]
+			border-4 border-secondary-5 rounded-full border-t-secondary-15
 			animate-spin ease-linear
 			;
 	}

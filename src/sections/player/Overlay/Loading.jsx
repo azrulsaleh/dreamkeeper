@@ -4,7 +4,7 @@ const AudioLoader = () => {
 			<div className="flex justify-center">
 				<div className="_spinner" />
 			</div>
-			<h2 className="text-center animate-pulse">
+			<h2 className="text-center animate-pulse text-neutral-10">
 				Synchronizing Player ...
 			</h2>
 		</div>

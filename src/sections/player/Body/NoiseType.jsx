@@ -36,7 +36,7 @@ function NoiseType({activeNoise, handleNoiseChange}) {
 		<div className='flex flex-col'>
 			<h3 className='pl-2.5 h-6.25 text-neutral-7'>Noise Type</h3>
 			<div className='grid-container flex-1 max-w-75 h-6.25'>
-				<div className='child z-10 _radio-buttons'>
+				<div className='child z-10 _radio-buttons w-54'>
 					{types.map((n) => (
 						<button
 							key={n.id}
