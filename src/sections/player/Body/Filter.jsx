@@ -1,8 +1,8 @@
 function Filter({activeFilter, handleFilterChange}) {
 	const filters = [
-		{ id: 'gentle', label: 'Gentle', shadow: 'shadow-[10px_0px_10px]' },
-		{ id: 'warm', label: 'Warm', shadow: 'shadow-[10px_0px_10px]' },
-		{ id: 'deep', label: 'Deep', shadow: '' }
+		{ id: 'gentle', label: 'Gentle' },
+		{ id: 'warm', label: 'Warm' },
+		{ id: 'deep', label: 'Deep' }
 	];
 
 	return (

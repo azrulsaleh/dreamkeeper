@@ -1,8 +1,4 @@
 @theme {
-	--color-wall-bg: #12141e;
-	--color-player-bg: #11162b;
-	--color-player-border: #2d274c;
-
 	--color-neutral-0: oklch(0 0 0);
 	--color-neutral-1: oklch(0.1 0 0);
 	--color-neutral-2: oklch(0.2 0 0);
@@ -63,27 +59,6 @@
 @layer base {
 	:root {
 		font-family: 'Times New Roman', Times, serif;
-		--color-light-a: #FAFAFF;
-		--color-light-b: #EBEFF4;
-		--color-light-a-hover: #FFFFFF;
-		--color-light-b-hover: #FFFFFF;
-		--color-dark-a: #778AA0;
-		--color-dark-b: #637487;
-		--color-dark-a-hover: #8798AB;
-		--color-dark-b-hover: #6F8195;
-		--color-accent-a: #93BCED;
-		--color-accent-b: #C3D9EC;
-		--color-accent-a-hover: #A8C9F0;
-		--color-accent-b-hover: #D8E6F3;
-		--color-shadow-a: #6396C940;
-		--color-shadow-b: #6396C91A;
-		--color-pink: #E18BC3;
-		--color-brown: #998574;
-		--color-pink-hover: #DEA0C9;
-		--color-brown-hover: #AB9A8C;
-		--color-gray-a: #E8EAED;
-		--color-gray-b: #DADDE2;
-		--color-white: #FFFFFF;
 
 		--color-primary: hsl(260 25% 50%);
 		--color-secondary: hsl(220 25% 50%);

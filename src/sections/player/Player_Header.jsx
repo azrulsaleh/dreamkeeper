@@ -50,8 +50,8 @@ const Player_Header = ({
 					bg-[linear-gradient(to_bottom,var(--color-primary-3)_0%,var(--color-primary-5)_20%,var(--color-primary-5)_80%,var(--color-primary-3)_100%)]
 				"/>
 				<div className='
-					flex flex-col gap-1
-					w-full
+					flex flex-col gap-1 pl-3
+					w-full place-content-center place-items-start
 				'>
 					<h1 className="text-neutral-7">{title}</h1>
 					<h4 className='text-primary-10'>

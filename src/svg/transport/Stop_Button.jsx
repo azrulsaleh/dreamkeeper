@@ -11,7 +11,7 @@ export const Stop_Button = ({
 			viewBox="0 0 48 48"
 			xmlns="http://www.w3.org/2000/svg"
 			onClick={onClick}
-			className="group cursor-pointer overflow-visible drop-shadow-[-2px_2px_4px]/20"
+			className="group cursor-pointer overflow-visible"
 			role="button"
 		>
 			<rect

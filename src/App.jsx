@@ -4,7 +4,7 @@ function App() {
 	return (
 		<>
 			<title>Dreamkeeper</title>
-			<section className='min-h-screen w-full flex justify-center items-center p-[30px]'>
+			<section className='min-h-screen w-full flex justify-center items-center p-7.5'>
 				<Player />
 			</section>
 		</>

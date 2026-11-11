@@ -19,7 +19,6 @@
 		@apply
 			h-3 w-3 -mt-1.5
 			border-2 border-primary-6 rounded-full
-			shadow-[-2px_2px_8px]
 			duration-200 transition-all
 			;
 	}
@@ -42,7 +41,6 @@
 		@apply
 			h-3 w-3
 			border-2 border-primary-6 rounded-full
-			shadow-[-2px_2px_8px]
 			cursor-pointer
 			duration-200 transition-all
 			;

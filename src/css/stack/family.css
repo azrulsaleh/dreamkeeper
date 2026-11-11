@@ -9,9 +9,9 @@
 	.grid-container {
 		@apply
 			grid
-			[grid-template-areas:"stack"] [grid-template-columns:1fr]
+			[grid-template-areas:"stack"] grid-cols-[1fr]
 			items-center
-			h-[25px]
+			h-6.25
 			;
 	}
 	.child {
