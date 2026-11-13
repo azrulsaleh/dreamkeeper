@@ -86,7 +86,12 @@ function Player() {
 	}, []);
 
 	//pre-load all song stems into buffers sequentially
+	const songsPreloaded = useRef(false);
 	useEffect(() => {
+		if (songsPreloaded.current)
+			return;
+		songsPreloaded.current = true;
+
 		const loadAllSongs = async () => {
 			setCurrentSongID(playOrder[0]);
 			for (let i = 0; i < playOrder.length; i++) {
@@ -194,26 +199,22 @@ function Player() {
 	}, []);
 
 	const handlePlay = async () => {
-		console.log("handlePlay [a]");
 		await Tone.start();
-		console.log("handlePlay [b]");
-		
+
 		if (Tone.Transport.seconds >= songs[currentSongID].duration - 0.05) {
-			console.log("handlePlay [c]");
 			Tone.Transport.stop();
 			Tone.Transport.seconds = 0;
 			setCurrentTime(0);
 			wavesurferRef.current?.setTime(0);
 		}
-		
+
 		if (Tone.Transport.state !== "started") {
-			console.log("handlePlay [d]");
 			Tone.Destination.volume.value = -Infinity;
 			Tone.Transport.start();
 			Tone.Destination.volume.rampTo(0, fadeTime);
-			if (activeNoise !== "off" && noiseFaderRef.current)
-				noiseFaderRef.current.gain.rampTo(Tone.dbToGain(noiseVolume), fadeTime);
-			console.log("[handlePlay] noiseFaderRef.current.gain.value:", noiseFaderRef.current.gain.value);
+			const targetNoiseVolume = Tone.dbToGain(noiseVolume);
+			if (activeNoise !== "off" && noiseFaderRef.current.gain.value !== targetNoiseVolume)
+				noiseFaderRef.current.gain.rampTo(targetNoiseVolume, fadeTime);
 		}
 	};
 	const handlePause = () => {
