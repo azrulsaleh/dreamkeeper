@@ -1,4 +1,11 @@
-function NoiseType({activeNoise, handleNoiseChange}) {
+import type { NoiseColor, NoiseMode } from '../../../types';
+
+interface NoiseTypeProps {
+	activeNoise: NoiseMode;
+	handleNoiseChange: (type: NoiseColor) => void;
+}
+
+function NoiseType({activeNoise, handleNoiseChange}: NoiseTypeProps) {
 	const types = [
 		{
 			id: 'white',
@@ -12,7 +19,7 @@ function NoiseType({activeNoise, handleNoiseChange}) {
 			id: 'brown',
 			label: 'Brown',
 		}
-	];
+	] as const;
 
 	return (
 		<div className='flex flex-col'>

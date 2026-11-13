@@ -1,15 +1,21 @@
-import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import { useEffect, useRef } from 'react';
+import type { PointerEvent, RefObject } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
-const Waveform = forwardRef(({wavesurferRef, handleSeek, duration, waveformPeaks}, ref) => {
-	const containerRef = useRef();
-	const ws = useRef();
+interface WaveformProps {
+	wavesurferRef: RefObject<WaveSurfer | null>;
+	handleSeek: (time: number, isDragging: boolean) => void;
+	duration: number;
+	waveformPeaks: number[];
+}
+
+const Waveform = ({wavesurferRef, handleSeek, duration, waveformPeaks}: WaveformProps) => {
+	const containerRef = useRef<HTMLDivElement | null>(null);
+	const ws = useRef<WaveSurfer | null>(null);
 	const isDragging = useRef(false);
 
-	useImperativeHandle(wavesurferRef || ref, () => ws.current);
-
-	const getTimeFromEvent = (e) => {
-		if (!ws.current)
+	const getTimeFromEvent = (e: PointerEvent<HTMLDivElement>) => {
+		if (!ws.current || !containerRef.current)
 			return 0;
 		const rect = containerRef.current.getBoundingClientRect();
 		const x = e.clientX - rect.left;
@@ -17,23 +23,23 @@ const Waveform = forwardRef(({wavesurferRef, handleSeek, duration, waveformPeaks
 		const percentage = Math.max(0, Math.min(1, x / width));
 		return percentage * duration;
 	};
-	const onClickDown = (e) => {
+	const onClickDown = (e: PointerEvent<HTMLDivElement>) => {
 		isDragging.current = true;
-		containerRef.current.setPointerCapture(e.pointerId);
+		containerRef.current?.setPointerCapture(e.pointerId);
 		const time = getTimeFromEvent(e);
 		handleSeek(time, true);
 	};
-	const onClickDrag = (e) => {
+	const onClickDrag = (e: PointerEvent<HTMLDivElement>) => {
 		if (!isDragging.current)
 			return;
 		const time = getTimeFromEvent(e);
 		handleSeek(time, true);
 	};
-	const onClickUp = (e) => {
+	const onClickUp = (e: PointerEvent<HTMLDivElement>) => {
 		if (!isDragging.current)
 			return;
 		isDragging.current = false;
-		containerRef.current.releasePointerCapture(e.pointerId);
+		containerRef.current?.releasePointerCapture(e.pointerId);
 		const time = getTimeFromEvent(e);
 		handleSeek(time, false);
 	};
@@ -42,6 +48,9 @@ const Waveform = forwardRef(({wavesurferRef, handleSeek, duration, waveformPeaks
 	const accentHex = styles.getPropertyValue('--color-primary-10').trim();
 	const progressHex = styles.getPropertyValue('--color-primary-7').trim();
 	useEffect(() => {
+		if (!containerRef.current)
+			return;
+
 		const wavesurfer = WaveSurfer.create({
 			container: containerRef.current,
 			waveColor: accentHex,
@@ -51,26 +60,31 @@ const Waveform = forwardRef(({wavesurferRef, handleSeek, duration, waveformPeaks
 			barWidth: 4,
 			barGap: 4,
 			barRadius: 4,
-			peaks: waveformPeaks,
+			peaks: [waveformPeaks],
 			duration: duration,
-			responsive: true,
 			dragToSeek: false,
 			interact: false,
 		});
 
 		ws.current = wavesurfer;
+		wavesurferRef.current = wavesurfer;
 		return () => {
+			if (wavesurferRef.current === wavesurfer)
+				wavesurferRef.current = null;
+			ws.current = null;
 			wavesurfer.unAll();
 			try {
 				wavesurfer.destroy();
-			} catch (e) {
+			} catch {
 				console.warn("WaveSurfer destroyed during active load, safely ignored.");
 			}
 		};
+		// The parent keys this component by track, so the options remain fixed for its lifetime.
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
-		<div 
+		<div
 			ref={containerRef} 
 			className='w-full h-15 cursor-pointer touch-none'
 			onPointerDown={onClickDown}
@@ -78,6 +92,6 @@ const Waveform = forwardRef(({wavesurferRef, handleSeek, duration, waveformPeaks
 			onPointerUp={onClickUp}
 		/>
 	)
-});
+};
 
 export default Waveform;

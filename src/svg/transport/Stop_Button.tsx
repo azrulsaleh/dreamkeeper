@@ -1,8 +1,17 @@
+import type { MouseEventHandler } from 'react';
+
+interface TransportButtonProps {
+	w?: number;
+	h?: number;
+	isActive?: number;
+	onClick?: MouseEventHandler<SVGSVGElement>;
+}
+
 export const Stop_Button = ({
 	w = 40, h = 40,
 	isActive = 0,
 	onClick
-}) => {
+}: TransportButtonProps) => {
 	return (
 		<svg
 			height={h}

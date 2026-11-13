@@ -1,7 +1,7 @@
-import React from "react";
+import type { SVGProps } from 'react';
 
-export const Bg_Stems = (props) => (
-	<svg height="220" width="130" fill="none" viewBox="0 0 130 220" xmlns="http://www.w3.org/2000/svg">
+export const Bg_Stems = (props: SVGProps<SVGSVGElement>) => (
+    <svg {...props} height="220" width="130" fill="none" viewBox="0 0 130 220" xmlns="http://www.w3.org/2000/svg">
 		<rect height="218" width="128" rx="11" stroke="var(--color-primary-5)" strokeWidth="1" x="1" y="1"/>
 		<g id="ticks_inner" data-figma-trr="l13u11-0f_l2u6-0f">
 			<path d="M47 45H52.0833V46.0182H47V45Z" fill="var(--color-primary-6)" transform="translate(0 6)"/>

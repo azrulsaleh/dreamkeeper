@@ -1,4 +1,9 @@
-const AudioLoader = ({ error, onRetry }) => {
+interface AudioLoaderProps {
+	error: string | null;
+	onRetry: () => void;
+}
+
+const AudioLoader = ({ error, onRetry }: AudioLoaderProps) => {
 	if (error) {
 		return (
 			<div className="flex flex-col items-center space-y-5">

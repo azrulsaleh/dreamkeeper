@@ -1,6 +1,9 @@
-import { useState } from 'react';
+interface LoopProps {
+	isLooping: boolean;
+	handleLoopToggle: (shouldLoop: boolean) => void;
+}
 
-function Loop({isLooping, handleLoopToggle}) {
+function Loop({isLooping, handleLoopToggle}: LoopProps) {
 	const OPTIONS = [
 		{ label: 'Music All Night', value: true },
 		{ label: 'Music Once', value: false },

@@ -1,32 +1,50 @@
-import { useState, useRef, useEffect, forwardRef } from 'react';
-import * as Tone from 'tone';
+import { useRef } from 'react';
+import type { RefObject, SyntheticEvent } from 'react';
+import WaveSurfer from 'wavesurfer.js';
 import Transport from './Header/Transport'
 import Waveform from './Header/Waveform'
+import type { TransportState } from '../../types'
+
+interface PlayerHeaderProps {
+	wavesurferRef: RefObject<WaveSurfer | null>;
+	waveformPeaks: number[];
+	handlePlay: () => void | Promise<void>;
+	handlePause: () => void;
+	handleStop: () => void;
+	handleSeek: (time: number, isDragging: boolean) => void;
+	duration: number;
+	currentTime: number;
+	formatTime: (seconds: number) => string;
+	elapsedTime1: RefObject<HTMLSpanElement | null>;
+	elapsedTime2: RefObject<HTMLHeadingElement | null>;
+	transportState: TransportState;
+	title: string;
+}
 
 const Player_Header = ({
 	wavesurferRef, waveformPeaks,
 	handlePlay, handlePause, handleStop, handleSeek,
 	duration, currentTime, formatTime, elapsedTime1, elapsedTime2,
 	transportState, title
-}) => {
+}: PlayerHeaderProps) => {
 	const isDragging = useRef(false);
 
-	const onClickDown = (e) => {
+	const onClickDown = (e: SyntheticEvent<HTMLInputElement>) => {
 		isDragging.current = true;
-		const time = parseFloat(e.target.value);
+		const time = parseFloat(e.currentTarget.value);
 		handleSeek(time, true);
 	};
-	const onClickDrag = (e) => {
+	const onClickDrag = (e: SyntheticEvent<HTMLInputElement>) => {
 		if (!isDragging.current)
 			return;
-		const time = parseFloat(e.target.value);
+		const time = parseFloat(e.currentTarget.value);
 		handleSeek(time, true);
 	};
-	const onClickUp = (e) => {
+	const onClickUp = (e: SyntheticEvent<HTMLInputElement>) => {
 		if (!isDragging.current)
 			return;
 		isDragging.current = false;
-		const time = parseFloat(e.target.value);
+		const time = parseFloat(e.currentTarget.value);
 		handleSeek(time, false);
 	};
 

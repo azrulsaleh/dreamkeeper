@@ -1,5 +1,7 @@
-export const Bg_Noise = (props) => (
-    <svg height="220" width="130" fill="none" viewBox="0 0 130 220" xmlns="http://www.w3.org/2000/svg">
+import type { SVGProps } from 'react';
+
+export const Bg_Noise = (props: SVGProps<SVGSVGElement>) => (
+    <svg {...props} height="220" width="130" fill="none" viewBox="0 0 130 220" xmlns="http://www.w3.org/2000/svg">
         <rect height="218" width="128" rx="11" stroke="var(--color-primary-5)" strokeWidth="1" x="1" y="1"/>
         
         <g opacity="0.85">

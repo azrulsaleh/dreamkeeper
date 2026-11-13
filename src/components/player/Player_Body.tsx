@@ -2,6 +2,20 @@ import Loop from './Body/Loop'
 import { Volume_Stems, Volume_Noise } from './Body/Volume'
 import Filter from './Body/Filter'
 import NoiseType from './Body/NoiseType'
+import type { FilterMode, NoiseColor, NoiseMode } from '../../types'
+
+interface PlayerBodyProps {
+	isLooping: boolean;
+	handleLoopToggle: (shouldLoop: boolean) => void;
+	volumes: number[];
+	handleVolumeChange: (index: number, volume: number) => void;
+	activeFilter: FilterMode;
+	handleFilterChange: (mode: FilterMode) => void;
+	activeNoise: NoiseMode;
+	handleNoiseChange: (type: NoiseColor) => void;
+	noiseVolume: number;
+	handleNoiseVolumeChange: (volume: number) => void;
+}
 
 function Player_Body({
 	isLooping, handleLoopToggle,
@@ -9,7 +23,7 @@ function Player_Body({
 	activeFilter, handleFilterChange,
 	activeNoise, handleNoiseChange,
 	noiseVolume, handleNoiseVolumeChange
-}) {
+}: PlayerBodyProps) {
 	return (
 		<div className='bento_body'>
 			<div className='[grid-area:box-loop]'>

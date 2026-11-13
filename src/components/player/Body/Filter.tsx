@@ -1,9 +1,16 @@
-function Filter({activeFilter, handleFilterChange}) {
+import type { FilterMode } from '../../../types';
+
+interface FilterProps {
+	activeFilter: FilterMode;
+	handleFilterChange: (mode: FilterMode) => void;
+}
+
+function Filter({activeFilter, handleFilterChange}: FilterProps) {
 	const filters = [
 		{ id: 'gentle', label: 'Gentle' },
 		{ id: 'warm', label: 'Warm' },
 		{ id: 'deep', label: 'Deep' }
-	];
+	] as const;
 
 	return (
 		<div className='flex flex-col'>

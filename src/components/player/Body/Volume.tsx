@@ -1,8 +1,19 @@
+import type { CSSProperties } from 'react';
 import { Bg_Stems } from '../../../svg/Vector'
+
+interface StemVolumeProps {
+	volumes: number[];
+	handleVolumeChange: (index: number, volume: number) => void;
+}
+
+interface NoiseVolumeProps {
+	noiseVolume: number;
+	handleNoiseVolumeChange: (volume: number) => void;
+}
 
 export function Volume_Stems({
 	volumes, handleVolumeChange
-}) {
+}: StemVolumeProps) {
 	const OPTIONS = [
 		{ label: 'Piano' },
 		{ label: 'Cello' },
@@ -30,7 +41,7 @@ export function Volume_Stems({
 									value={volumes[index]}
 									onChange={(e) => handleVolumeChange(index, parseFloat(e.target.value))}
 									className="_slider-v"
-									style={{ '--value': `${percentage}%` }}
+								style={{ '--value': `${percentage}%` } as CSSProperties}
 								/>
 							</div>
 						</div>
@@ -46,7 +57,7 @@ export function Volume_Stems({
 
 export function Volume_Noise({
 	noiseVolume, handleNoiseVolumeChange
-}) {
+}: NoiseVolumeProps) {
 	const min = -60;
 	const max = 6;
 	const percentage = ((noiseVolume - min) / (max - min)) * 100;
@@ -63,7 +74,7 @@ export function Volume_Noise({
 						value={noiseVolume}
 						onChange={(e) => handleNoiseVolumeChange(parseFloat(e.target.value))}
 						className="_slider-v-secondary"
-						style={{ '--value': `${percentage}%` }}
+						style={{ '--value': `${percentage}%` } as CSSProperties}
 					/>
 				</div>
 			</div>

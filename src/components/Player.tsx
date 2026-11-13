@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import * as Tone from "tone";
+import WaveSurfer from 'wavesurfer.js';
 import Player_Header from './player/Player_Header'
 import Player_Body from './player/Player_Body'
 import Loading from './player/Overlay/Loading'
+import type { NoiseColor, NoiseMode, FilterMode, TransportState } from '../types'
 
 function Player() {
 	const songs = [
@@ -57,37 +59,38 @@ function Player() {
 		},
 	];
 
-	const buffersRef = useRef([[], []]);
-	const playersRef = useRef(null);
-	const wavesurferRef = useRef(null);
-	const [isSongLoaded, setIsSongLoaded] = useState([false, false]);
-	const [loadingError, setLoadingError] = useState(null);
+	const buffersRef = useRef<Tone.ToneAudioBuffer[][]>([[], []]);
+	const playersRef = useRef<Tone.Player[] | null>(null);
+	const wavesurferRef = useRef<WaveSurfer | null>(null);
+	const [isSongLoaded, setIsSongLoaded] = useState<boolean[]>([false, false]);
+	const [loadingError, setLoadingError] = useState<string | null>(null);
 	const [loadRetryCount, setLoadRetryCount] = useState(0);
-	const [transportState, setTransportState] = useState("stopped");
+	const [transportState, setTransportState] = useState<TransportState>("stopped");
 	const [currentSongID, setCurrentSongID] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
-	const elapsedTime1 = useRef(null);
-	const elapsedTime2 = useRef(null);
-	const [isLooping, setIsLooping] = useState(false);
+	const elapsedTime1 = useRef<HTMLSpanElement | null>(null);
+	const elapsedTime2 = useRef<HTMLHeadingElement | null>(null);
+	const [isLooping, setIsLooping] = useState<boolean>(false);
 	const wasPlayingBeforeDrag = useRef(false);
-	const seekPauseTimeoutRef = useRef(null);
+	const seekPauseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const fadeTime = 0.05;
 	const [volumes, setVolumes] = useState([0, 0, 0, 0]);
-	const fadersRef = useRef([]);
-	const [activeFilter, setActiveFilter] = useState("off");
-	const filterRef = useRef(null);
-	const noiseRef = useRef(null);
-	const noiseFaderRef = useRef(null);
-	const [activeNoise, setActiveNoise] = useState("pink");
-	const noiseTypeRef = useRef("pink");
+	const fadersRef = useRef<Tone.Gain[]>([]);
+	const [activeFilter, setActiveFilter] = useState<FilterMode>("off");
+	const filterRef = useRef<Tone.Filter | null>(null);
+	const noiseRef = useRef<Tone.Noise | null>(null);
+	const noiseFaderRef = useRef<Tone.Gain | null>(null);
+	const [activeNoise, setActiveNoise] = useState<NoiseMode>("pink");
+	const noiseTypeRef = useRef<NoiseColor>("pink");
 	const [noiseVolume, setNoiseVolume] = useState(-60);
+	const currentSongLoaded = isSongLoaded[currentSongID];
 
 	const playOrder = useMemo(() => {
-		const set = new Set();
+		const set = new Set<number>();
 		while (set.size < songs.length)
 			set.add(Math.floor(Math.random() * songs.length));
 		return Array.from(set);
-	}, []);
+	}, [songs.length]);
 
 	//pre-load all song stems into buffers sequentially
 	const songsPreloaded = useRef(false);
@@ -112,7 +115,7 @@ function Player() {
 					buffersRef.current[j] = await Promise.all(stemPromises);
 
 					setIsSongLoaded(prev => {
-						const newState = [...prev];
+				const newState = [...prev];
 						newState[j] = true;
 						return newState;
 					});
@@ -125,11 +128,13 @@ function Player() {
 			}
 		};
 		loadAllSongs();
+	// Playlist data and order are stable during this mounted player's lifetime.
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [loadRetryCount]);
 
 	//initialize audio routing, effects + stems synchronization for the current song
 	useEffect(() => {
-		if (!isSongLoaded[currentSongID])
+		if (!currentSongLoaded)
 			return;
 
 		const duration = songs[currentSongID].duration;
@@ -149,12 +154,12 @@ function Player() {
 		}).toDestination();
 		filterRef.current = masterFilter;
 
-		const newPlayers = [];
-		const newFaders = [];
+		const newPlayers: Tone.Player[] = [];
+		const newFaders: Tone.Gain[] = [];
 		const noiseFader = new Tone.Gain(0).connect(masterFilter);
 		noiseFaderRef.current = noiseFader;
 
-		songs[currentSongID].stemPaths.forEach((path, index) => {
+		songs[currentSongID].stemPaths.forEach((_path, index) => {
 			const gainNode = new Tone.Gain(Tone.dbToGain(volumes[index]));
 			gainNode.connect(masterFilter);
 			const player = new Tone.Player(buffersRef.current[currentSongID][index])
@@ -192,7 +197,9 @@ function Player() {
 			if (endEvent !== null)
 				Tone.Transport.clear(endEvent);
 		};
-	}, [currentSongID, isSongLoaded[currentSongID]]);
+	// Engine nodes are rebuilt for song changes; current gain updates use dedicated handlers.
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentSongID, currentSongLoaded]);
 
 	//set react state with Tone.Transport events
 	useEffect(() => {
@@ -214,14 +221,15 @@ function Player() {
 	}, []);
 
 	useEffect(() => {
-		if (!noiseFaderRef.current)
+		const noiseFader = noiseFaderRef.current;
+		if (!noiseFader)
 			return;
 
 		const targetGain = transportState === "started" && activeNoise !== "off"
 			? Tone.dbToGain(noiseVolume)
 			: 0;
-		noiseFaderRef.current.gain.rampTo(targetGain, fadeTime);
-	}, [activeNoise, noiseVolume, transportState, currentSongID, isSongLoaded[currentSongID], fadeTime]);
+		noiseFader.gain.rampTo(targetGain, fadeTime);
+	}, [activeNoise, noiseVolume, transportState, currentSongID, currentSongLoaded, fadeTime]);
 
 	const handlePlay = async () => {
 		await Tone.start();
@@ -238,8 +246,9 @@ function Player() {
 			Tone.Transport.start();
 			Tone.Destination.volume.rampTo(0, fadeTime);
 			const targetNoiseVolume = Tone.dbToGain(noiseVolume);
-			if (activeNoise !== "off" && noiseFaderRef.current.gain.value !== targetNoiseVolume)
-				noiseFaderRef.current.gain.rampTo(targetNoiseVolume, fadeTime);
+			const noiseFader = noiseFaderRef.current;
+			if (activeNoise !== "off" && noiseFader && noiseFader.gain.value !== targetNoiseVolume)
+				noiseFader.gain.rampTo(targetNoiseVolume, fadeTime);
 		}
 	};
 	const handlePause = () => {
@@ -265,7 +274,7 @@ function Player() {
 			console.log("Transport stopped and reset to 0:00");
 		}, 50);
 	};
-	const handleSeek = (time, isDragging) => {
+	const handleSeek = (time: number, isDragging: boolean) => {
 		if (isNaN(time) || time < 0)
 			return;
 
@@ -317,7 +326,7 @@ function Player() {
 				wavesurferRef.current.setTime(isDragging && wasPlayingBeforeDrag.current
 					? Math.min(seekTime, duration - 0.05)
 					: seekTime);
-			} catch (e) {
+			} catch {
 			}
 		}
 
@@ -326,7 +335,7 @@ function Player() {
 		if (elapsedTime2.current)
 			elapsedTime2.current.innerText = formatTime(seekTime);
 	};
-	const handleLoopToggle = (shouldLoop) => {
+	const handleLoopToggle = (shouldLoop: boolean) => {
 		setIsLooping(shouldLoop);
 		Tone.Transport.loop = shouldLoop;
 		if (shouldLoop) {
@@ -335,9 +344,7 @@ function Player() {
 		}
 	};
 	const handleNextTrack = () => {
-		if (noiseFaderRef.current)
-			noiseFaderRef.current.gain.rampTo(0, fadeTime);
-		console.log("[handleNextTrack] noiseFaderRef.current.gain.value:", noiseFaderRef.current.gain.value);
+		noiseFaderRef.current?.gain.rampTo(0, fadeTime);
 		Tone.Transport.stop();
 		Tone.Transport.seconds = 0;
 		setCurrentTime(0);
@@ -357,7 +364,7 @@ function Player() {
 		}
 	};
 
-	const formatTime = (seconds) => {
+	const formatTime = (seconds: number) => {
 		if (!seconds)
 			return "0:00";
 
@@ -370,7 +377,7 @@ function Player() {
 
 	//update currentTime, elapsedTime + wavesurfer progress
 	useEffect(() => {
-		let animationFrame;
+		let animationFrame: number;
 
 		const syncWaveform = () => {
 			const transportTime = Tone.Transport.seconds;
@@ -382,7 +389,7 @@ function Player() {
 
 			if (Tone.Transport.state === "started" && wavesurferRef.current) {
 				setCurrentTime(Tone.Transport.seconds);
-				if (wavesurferRef.current && !wavesurferRef.current.isInteracting)
+				if (!wasPlayingBeforeDrag.current)
 					wavesurferRef.current.setTime(transportTime);
 			}
 			animationFrame = requestAnimationFrame(syncWaveform);
@@ -391,7 +398,7 @@ function Player() {
 		return () => cancelAnimationFrame(animationFrame);
 	}, []);
 
-	const handleVolumeChange = (index, newVolume) => {
+	const handleVolumeChange = (index: number, newVolume: number) => {
 		const updatedVolumes = [...volumes];
 		updatedVolumes[index] = newVolume;
 		setVolumes(updatedVolumes);
@@ -400,7 +407,7 @@ function Player() {
 			fadersRef.current[index].gain.rampTo(Tone.dbToGain(newVolume), fadeTime);
 	};
 
-	const handleFilterChange = (mode) => {
+	const handleFilterChange = (mode: FilterMode) => {
 		if (!filterRef.current)
 			return;
 
@@ -421,8 +428,10 @@ function Player() {
 		console.log("filter mode: ", newMode);
 	};
 
-	const handleNoiseChange = (type) => {
-		if (!noiseRef.current || !noiseFaderRef.current)
+	const handleNoiseChange = (type: NoiseColor) => {
+		const noise = noiseRef.current;
+		const noiseFader = noiseFaderRef.current;
+		if (!noise || !noiseFader)
 			return;
 
 		const isTogglingOff = activeNoise === type;
@@ -431,24 +440,20 @@ function Player() {
 		setActiveNoise(newType);
 
 		if (newType === "off")
-			noiseFaderRef.current.gain.rampTo(0, fadeTime);
+			noiseFader.gain.rampTo(0, fadeTime);
 		else {
 			noiseTypeRef.current = newType;
-			noiseRef.current.type = newType;
+			noise.type = newType;
 			if (transportState === "started")
-				noiseFaderRef.current.gain.rampTo(Tone.dbToGain(noiseVolume), fadeTime);
+				noiseFader.gain.rampTo(Tone.dbToGain(noiseVolume), fadeTime);
 		}
-		console.log("[handleNoiseChange] noiseFaderRef.current.gain.value:", noiseFaderRef.current.gain.value);
 	};
-	const handleNoiseVolumeChange = (newVolume) => {
+	const handleNoiseVolumeChange = (newVolume: number) => {
 		setNoiseVolume(newVolume);
 
-		if (noiseFaderRef.current) {
-			if (activeNoise !== "off") {
-				noiseFaderRef.current.gain.rampTo(Tone.dbToGain(newVolume), fadeTime);
-			}
-		}
-		console.log("[handleNoiseVolumeChange] noiseFaderRef.current.gain.value:", noiseFaderRef.current.gain.value);
+		const noiseFader = noiseFaderRef.current;
+		if (noiseFader && activeNoise !== "off")
+			noiseFader.gain.rampTo(Tone.dbToGain(newVolume), fadeTime);
 	};
 	const handleRetryLoading = () => {
 		setLoadingError(null);

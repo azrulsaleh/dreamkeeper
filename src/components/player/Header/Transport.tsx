@@ -1,9 +1,17 @@
 import { Pause_Button, Play_Button, Stop_Button } from '../../../svg/Vector';
+import type { TransportState } from '../../../types';
+
+interface TransportProps {
+	transportState: TransportState;
+	handlePlay: () => void | Promise<void>;
+	handlePause: () => void;
+	handleStop: () => void;
+}
 
 function Transport({
 	transportState,
 	handlePlay, handlePause, handleStop
-}) {
+}: TransportProps) {
 	const isPlaying = transportState === "started";
 	const isPaused = transportState === "paused";
 	const isStopped = transportState === "stopped";
