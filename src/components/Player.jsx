@@ -218,16 +218,16 @@ function Player() {
 		}
 	};
 	const handlePause = () => {
-		if (Tone.Transport.state === "started") {
+		const state = Tone.Transport.state;
+		if (state === "started") {
 			Tone.Destination.volume.rampTo(-Infinity, fadeTime);
 			setTimeout(() => {
 				if (Tone.Transport.state === "started")
 					Tone.Transport.pause();
 			}, 50);
 			console.log("Transport paused at ", Tone.Transport.seconds.toFixed(2));
-		} else {
-			Tone.Transport.start();
-			Tone.Destination.volume.rampTo(0, fadeTime);
+		} else if (state === "paused") {
+			handlePlay();
 		}
 	};
 	const handleStop = () => {
