@@ -1,4 +1,20 @@
-const AudioLoader = () => {
+const AudioLoader = ({ error, onRetry }) => {
+	if (error) {
+		return (
+			<div className="flex flex-col items-center space-y-5">
+				<h2 className="text-center text-neutral-10">Unable to load audio</h2>
+				<p className="text-center text-neutral-7">{error}</p>
+				<button
+					type="button"
+					onClick={onRetry}
+					className="_radio-button _radio-on px-5 py-2"
+				>
+					Try again
+				</button>
+			</div>
+		);
+	}
+
 	return (
 		<div className="flex flex-col space-y-5">
 			<div className="flex justify-center">

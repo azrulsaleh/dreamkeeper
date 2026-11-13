@@ -61,6 +61,8 @@ function Player() {
 	const playersRef = useRef(null);
 	const wavesurferRef = useRef(null);
 	const [isSongLoaded, setIsSongLoaded] = useState([false, false]);
+	const [loadingError, setLoadingError] = useState(null);
+	const [loadRetryCount, setLoadRetryCount] = useState(0);
 	const [transportState, setTransportState] = useState("stopped");
 	const [currentSongID, setCurrentSongID] = useState(0);
 	const [currentTime, setCurrentTime] = useState(0);
@@ -94,24 +96,35 @@ function Player() {
 		songsPreloaded.current = true;
 
 		const loadAllSongs = async () => {
-			setCurrentSongID(playOrder[0]);
-			for (let i = 0; i < playOrder.length; i++) {
-				let j = playOrder[i];
-				const stemPromises = songs[j].stemPaths.map(path => 
-					new Tone.ToneAudioBuffer().load(path)
-				);
-				buffersRef.current[j] = await Promise.all(stemPromises);
+			if (loadRetryCount === 0)
+				setCurrentSongID(playOrder[0]);
+			setLoadingError(null);
+			try {
+				for (let i = 0; i < playOrder.length; i++) {
+					const j = playOrder[i];
+					if (buffersRef.current[j]?.length === songs[j].stemPaths.length)
+						continue;
 
-				setIsSongLoaded(prev => {
-					const newState = [...prev];
-					newState[j] = true;
-					return newState;
-				});
-				console.log(`\"${songs[j].id} - ${songs[j].title}\" buffers loaded`);
+					const stemPromises = songs[j].stemPaths.map(path =>
+						new Tone.ToneAudioBuffer().load(path)
+					);
+					buffersRef.current[j] = await Promise.all(stemPromises);
+
+					setIsSongLoaded(prev => {
+						const newState = [...prev];
+						newState[j] = true;
+						return newState;
+					});
+					console.log(`\"${songs[j].id} - ${songs[j].title}\" buffers loaded`);
+				}
+			} catch (error) {
+				console.error("Audio preload failed:", error);
+				songsPreloaded.current = false;
+				setLoadingError("Audio could not be loaded. Check your connection and try again.");
 			}
 		};
 		loadAllSongs();
-	}, []);
+	}, [loadRetryCount]);
 
 	//initialize audio routing, effects + stems synchronization for the current song
 	useEffect(() => {
@@ -398,6 +411,11 @@ function Player() {
 		}
 		console.log("[handleNoiseVolumeChange] noiseFaderRef.current.gain.value:", noiseFaderRef.current.gain.value);
 	};
+	const handleRetryLoading = () => {
+		setLoadingError(null);
+		songsPreloaded.current = false;
+		setLoadRetryCount(count => count + 1);
+	};
 
 	return (
 		<div className='_parent _bg-player'>
@@ -433,7 +451,7 @@ function Player() {
 			</div>
 			{(!isSongLoaded[currentSongID]) && (
 				<div className="_child _loading z-10">
-					<Loading />
+					<Loading error={loadingError} onRetry={handleRetryLoading} />
 				</div>
 			)}
 		</div>
