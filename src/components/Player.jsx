@@ -70,6 +70,7 @@ function Player() {
 	const elapsedTime2 = useRef(null);
 	const [isLooping, setIsLooping] = useState(false);
 	const wasPlayingBeforeDrag = useRef(false);
+	const seekPauseTimeoutRef = useRef(null);
 	const fadeTime = 0.05;
 	const [volumes, setVolumes] = useState([0, 0, 0, 0]);
 	const fadersRef = useRef([]);
@@ -258,34 +259,62 @@ function Player() {
 		if (isNaN(time) || time < 0)
 			return;
 
-		if (isDragging && Tone.Transport.state === "started") {
+		const duration = songs[currentSongID].duration;
+		const seekTime = Math.min(time, duration);
+
+		if (isDragging && Tone.Transport.state === "started" && !wasPlayingBeforeDrag.current) {
 			wasPlayingBeforeDrag.current = true;
 			Tone.Destination.volume.rampTo(-Infinity, fadeTime);
-			setTimeout(() => Tone.Transport.pause(), 30);
+			seekPauseTimeoutRef.current = setTimeout(() => {
+				if (Tone.Transport.state === "started")
+					Tone.Transport.pause();
+				seekPauseTimeoutRef.current = null;
+			}, 30);
 		}
 
-		Tone.Transport.seconds = time;
-		setCurrentTime(time);
-
 		if (!isDragging) {
+			if (seekPauseTimeoutRef.current) {
+				clearTimeout(seekPauseTimeoutRef.current);
+				seekPauseTimeoutRef.current = null;
+			}
+
 			if (wasPlayingBeforeDrag.current) {
+				if (seekTime >= duration - 0.05) {
+					wasPlayingBeforeDrag.current = false;
+					handleNextTrack();
+					return;
+				}
+				Tone.Transport.seconds = seekTime;
+				setCurrentTime(seekTime);
 				Tone.Transport.start();
 				Tone.Destination.volume.rampTo(0, fadeTime);
 				wasPlayingBeforeDrag.current = false;
+			} else {
+				Tone.Transport.seconds = seekTime;
+				setCurrentTime(seekTime);
 			}
+		} else {
+			// Keep a running transport before its scheduled end until the drag is released.
+			const dragTime = wasPlayingBeforeDrag.current
+				? Math.min(seekTime, duration - 0.05)
+				: seekTime;
+			Tone.Transport.seconds = dragTime;
+			setCurrentTime(dragTime);
 		}
 
 		if (wavesurferRef.current) {
 			try {
-				wavesurferRef.current.setTime(time);
+				wavesurferRef.current.setTime(isDragging && wasPlayingBeforeDrag.current
+					? Math.min(seekTime, duration - 0.05)
+					: seekTime);
 			} catch (e) {
 			}
 		}
 
 		if (elapsedTime1.current)
-			elapsedTime1.current.innerText = formatTime(time);
+			elapsedTime1.current.innerText = formatTime(seekTime);
 		if (elapsedTime2.current)
-			elapsedTime2.current.innerText = formatTime(time);
+			elapsedTime2.current.innerText = formatTime(seekTime);
 	};
 	const handleLoopToggle = (shouldLoop) => {
 		setIsLooping(shouldLoop);
