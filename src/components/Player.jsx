@@ -76,6 +76,7 @@ function Player() {
 	const noiseRef = useRef(null);
 	const noiseFaderRef = useRef(null);
 	const [activeNoise, setActiveNoise] = useState("pink");
+	const noiseTypeRef = useRef("pink");
 	const [noiseVolume, setNoiseVolume] = useState(-60);
 
 	const playOrder = useMemo(() => {
@@ -152,7 +153,7 @@ function Player() {
 		playersRef.current = newPlayers;
 		fadersRef.current = newFaders;
 		
-		const noise = new Tone.Noise("brown").connect(noiseFader);
+		const noise = new Tone.Noise(noiseTypeRef.current).connect(noiseFader);
 		noiseRef.current = noise;
 		noise.start();
 
@@ -380,6 +381,7 @@ function Player() {
 		if (newType === "off")
 			noiseFaderRef.current.gain.rampTo(0, fadeTime);
 		else {
+			noiseTypeRef.current = newType;
 			noiseRef.current.type = newType;
 			if (transportState === "started")
 				noiseFaderRef.current.gain.rampTo(Tone.dbToGain(noiseVolume), fadeTime);
