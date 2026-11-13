@@ -194,21 +194,26 @@ function Player() {
 	}, []);
 
 	const handlePlay = async () => {
+		console.log("handlePlay [a]");
 		await Tone.start();
-
+		console.log("handlePlay [b]");
+		
 		if (Tone.Transport.seconds >= songs[currentSongID].duration - 0.05) {
+			console.log("handlePlay [c]");
 			Tone.Transport.stop();
 			Tone.Transport.seconds = 0;
 			setCurrentTime(0);
 			wavesurferRef.current?.setTime(0);
 		}
-
+		
 		if (Tone.Transport.state !== "started") {
+			console.log("handlePlay [d]");
 			Tone.Destination.volume.value = -Infinity;
 			Tone.Transport.start();
 			Tone.Destination.volume.rampTo(0, fadeTime);
 			if (activeNoise !== "off" && noiseFaderRef.current)
 				noiseFaderRef.current.gain.rampTo(Tone.dbToGain(noiseVolume), fadeTime);
+			console.log("[handlePlay] noiseFaderRef.current.gain.value:", noiseFaderRef.current.gain.value);
 		}
 	};
 	const handlePause = () => {
@@ -278,6 +283,7 @@ function Player() {
 	const handleNextTrack = () => {
 		if (noiseFaderRef.current)
 			noiseFaderRef.current.gain.rampTo(0, fadeTime);
+		console.log("[handleNextTrack] noiseFaderRef.current.gain.value:", noiseFaderRef.current.gain.value);
 		Tone.Transport.stop();
 		Tone.Transport.seconds = 0;
 		setCurrentTime(0);
@@ -377,15 +383,17 @@ function Player() {
 			if (transportState === "started")
 				noiseFaderRef.current.gain.rampTo(Tone.dbToGain(noiseVolume), fadeTime);
 		}
+		console.log("[handleNoiseChange] noiseFaderRef.current.gain.value:", noiseFaderRef.current.gain.value);
 	};
 	const handleNoiseVolumeChange = (newVolume) => {
 		setNoiseVolume(newVolume);
-		
+
 		if (noiseFaderRef.current) {
 			if (activeNoise !== "off") {
 				noiseFaderRef.current.gain.rampTo(Tone.dbToGain(newVolume), fadeTime);
 			}
 		}
+		console.log("[handleNoiseVolumeChange] noiseFaderRef.current.gain.value:", noiseFaderRef.current.gain.value);
 	};
 
 	return (

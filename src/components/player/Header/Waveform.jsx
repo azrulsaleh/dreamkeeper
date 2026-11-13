@@ -59,12 +59,10 @@ const Waveform = forwardRef(({wavesurferRef, handleSeek, duration, waveformPeaks
 		});
 
 		ws.current = wavesurfer;
-		console.log("Waveform drawn");
 		return () => {
 			wavesurfer.unAll();
 			try {
 				wavesurfer.destroy();
-				console.log("Waveform destroyed");
 			} catch (e) {
 				console.warn("WaveSurfer destroyed during active load, safely ignored.");
 			}
