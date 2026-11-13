@@ -213,6 +213,16 @@ function Player() {
 		};
 	}, []);
 
+	useEffect(() => {
+		if (!noiseFaderRef.current)
+			return;
+
+		const targetGain = transportState === "started" && activeNoise !== "off"
+			? Tone.dbToGain(noiseVolume)
+			: 0;
+		noiseFaderRef.current.gain.rampTo(targetGain, fadeTime);
+	}, [activeNoise, noiseVolume, transportState, currentSongID, isSongLoaded[currentSongID], fadeTime]);
+
 	const handlePlay = async () => {
 		await Tone.start();
 
