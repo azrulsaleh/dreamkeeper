@@ -31,6 +31,8 @@ export function Volume_Stems() {
 									max={max}
 									step="1"
 									value={volumes[index]}
+									aria-label={`${stem.label} volume`}
+									aria-valuetext={`${volumes[index]} dB`}
 									onChange={(e) => setStemVolume(index, parseFloat(e.target.value))}
 									className="_slider-v"
 								style={{ '--value': `${percentage}%` } as CSSProperties}
@@ -65,6 +67,8 @@ export function Volume_Noise() {
 						max={max}
 						step="1"
 						value={noiseVolume}
+						aria-label="Noise volume"
+						aria-valuetext={`${noiseVolume} dB`}
 						onChange={(e) => setNoiseVolume(parseFloat(e.target.value))}
 						className="_slider-v-secondary"
 						style={{ '--value': `${percentage}%` } as CSSProperties}
