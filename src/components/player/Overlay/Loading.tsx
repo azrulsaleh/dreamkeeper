@@ -7,7 +7,7 @@ const AudioLoader = ({ error, onRetry }: AudioLoaderProps) => {
 	// Show recovery controls after a preload failure; otherwise show the loading state.
 	if (error) {
 		return (
-			<div className="flex flex-col items-center space-y-5">
+			<div role="alert" className="flex flex-col items-center space-y-5">
 				<h2 className="text-center text-neutral-10">Unable to load audio</h2>
 				<p className="text-center text-neutral-7">{error}</p>
 				<button
@@ -22,7 +22,7 @@ const AudioLoader = ({ error, onRetry }: AudioLoaderProps) => {
 	}
 
 	return (
-		<div className="flex flex-col space-y-5">
+		<div role="status" aria-live="polite" className="flex flex-col space-y-5">
 			<div className="flex justify-center">
 				<div className="_spinner" />
 			</div>
