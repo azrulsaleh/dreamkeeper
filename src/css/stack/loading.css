@@ -14,4 +14,10 @@
 			animate-spin ease-linear
 			;
 	}
+
+	@media (prefers-reduced-motion: reduce) {
+		._spinner {
+			animation: none;
+		}
+	}
 }

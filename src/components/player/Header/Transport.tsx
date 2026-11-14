@@ -27,11 +27,7 @@ function Transport({
 				aria-label="Play"
 				aria-pressed={isPlaying}
 				onClick={handlePlay}
-				className="
-					h-10 w-10
-					group rounded-full bg-transparent p-0
-					focus-visible:outline-2 outline-offset-2 outline-secondary-14
-			">
+				className="h-10 w-10 group _transport-button rounded-full p-0">
 				<Play_Icon isActive={isPlaying ? 0 : 1} />
 			</button>
 			<button
@@ -39,11 +35,7 @@ function Transport({
 				aria-label="Pause"
 				aria-pressed={isPaused}
 				onClick={handlePause}
-				className="
-					h-10 w-10
-					group rounded-full bg-transparent p-0
-					focus-visible:outline-2 outline-offset-2 outline-secondary-14
-			">
+				className="h-10 w-10 group _transport-button rounded-full p-0">
 				<Pause_Icon isActive={isPaused ? 0 : 1} />
 			</button>
 			<button
@@ -51,11 +43,7 @@ function Transport({
 				aria-label="Stop"
 				aria-pressed={isStopped}
 				onClick={handleStop}
-				className="
-					h-10 w-10
-					group rounded-full bg-transparent p-0
-					focus-visible:outline-2 outline-offset-2 outline-secondary-14
-			">
+				className="h-10 w-10 group _transport-button rounded-full p-0">
 				<Stop_Icon isActive={isStopped ? 0 : 1} />
 			</button>
 		</div>

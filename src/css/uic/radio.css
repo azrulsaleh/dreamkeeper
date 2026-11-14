@@ -18,6 +18,16 @@
 			focus-visible:outline-2 outline-secondary-14 outline-offset-6
 			;
 	}
+	._radio-button:focus-visible,
+	._transport-button:focus-visible {
+		outline: 2px solid var(--color-secondary-14);
+		outline-offset: 4px;
+	}
+	._transport-button {
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+	}
 	._radio-on {
 		@apply
 			bg-primary-8

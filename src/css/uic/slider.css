@@ -2,10 +2,14 @@
 	._slider-h {
 		-webkit-appearance: none; 
 		appearance: none;
-		@apply
-			bg-transparent
-			focus-visible:outline-2 outline-secondary-14 outline-offset-4 rounded-full
-			;
+		background: transparent;
+	}
+	._slider-h:focus-visible,
+	._slider-v:focus-visible,
+	._slider-v-secondary:focus-visible {
+		outline: 2px solid var(--color-secondary-14);
+		outline-offset: 4px;
+		border-radius: 9999px;
 	}
 	._slider-h::-webkit-slider-runnable-track {
 		@apply
