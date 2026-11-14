@@ -50,4 +50,11 @@ export default defineConfig([
       'react-hooks/purity': 'off',
     },
   },
+  {
+    files: ['src/hooks/usePlayerEngine.ts'],
+    rules: {
+      // The random playlist is initialized exactly once as mount-time state.
+      'react-hooks/purity': 'off',
+    },
+  },
 ])

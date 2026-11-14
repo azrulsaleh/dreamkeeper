@@ -1,11 +1,8 @@
-import type { FilterMode } from '../../../types';
+import { usePlayerSettingsStore } from '../../../store/playerSettingsStore';
 
-interface FilterProps {
-	activeFilter: FilterMode;
-	handleFilterChange: (mode: FilterMode) => void;
-}
-
-function Filter({activeFilter, handleFilterChange}: FilterProps) {
+function Filter() {
+	const activeFilter = usePlayerSettingsStore(state => state.activeFilter);
+	const setActiveFilter = usePlayerSettingsStore(state => state.setActiveFilter);
 	const filters = [
 		{ id: 'gentle', label: 'Gentle' },
 		{ id: 'warm', label: 'Warm' },
@@ -20,7 +17,7 @@ function Filter({activeFilter, handleFilterChange}: FilterProps) {
 					{filters.map((f) => (
 						<button
 							key={f.id}
-							onClick={() => handleFilterChange(f.id)}
+							onClick={() => setActiveFilter(activeFilter === f.id ? 'off' : f.id)}
 							className={`
 								_radio-button flex-1 w-22
 								hover:border-2 hover:border-primary-18

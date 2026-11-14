@@ -1,9 +1,8 @@
-interface LoopProps {
-	isLooping: boolean;
-	handleLoopToggle: (shouldLoop: boolean) => void;
-}
+import { usePlayerSettingsStore } from '../../../store/playerSettingsStore';
 
-function Loop({isLooping, handleLoopToggle}: LoopProps) {
+function Loop() {
+	const isLooping = usePlayerSettingsStore(state => state.isLooping);
+	const setLooping = usePlayerSettingsStore(state => state.setLooping);
 	const OPTIONS = [
 		{ label: 'Music All Night', value: true },
 		{ label: 'Music Once', value: false },
@@ -14,7 +13,7 @@ function Loop({isLooping, handleLoopToggle}: LoopProps) {
 			{OPTIONS.map((mode) => (
 				<button
 					key={String(mode.value)}
-					onClick={() => handleLoopToggle(mode.value)}
+					onClick={() => setLooping(mode.value)}
 					className={`
 						_radio-button flex-1 max-w-43.75
 						hover:border-2 hover:border-primary-18

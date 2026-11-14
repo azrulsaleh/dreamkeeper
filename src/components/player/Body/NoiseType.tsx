@@ -1,11 +1,8 @@
-import type { NoiseColor, NoiseMode } from '../../../types';
+import { usePlayerSettingsStore } from '../../../store/playerSettingsStore';
 
-interface NoiseTypeProps {
-	activeNoise: NoiseMode;
-	handleNoiseChange: (type: NoiseColor) => void;
-}
-
-function NoiseType({activeNoise, handleNoiseChange}: NoiseTypeProps) {
+function NoiseType() {
+	const activeNoise = usePlayerSettingsStore(state => state.activeNoise);
+	const setActiveNoise = usePlayerSettingsStore(state => state.setActiveNoise);
 	const types = [
 		{
 			id: 'white',
@@ -29,7 +26,7 @@ function NoiseType({activeNoise, handleNoiseChange}: NoiseTypeProps) {
 					{types.map((n) => (
 						<button
 							key={n.id}
-							onClick={() => handleNoiseChange(n.id)}
+							onClick={() => setActiveNoise(activeNoise === n.id ? 'off' : n.id)}
 							className={`
 								_radio-button flex-1 max-w-25
 								hover:border-2 hover:border-primary-18

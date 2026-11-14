@@ -1,19 +1,10 @@
 import type { CSSProperties } from 'react';
+import { usePlayerSettingsStore } from '../../../store/playerSettingsStore';
 import { Bg_Stems } from '../../../svg/Vector'
 
-interface StemVolumeProps {
-	volumes: number[];
-	handleVolumeChange: (index: number, volume: number) => void;
-}
-
-interface NoiseVolumeProps {
-	noiseVolume: number;
-	handleNoiseVolumeChange: (volume: number) => void;
-}
-
-export function Volume_Stems({
-	volumes, handleVolumeChange
-}: StemVolumeProps) {
+export function Volume_Stems() {
+	const volumes = usePlayerSettingsStore(state => state.volumes);
+	const setStemVolume = usePlayerSettingsStore(state => state.setStemVolume);
 	const OPTIONS = [
 		{ label: 'Piano' },
 		{ label: 'Cello' },
@@ -39,7 +30,7 @@ export function Volume_Stems({
 									max={max}
 									step="1"
 									value={volumes[index]}
-									onChange={(e) => handleVolumeChange(index, parseFloat(e.target.value))}
+									onChange={(e) => setStemVolume(index, parseFloat(e.target.value))}
 									className="_slider-v"
 								style={{ '--value': `${percentage}%` } as CSSProperties}
 								/>
@@ -55,9 +46,9 @@ export function Volume_Stems({
 	)
 }
 
-export function Volume_Noise({
-	noiseVolume, handleNoiseVolumeChange
-}: NoiseVolumeProps) {
+export function Volume_Noise() {
+	const noiseVolume = usePlayerSettingsStore(state => state.noiseVolume);
+	const setNoiseVolume = usePlayerSettingsStore(state => state.setNoiseVolume);
 	const min = -60;
 	const max = 6;
 	const percentage = ((noiseVolume - min) / (max - min)) * 100;
@@ -72,7 +63,7 @@ export function Volume_Noise({
 						max={max}
 						step="1"
 						value={noiseVolume}
-						onChange={(e) => handleNoiseVolumeChange(parseFloat(e.target.value))}
+						onChange={(e) => setNoiseVolume(parseFloat(e.target.value))}
 						className="_slider-v-secondary"
 						style={{ '--value': `${percentage}%` } as CSSProperties}
 					/>

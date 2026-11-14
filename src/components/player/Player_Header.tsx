@@ -15,8 +15,6 @@ interface PlayerHeaderProps {
 	duration: number;
 	currentTime: number;
 	formatTime: (seconds: number) => string;
-	elapsedTime1: RefObject<HTMLSpanElement | null>;
-	elapsedTime2: RefObject<HTMLHeadingElement | null>;
 	transportState: TransportState;
 	title: string;
 }
@@ -24,7 +22,7 @@ interface PlayerHeaderProps {
 const Player_Header = ({
 	wavesurferRef, waveformPeaks,
 	handlePlay, handlePause, handleStop, handleSeek,
-	duration, currentTime, formatTime, elapsedTime1, elapsedTime2,
+	duration, currentTime, formatTime,
 	transportState, title
 }: PlayerHeaderProps) => {
 	const isDragging = useRef(false);
@@ -73,7 +71,7 @@ const Player_Header = ({
 				'>
 					<h1 className="text-neutral-7">{title}</h1>
 					<h4 className='text-primary-10'>
-						<span ref={elapsedTime1}>0:00</span> / {formatTime(duration)}
+						{formatTime(currentTime)} / {formatTime(duration)}
 					</h4>
 				</div>
 				<Transport
@@ -96,7 +94,7 @@ const Player_Header = ({
 				w-full
 			'>
 				<div className='w-10 text-neutral-6'>
-					<h4 ref={elapsedTime2}>0:00</h4>
+					<h4>{formatTime(currentTime)}</h4>
 				</div>
 				<div className='w-full flex place-items-center'>
 					<input
