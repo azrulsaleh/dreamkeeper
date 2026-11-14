@@ -89,6 +89,7 @@ const Waveform = ({wavesurferRef, handleSeek, duration, waveformPeaks}: Waveform
 		<div
 			ref={containerRef} 
 			className='w-full h-15 cursor-pointer touch-none'
+			aria-hidden="true"
 			onPointerDown={onClickDown}
 			onPointerMove={onClickDrag}
 			onPointerUp={onClickUp}
