@@ -1,6 +1,8 @@
 // @vitest-environment jsdom
-import { act, cleanup, renderHook, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react';
+import { createElement } from 'react';
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import Loading from '../components/player/Overlay/Loading';
 import { songs } from '../data/songs';
 
 const toneMocks = vi.hoisted(() => {
@@ -45,6 +47,7 @@ const toneMocks = vi.hoisted(() => {
 		emit,
 		startAudio: vi.fn(async () => undefined),
 		rampMasterVolume: vi.fn(),
+		loadBuffer: vi.fn(async (path: string) => ({ path })),
 	};
 });
 
@@ -61,7 +64,7 @@ let usePlayerEngine: typeof import('./usePlayerEngine').usePlayerEngine;
 
 vi.mock('tone', () => {
 	class MockAudioBuffer {
-		load = vi.fn(async (path: string) => ({ path }));
+		load = vi.fn((path: string) => toneMocks.loadBuffer(path));
 	}
 
 	class MockNode {
@@ -110,6 +113,7 @@ describe('usePlayerEngine playback transitions', () => {
 
 	beforeEach(() => {
 		vi.clearAllMocks();
+		toneMocks.loadBuffer.mockReset().mockImplementation(async (path: string) => ({ path }));
 		vi.stubGlobal('localStorage', localStorageMock);
 		storage.clear();
 		usePlayerSettingsStore.setState(defaultSettings);
@@ -233,5 +237,29 @@ describe('usePlayerEngine playback transitions', () => {
 		await waitFor(() => expect(result.current.transportState).toBe('started'));
 
 		expect(result.current.currentTime).toBe(0);
+	});
+
+	it('shows a preload error and retries successfully from the loading UI', async () => {
+		vi.spyOn(console, 'error').mockImplementation(() => undefined);
+		toneMocks.loadBuffer.mockImplementationOnce(async () => {
+			throw new Error('Network error');
+		});
+
+		function LoadingHarness() {
+			const { currentSongLoaded, loadingError, retryLoading } = usePlayerEngine();
+			return currentSongLoaded
+				? createElement('div', null, 'Audio ready')
+				: createElement(Loading, { error: loadingError, onRetry: retryLoading });
+		}
+
+		render(createElement(LoadingHarness));
+		await screen.findByText('Unable to load audio');
+		expect(screen.getByText('Audio could not be loaded. Check your connection and try again.')).toBeTruthy();
+		const failedLoadCount = toneMocks.loadBuffer.mock.calls.length;
+
+		fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
+		await screen.findByText('Audio ready');
+
+		expect(toneMocks.loadBuffer.mock.calls.length).toBeGreaterThan(failedLoadCount);
 	});
 });
