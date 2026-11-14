@@ -4,7 +4,7 @@
 		appearance: none;
 		@apply
 			bg-transparent
-			focus-visible:outline-2 outline-secondary-14 outline-offset-6 rounded-full
+			focus-visible:outline-2 outline-secondary-14 outline-offset-4 rounded-full
 			;
 	}
 	._slider-h::-webkit-slider-runnable-track {

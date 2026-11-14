@@ -17,7 +17,9 @@ function Filter() {
 				<div className='child z-10 _radio-buttons'>
 					{filters.map((f) => (
 						<button
+							type="button"
 							key={f.id}
+							aria-pressed={activeFilter === f.id}
 							onClick={() => setActiveFilter(activeFilter === f.id ? 'off' : f.id)}
 							className={`
 								_radio-button flex-1 w-22

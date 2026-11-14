@@ -26,7 +26,9 @@ function NoiseType() {
 				<div className='child z-10 _radio-buttons w-54'>
 					{types.map((n) => (
 						<button
+							type="button"
 							key={n.id}
+							aria-pressed={activeNoise === n.id}
 							onClick={() => setActiveNoise(activeNoise === n.id ? 'off' : n.id)}
 							className={`
 								_radio-button flex-1 max-w-25

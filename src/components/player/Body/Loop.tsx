@@ -13,7 +13,9 @@ function Loop() {
 		<div className='_radio-buttons w-full max-w-87.5 h-6.25 bg-primary-2'>
 			{OPTIONS.map((mode) => (
 				<button
+					type="button"
 					key={String(mode.value)}
+					aria-pressed={isLooping === mode.value}
 					onClick={() => setLooping(mode.value)}
 					className={`
 						_radio-button flex-1 max-w-43.75
