@@ -6,6 +6,7 @@ import { usePlayerSettingsStore } from '../store/playerSettingsStore';
 import type { TransportState } from '../types';
 
 function shuffleTrackIndexes() {
+	// Shuffle indexes once so the track list stays intact while playback follows a random order.
 	const indexes = songs.map((_, index) => index);
 	for (let index = indexes.length - 1; index > 0; index--) {
 		const swapIndex = Math.floor(Math.random() * (index + 1));
@@ -62,6 +63,7 @@ export function usePlayerEngine() {
 		}
 
 		if (Tone.Transport.state !== 'started') {
+			// Fade the master output in to avoid an abrupt start.
 			Tone.Destination.volume.value = -Infinity;
 			Tone.Transport.start();
 			Tone.Destination.volume.rampTo(0, fadeTime);
@@ -74,6 +76,7 @@ export function usePlayerEngine() {
 	}, []);
 
 	const handleStop = useCallback(() => {
+		// Let the fade finish before resetting the transport position.
 		Tone.Destination.volume.rampTo(-Infinity, fadeTime);
 		if (stopTimeoutRef.current)
 			clearTimeout(stopTimeoutRef.current);
@@ -128,6 +131,7 @@ export function usePlayerEngine() {
 		const seekTime = Math.min(time, duration);
 
 		if (isDragging && Tone.Transport.state === 'started' && !wasPlayingBeforeDrag.current) {
+			// Pause during a live seek, then resume from the chosen position on release.
 			wasPlayingBeforeDrag.current = true;
 			Tone.Destination.volume.rampTo(-Infinity, fadeTime);
 			seekPauseTimeoutRef.current = setTimeout(() => {
@@ -187,6 +191,7 @@ export function usePlayerEngine() {
 			if (pending)
 				return pending;
 
+			// Reuse in-flight loads so preload and track setup cannot fetch the same stems twice.
 			const request = Promise.all(songs[songIndex].stemPaths.map(path =>
 				new Tone.ToneAudioBuffer().load(path)
 			)).then(buffers => {
@@ -248,6 +253,7 @@ export function usePlayerEngine() {
 		noiseFaderRef.current = noiseFader;
 
 		currentSong.stemPaths.forEach((_, index) => {
+			// Route each synchronized stem through its own gain, then the shared filter.
 			const gainNode = new Tone.Gain(Tone.dbToGain(usePlayerSettingsStore.getState().volumes[index]));
 			gainNode.connect(masterFilter);
 			const player = new Tone.Player(songBuffers[index])
@@ -348,6 +354,7 @@ export function usePlayerEngine() {
 	useEffect(() => {
 		let animationFrame = 0;
 		const syncWaveform = () => {
+			// Poll the transport so the time label and waveform follow playback smoothly.
 			if (Tone.Transport.state === 'started') {
 				const transportTime = Tone.Transport.seconds;
 				setCurrentTime(transportTime);

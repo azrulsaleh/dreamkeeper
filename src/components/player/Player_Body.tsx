@@ -4,6 +4,7 @@ import Filter from './Body/Filter'
 import NoiseType from './Body/NoiseType'
 
 function Player_Body() {
+	// Place each settings control into its named area in the player grid.
 	return (
 		<div className='bento_body'>
 			<div className='[grid-area:box-loop]'>

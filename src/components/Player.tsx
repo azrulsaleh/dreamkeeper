@@ -4,6 +4,7 @@ import Loading from './player/Overlay/Loading';
 import { usePlayerEngine } from '../hooks/usePlayerEngine';
 
 function formatTime(seconds: number) {
+	// Keep the display stable for zero, negative, or fractional transport times.
 	if (!seconds)
 		return '0:00';
 
@@ -29,6 +30,7 @@ function Player() {
 		retryLoading,
 	} = usePlayerEngine();
 
+	// The header is remounted per track so its waveform instance uses that track's peaks.
 	return (
 		<div className='_parent _bg-player'>
 			<div className="_child z-0">

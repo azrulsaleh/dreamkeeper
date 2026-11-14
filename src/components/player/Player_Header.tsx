@@ -27,6 +27,7 @@ const Player_Header = ({
 }: PlayerHeaderProps) => {
 	const isDragging = useRef(false);
 
+	// Keep the slider's preview responsive while dragging, then finalize the seek on release.
 	const onClickDown = (e: SyntheticEvent<HTMLInputElement>) => {
 		isDragging.current = true;
 		const time = parseFloat(e.currentTarget.value);

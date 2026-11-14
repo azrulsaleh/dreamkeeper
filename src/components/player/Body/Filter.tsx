@@ -9,6 +9,7 @@ function Filter() {
 		{ id: 'deep', label: 'Deep' }
 	] as const;
 
+	// Clicking an active filter turns it off; otherwise it selects that filter.
 	return (
 		<div className='flex flex-col'>
 			<h3 className='pl-2.5 h-6.25 text-neutral-7'>Filters</h3>

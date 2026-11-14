@@ -28,11 +28,13 @@ const DEFAULT_SETTINGS: PersistedPlayerSettings = {
 	noiseVolume: -60,
 };
 
+// Keep all slider values inside the supported decibel range, with a safe fallback for invalid input.
 const clampDecibels = (value: number) => Number.isFinite(value)
 	? Math.max(-60, Math.min(6, value))
 	: 0;
 
 function normalizeSettings(value: unknown): PersistedPlayerSettings {
+	// Validate saved browser data before it enters the store; older or malformed values may be incomplete.
 	if (!value || typeof value !== 'object')
 		return DEFAULT_SETTINGS;
 
@@ -82,6 +84,7 @@ export const usePlayerSettingsStore = create<PlayerSettingsStore>()(
 			version: 1,
 			storage: createJSONStorage(() => localStorage),
 			partialize: state => ({
+				// Persist only user settings; action functions are recreated when the store initializes.
 				volumes: state.volumes,
 				isLooping: state.isLooping,
 				activeFilter: state.activeFilter,

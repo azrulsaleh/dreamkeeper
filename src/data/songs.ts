@@ -6,6 +6,7 @@ export interface Song {
 	waveformPeaks: number[];
 }
 
+// Each track's stems use the same order as the volume controls; peaks are precomputed for display.
 export const songs: Song[] = [
 	{
 		id: 1,

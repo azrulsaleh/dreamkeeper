@@ -8,6 +8,7 @@ function Loop() {
 		{ label: 'Music Once', value: false },
 	];
 
+	// The selected option sets whether playback wraps after the final track.
 	return (
 		<div className='_radio-buttons w-full max-w-87.5 h-6.25 bg-primary-2'>
 			{OPTIONS.map((mode) => (

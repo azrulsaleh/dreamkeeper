@@ -4,6 +4,7 @@ interface AudioLoaderProps {
 }
 
 const AudioLoader = ({ error, onRetry }: AudioLoaderProps) => {
+	// Show recovery controls after a preload failure; otherwise show the loading state.
 	if (error) {
 		return (
 			<div className="flex flex-col items-center space-y-5">

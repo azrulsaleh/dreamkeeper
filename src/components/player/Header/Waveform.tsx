@@ -20,11 +20,13 @@ const Waveform = ({wavesurferRef, handleSeek, duration, waveformPeaks}: Waveform
 		const rect = containerRef.current.getBoundingClientRect();
 		const x = e.clientX - rect.left;
 		const width = rect.width;
+		// Clamp pointer positions so dragging beyond the waveform stays within the track.
 		const percentage = Math.max(0, Math.min(1, x / width));
 		return percentage * duration;
 	};
 	const onClickDown = (e: PointerEvent<HTMLDivElement>) => {
 		isDragging.current = true;
+		// Pointer capture keeps the drag active if the pointer leaves the waveform.
 		containerRef.current?.setPointerCapture(e.pointerId);
 		const time = getTimeFromEvent(e);
 		handleSeek(time, true);

@@ -16,6 +16,7 @@ function Transport({
 	const isPaused = transportState === "paused";
 	const isStopped = transportState === "stopped";
 
+	// Each button dims when its corresponding transport state is active.
 	return (
 		<div className='
 			flex place-content-center place-items-center gap-2

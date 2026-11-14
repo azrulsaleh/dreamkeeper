@@ -18,6 +18,7 @@ function NoiseType() {
 		}
 	] as const;
 
+	// Noise types are mutually exclusive, and clicking the active one disables noise.
 	return (
 		<div className='flex flex-col'>
 			<h3 className='pl-2.5 h-6.25 text-neutral-7'>Noise Type</h3>

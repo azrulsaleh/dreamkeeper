@@ -12,6 +12,7 @@ export function Volume_Stems() {
 		{ label: 'Ambience' },
 	];
 
+	// Stem order matches the audio paths: piano, cello, vocals, then ambience.
 	return (
 		<div className='bento_stems'>
 			{OPTIONS.map((stem, index) => {
@@ -52,6 +53,7 @@ export function Volume_Noise() {
 	const min = -60;
 	const max = 6;
 	const percentage = ((noiseVolume - min) / (max - min)) * 100;
+	// Noise uses the same decibel range as the music stems.
 	return (
 		<div className='_parent _bg-volume my-auto'>
 			<div className='_child z-10 flex flex-col gap-2'>
