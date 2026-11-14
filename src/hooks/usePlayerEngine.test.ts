@@ -5,6 +5,7 @@ import { songs } from '../data/songs';
 
 const toneMocks = vi.hoisted(() => {
 	const listeners = new Map<string, Array<() => void>>();
+	const scheduledCallbacks: Array<() => void> = [];
 	const emit = (event: string) => listeners.get(event)?.forEach(listener => listener());
 	const transport = {
 		state: 'stopped',
@@ -30,13 +31,17 @@ const toneMocks = vi.hoisted(() => {
 		off: vi.fn((event: string, listener: () => void) => {
 			listeners.set(event, (listeners.get(event) ?? []).filter(item => item !== listener));
 		}),
-		schedule: vi.fn(() => 1),
+		schedule: vi.fn((callback: () => void) => {
+			scheduledCallbacks.push(callback);
+			return scheduledCallbacks.length;
+		}),
 		clear: vi.fn(),
 	};
 
 	return {
 		transport,
 		listeners,
+		scheduledCallbacks,
 		emit,
 		startAudio: vi.fn(async () => undefined),
 		rampMasterVolume: vi.fn(),
@@ -109,6 +114,7 @@ describe('usePlayerEngine playback transitions', () => {
 		storage.clear();
 		usePlayerSettingsStore.setState(defaultSettings);
 		toneMocks.listeners.clear();
+		toneMocks.scheduledCallbacks.length = 0;
 		toneMocks.transport.state = 'stopped';
 		toneMocks.transport.seconds = 0;
 		toneMocks.transport.loop = false;
@@ -118,6 +124,7 @@ describe('usePlayerEngine playback transitions', () => {
 
 	afterEach(() => {
 		cleanup();
+		vi.restoreAllMocks();
 		vi.unstubAllGlobals();
 	});
 
@@ -196,6 +203,33 @@ describe('usePlayerEngine playback transitions', () => {
 			result.current.handleSeek(duration, false);
 		});
 		await waitFor(() => expect(result.current.currentSongIndex).not.toBe(previousIndex));
+		await waitFor(() => expect(result.current.transportState).toBe('started'));
+
+		expect(result.current.currentTime).toBe(0);
+	});
+
+	it('repeats the current track when looping is enabled', async () => {
+		usePlayerSettingsStore.getState().setLooping(true);
+		const { result } = await mountLoadedPlayer();
+		const currentIndex = result.current.currentSongIndex;
+		await act(async () => result.current.handlePlay());
+
+		act(() => toneMocks.scheduledCallbacks[0]());
+		await waitFor(() => expect(toneMocks.transport.start).toHaveBeenCalledTimes(2));
+
+		expect(result.current.currentSongIndex).toBe(currentIndex);
+		expect(result.current.currentTime).toBe(0);
+		expect(result.current.transportState).toBe('started');
+	});
+
+	it('advances in shuffled order when looping is disabled', async () => {
+		vi.spyOn(Math, 'random').mockReturnValue(0);
+		const { result } = await mountLoadedPlayer();
+		expect(result.current.currentSongIndex).toBe(1);
+		await act(async () => result.current.handlePlay());
+
+		act(() => toneMocks.scheduledCallbacks[0]());
+		await waitFor(() => expect(result.current.currentSongIndex).toBe(2));
 		await waitFor(() => expect(result.current.transportState).toBe('started'));
 
 		expect(result.current.currentTime).toBe(0);

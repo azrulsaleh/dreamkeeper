@@ -97,13 +97,16 @@ export function usePlayerEngine() {
 		setCurrentTime(0);
 		wavesurferRef.current?.setTime(0);
 
+		// Repeat this track when looping; otherwise advance through the shuffled playlist.
+		if (usePlayerSettingsStore.getState().isLooping) {
+			void handlePlay();
+			return;
+		}
+
 		const currentOrderIndex = playOrder.indexOf(currentSongIndexRef.current);
 		const nextOrderIndex = currentOrderIndex + 1;
 		if (nextOrderIndex < playOrder.length) {
 			setSongIndex(playOrder[nextOrderIndex]);
-			void handlePlay();
-		} else if (usePlayerSettingsStore.getState().isLooping) {
-			setSongIndex(playOrder[0]);
 			void handlePlay();
 		} else {
 			setSongIndex(playOrder[0]);
@@ -306,7 +309,8 @@ export function usePlayerEngine() {
 	}, []);
 
 	useEffect(() => {
-		Tone.Transport.loop = isLooping;
+		// Track-end handling owns repetition so the same track can restart explicitly.
+		Tone.Transport.loop = false;
 		Tone.Transport.loopStart = 0;
 		Tone.Transport.loopEnd = currentSong.duration;
 	}, [currentSong.duration, isLooping]);
