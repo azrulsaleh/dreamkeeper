@@ -50,6 +50,7 @@ export function Volume_Stems() {
 									aria-label={`${stem.label} volume`}
 									aria-valuetext={`${volumes[index]} dB`}
 									onKeyDown={(event) => handleKeyDown(event, index)}
+									onDoubleClick={() => setStemVolume(index, 0)}
 									onChange={(e) => setStemVolume(index, parseFloat(e.target.value))}
 									className="_slider-v"
 								style={{ '--value': `${percentage}%` } as CSSProperties}
@@ -86,6 +87,7 @@ export function Volume_Noise() {
 						value={noiseVolume}
 						aria-label="Noise volume"
 						aria-valuetext={`${noiseVolume} dB`}
+						onDoubleClick={() => setNoiseVolume(-32)}
 						onChange={(e) => setNoiseVolume(parseFloat(e.target.value))}
 						className="_slider-v-secondary"
 						style={{ '--value': `${percentage}%` } as CSSProperties}
