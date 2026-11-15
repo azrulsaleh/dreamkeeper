@@ -4,12 +4,7 @@
 		appearance: none;
 		background: transparent;
 	}
-	._slider-h:focus-visible {
-		@apply 
-			outline-2 outline-offset-4 outline-secondary-14
-			rounded-full
-			;
-	}
+	._slider-h:focus-visible,
 	._slider-v:focus-visible,
 	._slider-v-secondary:focus-visible {
 		@apply 

@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import type { RefObject, SyntheticEvent } from 'react';
+import type { KeyboardEvent, RefObject, SyntheticEvent } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 import Transport from './Header/Transport'
 import Waveform from './Header/Waveform'
@@ -26,6 +26,7 @@ const Player_Header = ({
 	transportState, title
 }: PlayerHeaderProps) => {
 	const isDragging = useRef(false);
+	const seekKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown'];
 
 	// Keep the slider's preview responsive while dragging, then finalize the seek on release.
 	const onClickDown = (e: SyntheticEvent<HTMLInputElement>) => {
@@ -45,6 +46,14 @@ const Player_Header = ({
 		isDragging.current = false;
 		const time = parseFloat(e.currentTarget.value);
 		handleSeek(time, false);
+	};
+	const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (seekKeys.includes(e.key))
+			onClickDown(e);
+	};
+	const onKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (seekKeys.includes(e.key))
+			onClickUp(e);
 	};
 
 	return (
@@ -107,10 +116,10 @@ const Player_Header = ({
 						aria-label={`Seek ${title}`}
 						aria-valuetext={`${formatTime(currentTime)} of ${formatTime(duration)}`}
 						onMouseDown={onClickDown}
-						onKeyDown={onClickDown}
+						onKeyDown={onKeyDown}
 						onChange={onClickDrag}
 						onMouseUp={onClickUp}
-						onKeyUp={onClickUp}
+						onKeyUp={onKeyUp}
 						className="_slider-h w-full"
 					/>
 				</div>
