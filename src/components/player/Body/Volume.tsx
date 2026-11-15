@@ -1,16 +1,31 @@
-import type { CSSProperties } from 'react';
+import { useRef, type KeyboardEvent, type CSSProperties } from 'react';
 import { usePlayerSettingsStore } from '../../../store/playerSettingsStore';
 import { Bg_Stems } from '../../../svg/Vector'
 
 export function Volume_Stems() {
 	const volumes = usePlayerSettingsStore(state => state.volumes);
 	const setStemVolume = usePlayerSettingsStore(state => state.setStemVolume);
+
+	const buttonRefs = useRef<Array<HTMLInputElement | null>>([]);
+
 	const OPTIONS = [
 		{ label: 'Piano' },
 		{ label: 'Cello' },
 		{ label: 'Vocals' },
 		{ label: 'Ambience' },
 	];
+
+	const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>, index: number) => {
+		if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')
+			return;
+
+		event.preventDefault();
+		const nextIndex = index + (event.key === 'ArrowRight' ? 1 : -1);
+		if (nextIndex < 0 || nextIndex >= OPTIONS.length)
+			return;
+
+		buttonRefs.current[nextIndex]?.focus();
+	}
 
 	// Stem order matches the audio paths: piano, cello, vocals, then ambience.
 	return (
@@ -31,8 +46,10 @@ export function Volume_Stems() {
 									max={max}
 									step="1"
 									value={volumes[index]}
+									ref={(element) => { buttonRefs.current[index] = element }}
 									aria-label={`${stem.label} volume`}
 									aria-valuetext={`${volumes[index]} dB`}
+									onKeyDown={(event) => handleKeyDown(event, index)}
 									onChange={(e) => setStemVolume(index, parseFloat(e.target.value))}
 									className="_slider-v"
 								style={{ '--value': `${percentage}%` } as CSSProperties}
