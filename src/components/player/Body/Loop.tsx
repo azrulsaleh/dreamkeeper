@@ -25,6 +25,7 @@ function Loop() {
 							: '_radio-off'
 						}
 						text-xs
+						focus:relative focus:z-10
 					`}
 				>
 					{mode.label}

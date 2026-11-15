@@ -29,6 +29,7 @@ function Filter() {
 									? '_radio-on'
 									: '_radio-off'
 								}
+								focus:relative focus:z-10
 							`}
 						>
 							<h4>{f.label}</h4>

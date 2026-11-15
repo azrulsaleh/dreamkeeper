@@ -38,6 +38,7 @@ function NoiseType() {
 									? '_radio-on'
 									: '_radio-off'
 								}
+								focus:relative focus:z-10
 							`}
 						>
 							<h4>{n.label}</h4>
