@@ -91,8 +91,8 @@ export function usePlayerEngine() {
 	}, []);
 
 	const handleNextTrack = useCallback(() => {
-		noiseFaderRef.current?.gain.rampTo(0, fadeTime);
-		Tone.Transport.stop();
+		// noiseFaderRef.current?.gain.rampTo(0, fadeTime);
+		// Tone.Transport.stop();
 		Tone.Transport.seconds = 0;
 		setCurrentTime(0);
 		wavesurferRef.current?.setTime(0);
